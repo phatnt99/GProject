@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\User;
+use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -18,11 +18,20 @@ use Illuminate\Support\Str;
 */
 
 $factory->define(User::class, function (Faker $faker) {
+    $avatar = factory(App\Models\File::class)->create(["path" => "user"]);
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        'remember_token' => Str::random(10),
+        "login_id" => $faker->userName,
+        "password" => $faker->password,
+        "first_name" => $faker->firstName,
+        "last_name" => $faker->lastName,
+        "email" => $faker->email,
+        "gender" => $faker->biasedNumberBetween(0, 3),
+        "address" => $faker->address,
+        "birthday" => $faker->dateTimeThisCentury->format("y-m-d"),
+        "code" => $faker->isbn10,
+        "company_id" => App\Models\Company::all()->random()->id,
+        "avatar" => $avatar->id,
+        "position" => $faker->biasedNumberBetween(0, 3),
+        "start_at" => $faker->dateTimeThisCentury->format("y-m-d"),
     ];
 });
