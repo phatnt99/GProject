@@ -25,8 +25,10 @@ class CreateUsersTable extends Migration
             $table->date("birthday")->nullable();
             $table->string("code")->unique();
             $table->uuid("company_id"); //ref to companies table
+            $table->foreign("company_id")->references("id")->on("companies");
             $table->uuid("avatar")->nullable();     //ref to files table
-            $table->string("position");
+            $table->foreign("avatar")->references("id")->on("files");
+            $table->integer("position");
             $table->date("start_at");
             $table->date("end_at")->nullable();
             $table->string("created_by")->nullable();

@@ -24,6 +24,7 @@ class CreateAdminsTable extends Migration
             $table->string("address")->nullable();
             $table->date("birthday")->nullable();
             $table->uuid("avatar")->nullable();     //ref to files table
+            $table->foreign("avatar")->references("id")->on("files");
             $table->string("created_by")->nullable();
             $table->string("updated_by")->nullable();
             $table->string("deleted_by")->nullable();

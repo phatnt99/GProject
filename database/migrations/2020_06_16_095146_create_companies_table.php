@@ -21,6 +21,7 @@ class CreateCompaniesTable extends Migration
             $table->string("email")->unique();
             $table->string("url")->nullable();
             $table->uuid("logo")->nullable();
+            $table->foreign("logo")->references("id")->on("files");
             $table->string("created_by")->nullable();
             $table->string("updated_by")->nullable();
             $table->string("deleted_by")->nullable();

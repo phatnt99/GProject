@@ -16,7 +16,9 @@ class CreateUserDeviceTable extends Migration
         Schema::create('user_device', function (Blueprint $table) {
             $table->uuid("id")->primary();
             $table->uuid("user_id");
+            $table->foreign("user_id")->references("id")->on("users");
             $table->uuid("device_id");
+            $table->foreign("device_id")->references("id")->on("devices");
             $table->boolean("is_using")->default(false);
             $table->string("created_by")->nullable();
             $table->string("updated_by")->nullable();

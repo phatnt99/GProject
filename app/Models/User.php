@@ -17,6 +17,14 @@ class User extends Authenticatable
      *
      * @var array
      */
+    protected $dateFormat = 'U';
+    public $incrementing = false;
+
+    public function fromDateTime($value)
+    {
+        return $value; // Don't mutate our (int) on INSERT!
+    }
+
     protected $fillable = [
         'name', 'email', 'password',
     ];
@@ -38,5 +46,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function file() {
+        return $this->belongsTo("App\Models\File", "avatar");
+    }
+
+    public function company() {
+        return $this->belongsTo("App\Models\Company", "company_id");
+    }
+
+    /*
+     * For soft-delete, we cant use pivot, so treat UserDevice as actual Eloquent and using
+     * one-to-many in User.
+     */
+    public function user_device() {
+        return $this->hasMany("App\Models\UserDevice", "user_id");
+    }
 
 }
