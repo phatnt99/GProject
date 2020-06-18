@@ -23,7 +23,7 @@ class Device extends Base
  * For soft-delete, we cant use pivot, so treat UserDevice as actual Eloquent and using
  * one-to-many in Device.
  */
-    public function user_device() {
+    public function userDevices() {
         return $this->hasMany(UserDevice::class);
     }
 }
