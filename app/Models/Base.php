@@ -6,12 +6,10 @@ use App\Traits\FreshTimestampTrait;
 use App\Traits\PrimaryKeyTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class File extends Base
+class Base extends Model
 {
     //
-
-    public function fromDateTime($value)
-    {
-        return $value; // Don't mutate our (int) on INSERT!
-    }
+    use PrimaryKeyTrait, FreshTimestampTrait;
+    protected $dateFormat = 'U';
+    public $incrementing = false;
 }

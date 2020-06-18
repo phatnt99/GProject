@@ -6,12 +6,10 @@ use App\Traits\FreshTimestampTrait;
 use App\Traits\PrimaryKeyTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class Company extends Base
 {
     //
-    use PrimaryKeyTrait, FreshTimestampTrait;
-    protected $dateFormat = 'U';
-    public $incrementing = false;
+
 
     public function fromDateTime($value)
     {
@@ -19,10 +17,10 @@ class Company extends Model
     }
 
     public function file() {
-        return $this->belongsTo("App\Models\File", "logo");
+        return $this->belongsTo(File::class, "logo");
     }
 
     public function users() {
-        return $this->hasMany("App\Models\User", "company_id");
+        return $this->hasMany(User::class);
     }
 }

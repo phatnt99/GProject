@@ -13,11 +13,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use PrimaryKeyTrait, FreshTimestampTrait;
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
     protected $dateFormat = 'U';
     public $incrementing = false;
 
@@ -49,11 +45,11 @@ class User extends Authenticatable
     ];
 
     public function file() {
-        return $this->belongsTo("App\Models\File", "avatar");
+        return $this->belongsTo(File::class, "avatar");
     }
 
     public function company() {
-        return $this->belongsTo("App\Models\Company", "company_id");
+        return $this->belongsTo(Company::class);
     }
 
     /*
@@ -61,7 +57,7 @@ class User extends Authenticatable
      * one-to-many in User.
      */
     public function user_device() {
-        return $this->hasMany("App\Models\UserDevice", "user_id");
+        return $this->hasMany(UserDevice::class);
     }
 
     public function setPasswordAttribute($value)

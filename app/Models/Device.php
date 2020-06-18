@@ -6,12 +6,9 @@ use App\Traits\FreshTimestampTrait;
 use App\Traits\PrimaryKeyTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Device extends Model
+class Device extends Base
 {
     //
-    use PrimaryKeyTrait, FreshTimestampTrait;
-    protected $dateFormat = 'U';
-    public $incrementing = false;
 
     public function fromDateTime($value)
     {
@@ -19,11 +16,11 @@ class Device extends Model
     }
 
     public function file() {
-        $this->belongsTo("App\Models\File", "image");
+        $this->belongsTo(File::class, "image");
     }
 
     public function company() {
-        $this->belongsTo("App\Models\Company", "company_id");
+        $this->belongsTo(Company::class);
     }
 
     /*
@@ -31,6 +28,6 @@ class Device extends Model
  * one-to-many in Device.
  */
     public function user_device() {
-        return $this->hasMany("App\Models\UserDevice", "device_id");
+        return $this->hasMany(UserDevice::class);
     }
 }
