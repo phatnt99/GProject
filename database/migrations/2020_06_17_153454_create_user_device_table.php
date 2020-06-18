@@ -21,7 +21,8 @@ class CreateUserDeviceTable extends Migration
             $table->string("created_by")->nullable();
             $table->string("updated_by")->nullable();
             $table->string("deleted_by")->nullable();
-            $table->timestamps(); //created_at and updated_at
+            $table->unsignedBigInteger("created_at")->nullable();
+            $table->unsignedBigInteger("updated_at")->nullable();
             $table->softDeletes(); // deleted_at
         });
     }

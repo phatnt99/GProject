@@ -4,7 +4,10 @@
 namespace App\Traits;
 
 
-class FreshTimestampTrait
+trait FreshTimestampTrait
 {
-
+    public function freshTimestamp()
+    {
+        return time(); // (int) instead of '2000-00-00 00:00:00'
+    }
 }

@@ -24,7 +24,8 @@ class CreateCompaniesTable extends Migration
             $table->string("created_by")->nullable();
             $table->string("updated_by")->nullable();
             $table->string("deleted_by")->nullable();
-            $table->timestamps();
+            $table->unsignedBigInteger("created_at")->nullable();
+            $table->unsignedBigInteger("updated_at")->nullable();
             $table->softDeletes();
         });
     }
