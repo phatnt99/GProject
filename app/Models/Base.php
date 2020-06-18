@@ -13,8 +13,4 @@ class Base extends Model
     protected $dateFormat = 'U';
     public $incrementing = false;
 
-    public function fromDateTime($value)
-    {
-        return $value; // Don't mutate our (int) on INSERT!
-    }
 }
