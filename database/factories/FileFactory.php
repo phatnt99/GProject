@@ -13,6 +13,7 @@ $factory->define(File::class, function (Faker $faker, $attributes) {
     $fileName = time().$file->getClientOriginalName();
     $file->storeAs($attributes["path"], $fileName);
 
+    // miss understand about what actually upload_name, name.
     return [
         //
         'name' => $fileName,

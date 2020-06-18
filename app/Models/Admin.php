@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\FreshTimestampTrait;
 use App\Traits\PrimaryKeyTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 class Admin extends Model
 {
@@ -20,5 +21,10 @@ class Admin extends Model
 
     public function file() {
         return $this->belongsTo("App\Models\File", "avatar", "id");
+    }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
     }
 }
