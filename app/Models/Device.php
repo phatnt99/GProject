@@ -6,7 +6,7 @@ use App\Traits\FreshTimestampTrait;
 use App\Traits\PrimaryKeyTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class Device extends Base
+class Device extends BaseModel
 {
     //
 

@@ -11,7 +11,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 
-class Auth extends Base implements
+class Auth extends BaseModel implements
     AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract

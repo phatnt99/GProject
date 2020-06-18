@@ -8,7 +8,7 @@ use App\Traits\PrimaryKeyTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
-class Admin extends Base
+class Admin extends BaseModel
 {
     //
 
