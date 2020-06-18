@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Storage;
 $factory->define(File::class, function (Faker $faker, $attributes) {
     //fake upload file
     $file = UploadedFile::fake()->image('avatar.jpg');
-    $fileName = time().$file->getClientOriginalName();
+    $fileName = $attributes["path"].rand().$file->getClientOriginalName();
     $file->storeAs($attributes["path"], $fileName);
 
-    // miss understand about what actually upload_name, name.
+    // miss understanding about what upload_name, name
     return [
         //
         'name' => $fileName,
