@@ -12,11 +12,6 @@ class Admin extends Base
 {
     //
 
-    public function fromDateTime($value)
-    {
-        return $value; // Don't mutate our (int) on INSERT!
-    }
-
     public function file() {
         return $this->belongsTo(File::class, "avatar", "id");
     }

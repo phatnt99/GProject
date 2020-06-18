@@ -10,9 +10,4 @@ class UserDevice extends Base
 {
 
     public $table = "user_device";
-
-    public function fromDateTime($value)
-    {
-        return $value; // Don't mutate our (int) on INSERT!
-    }
 }

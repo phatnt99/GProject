@@ -10,10 +10,6 @@ class Device extends Base
 {
     //
 
-    public function fromDateTime($value)
-    {
-        return $value; // Don't mutate our (int) on INSERT!
-    }
 
     public function file() {
         $this->belongsTo(File::class, "image");
