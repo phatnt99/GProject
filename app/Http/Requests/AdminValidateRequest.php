@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AdminValidateRequest extends FormRequest
@@ -13,7 +15,7 @@ class AdminValidateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +27,13 @@ class AdminValidateRequest extends FormRequest
     {
 
         return [
-            //
+            'login_id' => ['required','string', function ($attribute, $value, $fail) {
+                //check if login_id in admin or user table
+                if(!(User::where('login_id', $value)->count() > 0 || Admin::where('login_id', $value)->count() > 0)) {
+                    $fail($attribute.' is invalid.');
+                }
+            }],
+            'password' => 'required|string',
         ];
     }
 }
