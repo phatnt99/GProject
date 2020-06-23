@@ -18,7 +18,7 @@ class CreateFilesTable extends Migration
             $table->string("name");
             $table->string("upload_name");
             $table->string("mime_type")->nullable();
-            $table->string("model_type");
+            $table->string("model_type")->nullable();
             $table->boolean("is_public")->default(true);
             $table->bigInteger("size")->default(0);
             $table->string("disk");

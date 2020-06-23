@@ -7,7 +7,9 @@ use App\Traits\PrimaryKeyTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth as Author;
 
 class User extends Auth
 {
@@ -16,7 +18,8 @@ class User extends Auth
     protected $guard = 'user';
 
     protected $fillable = [
-        'login_id', 'email', 'password',
+        'login_id', 'email', 'password', 'first_name', 'last_name', 'gender', 'address', 'birthday', 'code', 'company_id', 'position',
+        'start_at'
     ];
 
     /**
@@ -37,12 +40,24 @@ class User extends Auth
         'email_verified_at' => 'datetime',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+
+            $model->created_by = Author::guard('admin')->user()->getId();
+            $model->updated_by = Author::guard('admin')->user()->getId();
+
+        });
+    }
+
     public function file() {
-        return $this->belongsTo(File::class, "avatar");
+        return $this->belongsTo(File::class, "avatar", "id");
     }
 
     public function company() {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class, "company_id", "id");
     }
 
     /*
@@ -59,9 +74,24 @@ class User extends Auth
         $this->attributes['password'] = Hash::make($value);
     }
 
+    public function setBirthdayAttribute($value) {
+        if($value != null)
+            $this->attributes['birthday'] =\Carbon\Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        else
+            $this->attributes['birthday'] = null;
+    }
+
+    public function setStartAtAttribute($value) {
+        $this->attributes['start_at'] =\Carbon\Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    }
+
     //Accessors
     public function getNameAttribute() {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function getBirthdayAttribute() {
+        return Carbon::createFromFormat('Y-m-d', $this->attributes['birthday'])->format('d/m/Y');
     }
 
 }

@@ -25,13 +25,13 @@ $factory->define(User::class, function (Faker $faker) {
         "first_name" => $faker->firstName,
         "last_name" => $faker->lastName,
         "email" => $faker->email,
-        "gender" => $faker->biasedNumberBetween(0, 3),
+        "gender" => $faker->biasedNumberBetween(0, 1),
         "address" => $faker->address,
         "birthday" => $faker->dateTimeThisCentury->format("y-m-d"),
         "code" => $faker->isbn10,
         "company_id" => App\Models\Company::all()->random()->id,
         "avatar" => $avatar->id,
-        "position" => $faker->biasedNumberBetween(0, 1),
+        "position" => $faker->biasedNumberBetween(0, 3),
         "start_at" => $faker->dateTimeThisCentury->format("y-m-d"),
     ];
 });

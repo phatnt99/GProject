@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends BaseModel
 {
     //
-
+    protected $table = 'companies';
     public function file() {
         return $this->belongsTo(File::class, "logo");
     }

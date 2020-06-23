@@ -27,14 +27,10 @@ Route::namespace('Auth')->group(function () {
     Route::post('password/reset', 'ResetPasswordController@reset')->name('password.update');
 });
 
-Route::prefix("account")->group(function () {
-    Route::get('admins', 'AdminController@index')->name('account.admin');
-    Route::get('users', 'UserController@index')->name('account.user');
-});
-
-
-
-
+Route::get('admins', 'AdminController@index')->name('admin');
+Route::get('users', 'UserController@index')->name('user');
+Route::get('users/store', 'UserController@showStoreForm')->name('user.store.form');
+Route::post('users/store', 'UserController@store')->name('user.store');
 
 Route::get('/home', function () {
     dd(\Illuminate\Support\Facades\Hash::check('11111111', '$2y$10$eXy8YnciBEt9aOWSXY.uBuO0InVKU7vcvjXLBJUNbtwN55cGk3aPi'));

@@ -19,6 +19,10 @@ class Admin extends Auth
     protected $fillable = [
         'login_id', 'email', 'password',
     ];
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function file() {
         return $this->belongsTo(File::class, "avatar", "id");

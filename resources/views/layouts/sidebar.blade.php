@@ -24,13 +24,13 @@
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href={{route('account.admin')}} class="nav-link">
+                    <a href={{route('admin')}} class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Admin</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href={{route('account.user')}} class="nav-link">
+                    <a href={{route('user')}} class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>User</p>
                     </a>
