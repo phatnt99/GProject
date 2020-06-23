@@ -1,8 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,11 +13,27 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::get('/', function () {
-    return view('content');
+Route::get('/', 'HomeController@index')->name('home')->middleware('auth:user,admin');
+
+
+//Authentication Routes
+Route::namespace('Auth')->group(function () {
+    Route::get('login', 'LoginController@showLoginForm')->name('login');
+    Route::post('login', 'LoginController@login');
+    Route::post('logout', 'LoginController@logout')->name('logout');
+    Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
+    Route::post('password/reset', 'ResetPasswordController@reset')->name('password.update');
 });
 
-Route::get('/f', function () {
-    $file = UploadedFile::fake()->image('avatar.jpg');
-    dd($file);
+Route::prefix('account')->group(function () {
+    Route::get('admins', 'AdminController@index')->name('account.admin');
+});
+
+
+
+
+Route::get('/home', function () {
+    dd(\Illuminate\Support\Facades\Hash::check('11111111', '$2y$10$eXy8YnciBEt9aOWSXY.uBuO0InVKU7vcvjXLBJUNbtwN55cGk3aPi'));
 });

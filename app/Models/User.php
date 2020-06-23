@@ -13,8 +13,10 @@ class User extends Auth
 {
     use Notifiable;
 
+    protected $guard = 'user';
+
     protected $fillable = [
-        'name', 'email', 'password',
+        'login_id', 'email', 'password',
     ];
 
     /**
@@ -51,9 +53,15 @@ class User extends Auth
         return $this->hasMany(UserDevice::class);
     }
 
+    //Mutators
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    //Accessors
+    public function getNameAttribute() {
+        return "{$this->first_name} {$this->last_name}";
     }
 
 }
