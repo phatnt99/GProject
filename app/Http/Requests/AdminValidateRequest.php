@@ -27,12 +27,7 @@ class AdminValidateRequest extends FormRequest
     {
 
         return [
-            'login_id' => ['required','string', function ($attribute, $value, $fail) {
-                //check if login_id in admin or user table
-                if(!(User::where('login_id', $value)->count() > 0 || Admin::where('login_id', $value)->count() > 0)) {
-                    $fail($attribute.' is not exist!');
-                }
-            }],
+            'login_id' => 'required|string',
             'password' => 'required|string',
         ];
     }
