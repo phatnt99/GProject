@@ -6,7 +6,7 @@
             <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-            <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+            <a href="#" class="d-block">{{ Auth::guard('admin')->user()->name ?? Auth::guard('user')->user()->name }}</a>
         </div>
     </div>
 <!-- Sidebar Menu -->
@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href={{route('account.user')}} class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>User</p>
                     </a>

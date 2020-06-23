@@ -27,9 +27,11 @@ Route::namespace('Auth')->group(function () {
     Route::post('password/reset', 'ResetPasswordController@reset')->name('password.update');
 });
 
-Route::prefix('account')->group(function () {
+Route::prefix("account")->group(function () {
     Route::get('admins', 'AdminController@index')->name('account.admin');
+    Route::get('users', 'UserController@index')->name('account.user');
 });
+
 
 
 

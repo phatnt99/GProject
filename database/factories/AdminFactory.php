@@ -14,7 +14,7 @@ $factory->define(Admin::class, function (Faker $faker) {
         "first_name" => $faker->firstName,
         "last_name" => $faker->lastName,
         "email" => $faker->email,
-        "gender" => $faker->biasedNumberBetween(0, 3),
+        "gender" => $faker->biasedNumberBetween(0, 1),
         "address" => $faker->address,
         "birthday" => $faker->dateTimeThisCentury->format("y-m-d"),
         "avatar" => $avatar->id,
