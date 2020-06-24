@@ -2,56 +2,97 @@
 
 namespace App\Models;
 
-use App\Traits\FreshTimestampTrait;
-use App\Traits\PrimaryKeyTrait;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth as Author;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Auth
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     protected $guard = 'user';
 
-    protected $fillable = [
-        'login_id', 'email', 'password', 'first_name', 'last_name', 'gender', 'address', 'birthday', 'code', 'company_id', 'position',
-        'start_at'
-    ];
+    protected $guarded = [];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    //Business logic
+    public function createUserWithAvatar($request) {
+        $newFile = null;
 
+        if($request->hasFile('avatar')) {
+            //store image
+            $path = $request->file('avatar')->store('user', 'public');
+
+            //get information and save to array
+            $infoImage = [
+                'name' => $request->file('avatar')->getClientOriginalName(),
+                'upload_name' => $request->file('avatar')->hashName(),
+                'mime_type' => $request->file('avatar')->getMimeType(),
+                'size' => $request->file('avatar')->getSize(),
+                'disk' => 'public',
+                'path' => 'storage/'.$path
+            ];
+
+            //save in File model
+            $newFile = File::create($infoImage);
+        }
+
+        $this->fill($request->all());
+        $this->avatar = $newFile->id;
+
+        $this->save();
+    }
+
+    public function updateUserWithAvatar($request) {
+        //detect if user change avatar
+        if($request->hasFile('avatar')) {
+            //delete old avatar
+            Storage::disk("public")->delete("user/".$this->file->upload_name);
+
+            //create new file
+            $path = $request->file('avatar')->store('user', 'public');
+            //get information and save to array
+            $infoImage = [
+                'name' => $request->file('avatar')->getClientOriginalName(),
+                'upload_name' => $request->file('avatar')->hashName(),
+                'mime_type' => $request->file('avatar')->getMimeType(),
+                'size' => $request->file('avatar')->getSize(),
+                'disk' => 'public',
+                'path' => 'storage/'.$path
+            ];
+
+            //save in File model
+            $newFile = File::create($infoImage);
+
+            //
+            $this->fill($request->all());
+            $this->avatar = $newFile->id;
+            $this->save();
+        }
+        else
+            $this->update($request->except('avatar'));
+    }
+
+    //Event
     public static function boot()
     {
         parent::boot();
 
         static::creating(function ($model) {
 
-            $model->created_by = Author::guard('admin')->user()->getId();
-            $model->updated_by = Author::guard('admin')->user()->getId();
+            $model->created_by = Author::guard('admin')->user()? Author::guard('admin')->user()->getId() : null;
+            $model->updated_by = Author::guard('admin')->user()? Author::guard('admin')->user()->getId() : null;
 
         });
     }
 
+    //Relationships
     public function file() {
         return $this->belongsTo(File::class, "avatar", "id");
     }
@@ -85,6 +126,7 @@ class User extends Auth
         $this->attributes['start_at'] =\Carbon\Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
     }
 
+
     //Accessors
     public function getNameAttribute() {
         return "{$this->first_name} {$this->last_name}";
@@ -92,6 +134,10 @@ class User extends Auth
 
     public function getBirthdayAttribute() {
         return Carbon::createFromFormat('Y-m-d', $this->attributes['birthday'])->format('d/m/Y');
+    }
+
+    public function getStartAtAttribute() {
+        return Carbon::createFromFormat('Y-m-d', $this->attributes['start_at'])->format('d/m/Y');
     }
 
 }

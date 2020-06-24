@@ -29,9 +29,13 @@ Route::namespace('Auth')->group(function () {
 
 Route::get('admins', 'AdminController@index')->name('admin');
 Route::get('users', 'UserController@index')->name('user');
-Route::get('users/store', 'UserController@showStoreForm')->name('user.store.form');
-Route::post('users/store', 'UserController@store')->name('user.store');
+Route::get('users/create', 'UserController@create')->name('user.create');
+Route::post('users', 'UserController@store')->name('user.store');
+Route::get('users/{user}', 'UserController@show')->name('user.detail');
+Route::get('users/{user}/edit', 'UserController@edit')->name('user.edit');
+Route::put('users/{user}', 'UserController@update')->name('user.update');
+Route::delete('users/{user}', 'UserController@delete')->name('user.delete');
 
 Route::get('/home', function () {
-    dd(\Illuminate\Support\Facades\Hash::check('11111111', '$2y$10$eXy8YnciBEt9aOWSXY.uBuO0InVKU7vcvjXLBJUNbtwN55cGk3aPi'));
+    dd(\Carbon\Carbon::parse(1593021725));
 });

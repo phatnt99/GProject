@@ -21,8 +21,8 @@ class File extends BaseModel
 
         static::creating(function ($model) {
 
-            $model->created_by = Author::guard('admin')->user()->getId();
-            $model->updated_by = Author::guard('admin')->user()->getId();
+            $model->created_by = Author::guard('admin')->user()? Author::guard('admin')->user()->getId() : null;
+            $model->updated_by = Author::guard('admin')->user()? Author::guard('admin')->user()->getId() : null;
 
         });
     }
