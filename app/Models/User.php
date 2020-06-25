@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth as Author;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class User extends Auth
@@ -22,60 +22,30 @@ class User extends Auth
     ];
 
     //Business logic
-    public function createUserWithAvatar($request) {
-        $newFile = null;
+    public function createUserWithAvatar($request)
+    {
+        $newAvatar = null;
 
-        if($request->hasFile('avatar')) {
-            //store image
-            $path = $request->file('avatar')->store('user', 'public');
-
-            //get information and save to array
-            $infoImage = [
-                'name' => $request->file('avatar')->getClientOriginalName(),
-                'upload_name' => $request->file('avatar')->hashName(),
-                'mime_type' => $request->file('avatar')->getMimeType(),
-                'size' => $request->file('avatar')->getSize(),
-                'disk' => 'public',
-                'path' => 'storage/'.$path
-            ];
-
-            //save in File model
-            $newFile = File::create($infoImage);
+        if ($request->hasFile('avatar')) {
+            $newAvatar = File::createNewImage($request, 'user');
         }
 
         $this->fill($request->all());
-        $this->avatar = $newFile ? $newFile->id : null;
+        $this->avatar = $newAvatar ? $newAvatar->id : null;
 
         $this->save();
     }
 
-    public function updateUserWithAvatar($request) {
+    public function updateUserWithAvatar($request)
+    {
         //detect if user change avatar
-        if($request->hasFile('avatar')) {
-            //delete old avatar
-            Storage::disk("public")->delete("user/".$this->file->upload_name);
+        if ($request->hasFile('avatar')) {
+            $newAvatar = File::updateImage($request, $this, "user");
 
-            //create new file
-            $path = $request->file('avatar')->store('user', 'public');
-            //get information and save to array
-            $infoImage = [
-                'name' => $request->file('avatar')->getClientOriginalName(),
-                'upload_name' => $request->file('avatar')->hashName(),
-                'mime_type' => $request->file('avatar')->getMimeType(),
-                'size' => $request->file('avatar')->getSize(),
-                'disk' => 'public',
-                'path' => 'storage/'.$path
-            ];
-
-            //save in File model
-            $newFile = File::create($infoImage);
-
-            //
             $this->fill($request->all());
-            $this->avatar = $newFile->id;
+            $this->avatar = $newAvatar->id;
             $this->save();
-        }
-        else
+        } else
             $this->update($request->except('avatar'));
     }
 
@@ -86,18 +56,20 @@ class User extends Auth
 
         static::creating(function ($model) {
 
-            $model->created_by = Author::guard('admin')->user()? Author::guard('admin')->user()->getId() : null;
-            $model->updated_by = Author::guard('admin')->user()? Author::guard('admin')->user()->getId() : null;
+            $model->created_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->getId() : null;
+            $model->updated_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->getId() : null;
 
         });
     }
 
     //Relationships
-    public function file() {
+    public function file()
+    {
         return $this->belongsTo(File::class, "avatar", "id");
     }
 
-    public function company() {
+    public function company()
+    {
         return $this->belongsTo(Company::class, "company_id", "id");
     }
 
@@ -105,7 +77,8 @@ class User extends Auth
      * For soft-delete, we cant use pivot, so treat UserDevice as actual Eloquent and using
      * one-to-many in User.
      */
-    public function userDevices() {
+    public function userDevices()
+    {
         return $this->hasMany(UserDevice::class);
     }
 
@@ -115,28 +88,33 @@ class User extends Auth
         $this->attributes['password'] = Hash::make($value);
     }
 
-    public function setBirthdayAttribute($value) {
-        if($value != null)
-            $this->attributes['birthday'] =\Carbon\Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    public function setBirthdayAttribute($value)
+    {
+        if ($value != null)
+            $this->attributes['birthday'] = \Carbon\Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
         else
             $this->attributes['birthday'] = null;
     }
 
-    public function setStartAtAttribute($value) {
-        $this->attributes['start_at'] =\Carbon\Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    public function setStartAtAttribute($value)
+    {
+        $this->attributes['start_at'] = \Carbon\Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
     }
 
 
     //Accessors
-    public function getNameAttribute() {
+    public function getNameAttribute()
+    {
         return "{$this->first_name} {$this->last_name}";
     }
 
-    public function getBirthdayAttribute() {
+    public function getBirthdayAttribute()
+    {
         return $this->attributes['birthday'] ? Carbon::createFromFormat('Y-m-d', $this->attributes['birthday'])->format('d/m/Y') : null;
     }
 
-    public function getStartAtAttribute() {
+    public function getStartAtAttribute()
+    {
         return Carbon::createFromFormat('Y-m-d', $this->attributes['start_at'])->format('d/m/Y');
     }
 

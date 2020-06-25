@@ -32,7 +32,7 @@
             @endif
             <div class="row">
                 <div class="col-6">
-                    <img src="{{url($user->file->path)}}" id="imgPrev" width="200" height="200"/>
+                    <img src="{{$user->file ?url($user->file->path) : null}}" id="imgPrev" width="200" height="200"/>
                 </div>
                 <div class="col-6">
                     <form style="padding-bottom: 1rem" method="POST" action="{{route("user.store")}}" id="form"

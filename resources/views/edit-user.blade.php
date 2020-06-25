@@ -123,7 +123,7 @@
                                    id="avatar" name="avatar">
                             <label class="custom-file-label" for="avatar" id="nameAvatar">Choose image</label>
                         </div>
-                        <img src="{{$user->file->path}}" id="imgPrev" width="200" height="200"/>
+                        <img src="{{$user->file ?url($user->file->path) : null}}" id="imgPrev" width="200" height="200"/>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>

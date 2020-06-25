@@ -62,7 +62,7 @@
                                     <tr id="{{$user->id}}">
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$user->login_id}}</td>
-                                        <td><img width="70px" height="70px" src="{{url($user->file->path)}}"/></td>
+                                        <td><img width="70px" height="70px" src="{{$user->file ?url($user->file->path) : null}}"/></td>
                                         <td>{{$user->first_name}}</td>
                                         <td>{{$user->last_name}}</td>
                                         <td>{{$user->email}}</td>
