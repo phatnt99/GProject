@@ -77,10 +77,15 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="{{route("user.detail", $user)}}">Detail</a>
                                         <a class="dropdown-item" href="{{route("user.edit", $user)}}">Edit</a>
-                                        <form method="POST" action="{{route("user.delete", $user)}}">
+                                        <form method="POST" onSubmit="return confirmDelete();" action="{{route("user.delete", $user)}} ">
                                             @csrf
                                             @method("DELETE")
                                             <button type="submit" class="dropdown-item">Delete</button>
+                                            <script>
+                                                function confirmDelete() {
+                                                    return confirm("Xác nhận xóa?");
+                                                };
+                                            </script>
                                         </form>
                                     </div>
                                 </th>
@@ -109,7 +114,6 @@
     <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
     <script src="js/gproject_user.js"></script>
-    //clicked row event
     <script>
         $(document).ready(function () {
 

@@ -133,7 +133,7 @@ class User extends Auth
     }
 
     public function getBirthdayAttribute() {
-        return Carbon::createFromFormat('Y-m-d', $this->attributes['birthday'])->format('d/m/Y');
+        return $this->attributes['birthday'] ? Carbon::createFromFormat('Y-m-d', $this->attributes['birthday'])->format('d/m/Y') : null;
     }
 
     public function getStartAtAttribute() {
