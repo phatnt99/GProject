@@ -27,7 +27,8 @@ class EditUserValidateRequest extends FormRequest
             "login_id" => "required|unique:users,login_id,". $this->user,
             "email" => "required|unique:users,email,". $this->user,
             "start_at" => "required",
-            "end_at" => "nullable|after:start_at"
+            "end_at" => "nullable|after:start_at",
+            "code" => "required"
         ];
     }
 
@@ -40,7 +41,8 @@ class EditUserValidateRequest extends FormRequest
             "email.unique" => __("validation.unique"),
             "password.required" => __("validation.required"),
             "start_at.required" => __("validation.required"),
-            "end_at.after" => __("validation.after")
+            "end_at.after" => __("validation.after"),
+            "code.required" => __("validation.required")
         ];
     }
 }

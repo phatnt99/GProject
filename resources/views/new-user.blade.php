@@ -13,11 +13,7 @@
                     <h1>User</h1>
                 </div>
                 <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item">User</li>
-                        <li class="breadcrumb-item active">Add</li>
-                    </ol>
+                    <a href="{{ url()->previous() }}" class="btn btn-primary float-right">Back</a>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -42,7 +38,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">@</div>
                             </div>
-                            <input type="text" class="form-control" id="login_id" name="login_id" placeholder="user...">
+                            <input type="text" class="form-control" id="login_id" name="login_id">
                             @error('login_id')
                             <div class="invalid-feedback" style="display: block">{{$message}}</div>
                             @enderror
@@ -51,23 +47,23 @@
                     <div class="row form-group">
                         <div class="col">
                             <label for="first_name">First Name</label>
-                            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="user...">
+                            <input type="text" class="form-control" id="first_name" name="first_name">
                         </div>
                         <div class="col">
                             <label for="last_name">Last Name</label>
-                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="user...">
+                            <input type="text" class="form-control" id="last_name" name="last_name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="user...">
+                        <input type="password" class="form-control" id="password" name="password">
                         @error('password')
                         <div class="invalid-feedback" style="display: block">{{$message}}</div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="user...">
+                        <input type="email" class="form-control" id="email" name="email">
                         @error('email')
                         <div class="invalid-feedback" style="display: block">{{$message}}</div>
                         @enderror
@@ -81,7 +77,7 @@
                     </div>
                     <div class="form-group">
                         <label for="address">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" placeholder="user...">
+                        <input type="text" class="form-control" id="address" name="address">
                     </div>
                     <div class="form-group"> <!-- Date input -->
                         <label class="control-label" for="birthday">Birthday</label>
@@ -89,7 +85,10 @@
                     </div>
                     <div class="form-group">
                         <label for="code">Code</label>
-                        <input type="text" class="form-control" id="code" name="code" placeholder="user...">
+                        <input type="text" class="form-control" id="code" name="code">
+                        @error('code')
+                        <div class="invalid-feedback" style="display: block">{{$message}}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="company">Company</label>
@@ -101,7 +100,7 @@
                     </div>
                     <div class="form-group">
                         <label for="position">Position</label>
-                        <input type="text" class="form-control" id="position" name="position" placeholder="user...">
+                        <input type="text" class="form-control" id="position" name="position">
                     </div>
                     <div class="form-group"> <!-- Date input -->
                         <label class="control-label" for="start_at">Start at</label>

@@ -39,7 +39,8 @@ class NewUserValidateRequest extends FormRequest
             "email.required" => __("validation.required"),
             "email.unique" => __("validation.unique"),
             "password.required" => __("validation.required"),
-            "start_at.required" => __("validation.required")
+            "start_at.required" => __("validation.required"),
+            "code.required" => __("validation.required")
         ];
     }
 }

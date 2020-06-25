@@ -27,14 +27,17 @@ Route::namespace('Auth')->group(function () {
     Route::post('password/reset', 'ResetPasswordController@reset')->name('password.update');
 });
 
-Route::get('admins', 'AdminController@index')->name('admin');
-Route::get('users', 'UserController@index')->name('user');
-Route::get('users/create', 'UserController@create')->name('user.create');
-Route::post('users', 'UserController@store')->name('user.store');
-Route::get('users/{user}', 'UserController@show')->name('user.detail');
-Route::get('users/{user}/edit', 'UserController@edit')->name('user.edit');
-Route::put('users/{user}', 'UserController@update')->name('user.update');
-Route::delete('users/{user}', 'UserController@delete')->name('user.delete');
+Route::middleware('check.admin')->group(function () {
+    Route::get('admins', 'AdminController@index')->name('admin');
+    Route::get('users', 'UserController@index')->name('user');
+    Route::get('users/create', 'UserController@create')->name('user.create');
+    Route::post('users', 'UserController@store')->name('user.store');
+    Route::get('users/{user}', 'UserController@show')->name('user.detail');
+    Route::get('users/{user}/edit', 'UserController@edit')->name('user.edit');
+    Route::put('users/{user}', 'UserController@update')->name('user.update');
+    Route::delete('users/{user}', 'UserController@delete')->name('user.delete');
+});
+
 
 Route::get('/home', function () {
     dd(\Carbon\Carbon::parse(1593021725));
