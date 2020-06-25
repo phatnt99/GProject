@@ -40,61 +40,65 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <table id="example1" class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th class="sorting">STT</th>
-                            <th class="sorting">Login ID</th>
-                            <th class="sorting">Avatar</th>
-                            <th class="sorting">First Name</th>
-                            <th class="sorting">Last Name</th>
-                            <th class="sorting">Email</th>
-                            <th class="sorting">Male</th>
-                            <th class="sorting">Birthday</th>
-                            <th class="sorting">Address</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($users as $user)
-                            <tr id="{{$user->id}}">
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$user->login_id}}</td>
-                                <td><img width="70px" height="70px" src="{{url($user->file->path)}}"/></td>
-                                <td>{{$user->first_name}}</td>
-                                <td>{{$user->last_name}}</td>
-                                <td>{{$user->email}}</td>
-                                <td><input type="checkbox" {{$user->gender == 0 ? "checked" : ""}} disabled>
-                                </td>
-                                <td>{{$user->birthday}}</td>
-                                <td>{{$user->address}}</td>
-                                <th>
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                        More
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="{{route("user.detail", $user)}}">Detail</a>
-                                        <a class="dropdown-item" href="{{route("user.edit", $user)}}">Edit</a>
-                                        <form method="POST" onSubmit="return confirmDelete();" action="{{route("user.delete", $user)}} ">
-                                            @csrf
-                                            @method("DELETE")
-                                            <button type="submit" class="dropdown-item">Delete</button>
-                                            <script>
-                                                function confirmDelete() {
-                                                    return confirm("Xác nhận xóa?");
-                                                };
-                                            </script>
-                                        </form>
-                                    </div>
-                                </th>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                        <tfoot>
-                        </tfoot>
-                    </table>
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="sorting">STT</th>
+                                    <th class="sorting">Login ID</th>
+                                    <th class="sorting">Avatar</th>
+                                    <th class="sorting">First Name</th>
+                                    <th class="sorting">Last Name</th>
+                                    <th class="sorting">Email</th>
+                                    <th class="sorting">Male</th>
+                                    <th class="sorting">Birthday</th>
+                                    <th class="sorting">Address</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($users as $user)
+                                    <tr id="{{$user->id}}">
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$user->login_id}}</td>
+                                        <td><img width="70px" height="70px" src="{{url($user->file->path)}}"/></td>
+                                        <td>{{$user->first_name}}</td>
+                                        <td>{{$user->last_name}}</td>
+                                        <td>{{$user->email}}</td>
+                                        <td><input type="checkbox" {{$user->gender == 0 ? "checked" : ""}} disabled>
+                                        </td>
+                                        <td>{{$user->birthday}}</td>
+                                        <td>{{$user->address}}</td>
+                                        <th>
+                                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                More
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="{{route("user.detail", $user)}}">Detail</a>
+                                                <a class="dropdown-item" href="{{route("user.edit", $user)}}">Edit</a>
+                                                <form method="POST" onSubmit="return confirmDelete();" action="{{route("user.delete", $user)}} ">
+                                                    @csrf
+                                                    @method("DELETE")
+                                                    <button type="submit" class="dropdown-item">Delete</button>
+                                                    <script>
+                                                        function confirmDelete() {
+                                                            return confirm("Xác nhận xóa?");
+                                                        };
+                                                    </script>
+                                                </form>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
                     {{$users->links()}}
                 </div>
                 <!-- /.col -->
