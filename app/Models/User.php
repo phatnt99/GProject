@@ -44,7 +44,7 @@ class User extends Auth
         }
 
         $this->fill($request->all());
-        $this->avatar = $newFile->id;
+        $this->avatar = $newFile ? $newFile->id : null;
 
         $this->save();
     }
