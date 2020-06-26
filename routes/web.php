@@ -45,5 +45,6 @@ Route::middleware('check.admin')->group(function () {
 });
 
 Route::get('/home', function () {
-    dd(\Carbon\Carbon::parse(1593021725));
+    //dd(\Carbon\Carbon::parse(1593021725));
+    //dd(\App\Models\User::whereYear('birthday', '==', ''))
 });

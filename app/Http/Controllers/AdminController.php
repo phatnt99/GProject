@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EditAdminRequest;
 use App\Http\Requests\NewAdminRequest;
 use App\Models\Admin;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -25,8 +26,8 @@ class AdminController extends Controller
             return $query->where('first_name', 'LIKE', '%'.$request->first_name.'%');
         })->when($request->last_name, function ($query) use ($request) {
             return $query->where('last_name', 'LIKE', '%'.$request->last_name.'%');
-        })->when($request->birthday, function ($query) use ($request) {
-            return $query->where('birthday', $request->birthday);
+        })->when($request->age, function ($query) use ($request) {
+            return $query->whereYear('birthday', Carbon::now()->year - $request->age);
         })->when($request->address, function ($query) use ($request) {
             return $query->where('address', 'LIKE', '%'.$request->address.'%');
         })->when($request->gender, function ($query) use ($request) {

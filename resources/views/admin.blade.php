@@ -62,8 +62,8 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input class="form-control" id="birthday" name="birthday" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"
-                                               placeholder="Birthday" value="{{old("birthday")}}"/>
+                                        <input class="form-control" id="age" name="age" type="text"
+                                               placeholder="Age" value="{{old("age")}}"/>
                                     </div>
                                     <div class="col">
                                         <input type="text" class="form-control" name="address" placeholder="Address" value="{{old("address")}}">
