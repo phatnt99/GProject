@@ -132,8 +132,7 @@
                                         <td>{{$user->first_name}}</td>
                                         <td>{{$user->last_name}}</td>
                                         <td>{{$user->email}}</td>
-                                        <td><input type="checkbox" {{$user->gender == 0 ? "checked" : ""}} disabled>
-                                        </td>
+                                        <td>{{$user->gender}}</td>
                                         <td>{{$user->birthday}}</td>
                                         <td>{{$user->address}}</td>
                                         <th>

@@ -76,4 +76,7 @@ class Admin extends Auth
         return $this->attributes['birthday'] ? Carbon::createFromFormat('Y-m-d', $this->attributes['birthday'])
                                                      ->format('d/m/Y') : null;
     }
+    public function getGenderAttribute() {
+        return $this->attributes["gender"] == 0 ?  "Male" : "Female";
+    }
 }

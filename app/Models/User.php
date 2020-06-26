@@ -118,4 +118,8 @@ class User extends Auth
     {
         return Carbon::createFromFormat('Y-m-d', $this->attributes['start_at'])->format('d/m/Y');
     }
+
+    public function getGenderAttribute() {
+        return $this->attributes['gender'] == 0 ?  "Male" : "Female";
+    }
 }
