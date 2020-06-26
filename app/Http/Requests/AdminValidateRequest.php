@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Admin;
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AdminValidateRequest extends FormRequest

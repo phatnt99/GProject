@@ -26,12 +26,15 @@ class NewAdminValidateRequest extends FormRequest
     public function rules()
     {
         return [
-            "login_id" => ["required", function($attribute, $value, $fail) {
-                if(User::where('login_id', $value)->count() > 0 || Admin::where('login_id', $value)->count() > 0) {
-                    $fail('Login ID has exists!');
-                }
-            }],
-            "email" => "required|unique:admins,email",
+            "login_id" => [
+                "required",
+                function ($attribute, $value, $fail) {
+                    if (User::where('login_id', $value)->count() > 0 || Admin::where('login_id', $value)->count() > 0) {
+                        $fail('Login ID has exists!');
+                    }
+                },
+            ],
+            "email"    => "required|unique:admins,email",
             "password" => "required",
         ];
     }
@@ -40,8 +43,8 @@ class NewAdminValidateRequest extends FormRequest
     {
         return [
             "login_id.required" => __("validation.required"),
-            "email.required" => __("validation.required"),
-            "email.unique" => __("validation.unique"),
+            "email.required"    => __("validation.required"),
+            "email.unique"      => __("validation.unique"),
             "password.required" => __("validation.required"),
         ];
     }

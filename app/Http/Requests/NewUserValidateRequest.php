@@ -26,15 +26,18 @@ class NewUserValidateRequest extends FormRequest
     public function rules()
     {
         return [
-            "login_id" => ["required", function($attribute, $value, $fail) {
-                if(User::where('login_id', $value)->count() > 0 || Admin::where('login_id', $value)->count() > 0) {
-                    $fail('Login ID has exists!');
-                }
-            }],
-            "email" => "required|unique:users,email",
+            "login_id" => [
+                "required",
+                function ($attribute, $value, $fail) {
+                    if (User::where('login_id', $value)->count() > 0 || Admin::where('login_id', $value)->count() > 0) {
+                        $fail('Login ID has exists!');
+                    }
+                },
+            ],
+            "email"    => "required|unique:users,email",
             "password" => "required",
             "start_at" => "required",
-            "code" => "required"
+            "code"     => "required",
         ];
     }
 
@@ -42,11 +45,11 @@ class NewUserValidateRequest extends FormRequest
     {
         return [
             "login_id.required" => __("validation.required"),
-            "email.required" => __("validation.required"),
-            "email.unique" => __("validation.unique"),
+            "email.required"    => __("validation.required"),
+            "email.unique"      => __("validation.unique"),
             "password.required" => __("validation.required"),
             "start_at.required" => __("validation.required"),
-            "code.required" => __("validation.required")
+            "code.required"     => __("validation.required"),
         ];
     }
 }

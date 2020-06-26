@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth:user,admin');
-
 
 //Authentication Routes
 Route::namespace('Auth')->group(function () {
@@ -45,9 +44,7 @@ Route::middleware('check.admin')->group(function () {
     Route::get('users/{user}/edit', 'UserController@edit')->name('user.edit');
     Route::put('users/{user}', 'UserController@update')->name('user.update');
     Route::delete('users/{user}', 'UserController@delete')->name('user.delete');
-
 });
-
 
 Route::get('/home', function () {
     dd(\Carbon\Carbon::parse(1593021725));

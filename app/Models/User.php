@@ -7,7 +7,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth as Author;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 
 class User extends Auth
 {
@@ -18,7 +17,8 @@ class User extends Auth
     protected $guarded = [];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     //Business logic
@@ -45,8 +45,9 @@ class User extends Auth
             $this->fill($request->all());
             $this->avatar = $newAvatar->id;
             $this->save();
-        } else
+        } else {
             $this->update($request->except('avatar'));
+        }
     }
 
     //Event
@@ -58,7 +59,6 @@ class User extends Auth
 
             $model->created_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->getId() : null;
             $model->updated_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->getId() : null;
-
         });
     }
 
@@ -90,17 +90,17 @@ class User extends Auth
 
     public function setBirthdayAttribute($value)
     {
-        if ($value != null)
+        if ($value != null) {
             $this->attributes['birthday'] = \Carbon\Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
-        else
+        } else {
             $this->attributes['birthday'] = null;
+        }
     }
 
     public function setStartAtAttribute($value)
     {
         $this->attributes['start_at'] = \Carbon\Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
     }
-
 
     //Accessors
     public function getNameAttribute()
@@ -110,12 +110,12 @@ class User extends Auth
 
     public function getBirthdayAttribute()
     {
-        return $this->attributes['birthday'] ? Carbon::createFromFormat('Y-m-d', $this->attributes['birthday'])->format('d/m/Y') : null;
+        return $this->attributes['birthday'] ? Carbon::createFromFormat('Y-m-d', $this->attributes['birthday'])
+                                                     ->format('d/m/Y') : null;
     }
 
     public function getStartAtAttribute()
     {
         return Carbon::createFromFormat('Y-m-d', $this->attributes['start_at'])->format('d/m/Y');
     }
-
 }

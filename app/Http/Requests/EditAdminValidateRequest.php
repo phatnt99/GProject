@@ -26,14 +26,18 @@ class EditAdminValidateRequest extends FormRequest
     public function rules()
     {
         return [
-            "login_id" => ["required", function ($attribute, $value, $fail) {
-                if ($value != User::where('id', $this->user)->first()) { //if change login_id
-                    if (User::where('login_id', $value)->count() > 0 || Admin::where('login_id', $value)->count() > 0) {
-                        $fail('Login ID has exists!');
+            "login_id" => [
+                "required",
+                function ($attribute, $value, $fail) {
+                    if ($value != User::where('id', $this->user)->first()) { //if change login_id
+                        if (User::where('login_id', $value)->count() > 0 || Admin::where('login_id', $value)
+                                                                                 ->count() > 0) {
+                            $fail('Login ID has exists!');
+                        }
                     }
-                }
-            }],
-            "email" => "required|unique:admins,email,". $this->admin,
+                },
+            ],
+            "email"    => "required|unique:admins,email,".$this->admin,
         ];
     }
 
@@ -41,8 +45,8 @@ class EditAdminValidateRequest extends FormRequest
     {
         return [
             "login_id.required" => __("validation.required"),
-            "email.required" => __("validation.required"),
-            "email.unique" => __("validation.unique"),
+            "email.required"    => __("validation.required"),
+            "email.unique"      => __("validation.unique"),
         ];
     }
 }
