@@ -68,9 +68,9 @@
                                     </div>
                                     <div class="col">
                                         <select class="form-control" id="gender" name="gender">
-                                            <option value="">All</option>
-                                            <option value="0" {{old("gender") == 0 ? "selected": null}}>Male</option>
-                                            <option value="1" {{old("gender") == 1 ? "selected": null}}>Female</option>
+                                            <option value="" {{old("gender") === null ? "selected": null}}>All</option>
+                                            <option value=0 {{old("gender") === "0" ? "selected": null}}>Male</option>
+                                            <option value=1 {{old("gender") === "1" ? "selected": null}}>Female</option>
                                         </select>
                                     </div>
                                     <div class="col">
@@ -81,7 +81,7 @@
                                 <div class="row form-group">
                                     <div class="col">
                                         <select class="form-control" id="company_id" name="company_id">
-                                            <option value="">All</option>
+                                            <option value="" {{old("company_id") == null ? "selected": null}}>All</option>
                                             @foreach($companies as $company)
                                                 <option value="{{$company->id}}" {{old('company_id') == $company->id ? "selected" : null}}>{{$company->name}}</option>
                                             @endforeach

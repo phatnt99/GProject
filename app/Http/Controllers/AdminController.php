@@ -30,7 +30,7 @@ class AdminController extends Controller
             return $query->whereYear('birthday', Carbon::now()->year - $request->age);
         })->when($request->address, function ($query) use ($request) {
             return $query->where('address', 'LIKE', '%'.$request->address.'%');
-        })->when($request->gender, function ($query) use ($request) {
+        })->when($request->gender !== null, function ($query) use ($request) {
             return $query->where('gender', $request->gender);
         })->orderBy('updated_at', 'desc')->paginate(5);
 
