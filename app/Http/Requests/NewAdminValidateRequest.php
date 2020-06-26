@@ -6,7 +6,7 @@ use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewUserValidateRequest extends FormRequest
+class NewAdminValidateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,10 +31,8 @@ class NewUserValidateRequest extends FormRequest
                     $fail('Login ID has exists!');
                 }
             }],
-            "email" => "required|unique:users,email",
+            "email" => "required|unique:admins,email",
             "password" => "required",
-            "start_at" => "required",
-            "code" => "required"
         ];
     }
 
@@ -45,8 +43,6 @@ class NewUserValidateRequest extends FormRequest
             "email.required" => __("validation.required"),
             "email.unique" => __("validation.unique"),
             "password.required" => __("validation.required"),
-            "start_at.required" => __("validation.required"),
-            "code.required" => __("validation.required")
         ];
     }
 }

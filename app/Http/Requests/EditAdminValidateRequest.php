@@ -6,7 +6,7 @@ use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewUserValidateRequest extends FormRequest
+class EditAdminValidateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,15 +26,14 @@ class NewUserValidateRequest extends FormRequest
     public function rules()
     {
         return [
-            "login_id" => ["required", function($attribute, $value, $fail) {
-                if(User::where('login_id', $value)->count() > 0 || Admin::where('login_id', $value)->count() > 0) {
-                    $fail('Login ID has exists!');
+            "login_id" => ["required", function ($attribute, $value, $fail) {
+                if ($value != User::where('id', $this->user)->first()) { //if change login_id
+                    if (User::where('login_id', $value)->count() > 0 || Admin::where('login_id', $value)->count() > 0) {
+                        $fail('Login ID has exists!');
+                    }
                 }
             }],
-            "email" => "required|unique:users,email",
-            "password" => "required",
-            "start_at" => "required",
-            "code" => "required"
+            "email" => "required|unique:admins,email,". $this->admin,
         ];
     }
 
@@ -44,9 +43,6 @@ class NewUserValidateRequest extends FormRequest
             "login_id.required" => __("validation.required"),
             "email.required" => __("validation.required"),
             "email.unique" => __("validation.unique"),
-            "password.required" => __("validation.required"),
-            "start_at.required" => __("validation.required"),
-            "code.required" => __("validation.required")
         ];
     }
 }
