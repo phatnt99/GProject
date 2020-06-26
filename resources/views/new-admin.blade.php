@@ -10,10 +10,10 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>User</h1>
+                    <h1>Register Admin</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a href=" {{route("user")}}" class="btn btn-primary float-right">Back</a>
+                    <a href=" {{route("admin")}}" class="btn btn-primary float-right">Back</a>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -23,14 +23,14 @@
     <section class="content">
         <div class="container">
             @if(Session::has('success'))
-            <div class="col-12">
-                <div class="alert alert-success" role="alert">
-                    <span>New user <b>#{{Session::get('success')}}</b> has been added!</span>
+                <div class="col-6">
+                    <div class="alert alert-success" role="alert">
+                        <span>New admin <b>#{{Session::get('success')}}</b> has been added!</span>
+                    </div>
                 </div>
-            </div>
             @endif
             <div class="col-6">
-                <form style="padding-bottom: 1rem" method="POST" action="{{route("user.store")}}" id="form" enctype="multipart/form-data" >
+                <form style="padding-bottom: 1rem" method="POST" action="{{route("admin.store")}}" id="form" enctype="multipart/form-data" >
                     @csrf
                     <div class="form-group">
                         <label for="login_id">Login ID<span style="color: red">(*)</span></label>
@@ -38,7 +38,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">@</div>
                             </div>
-                            <input type="text" class="form-control" id="login_id" name="login_id">
+                            <input type="text" class="form-control" id="login_id" name="login_id" required>
                             @error('login_id')
                             <div class="invalid-feedback" style="display: block">{{$message}}</div>
                             @enderror
@@ -82,32 +82,6 @@
                     <div class="form-group"> <!-- Date input -->
                         <label class="control-label" for="birthday">Birthday</label>
                         <input class="form-control" id="birthday" name="birthday" placeholder="DD/MM/YYY" type="text"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="code">Code<span style="color: red">(*)</span></label>
-                        <input type="text" class="form-control" id="code" name="code">
-                        @error('code')
-                        <div class="invalid-feedback" style="display: block">{{$message}}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="company">Company</label>
-                        <select class="form-control" id="company_id" name="company_id">
-                            @foreach($companies as $company)
-                                <option value="{{$company->id}}">{{$company->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="position">Position</label>
-                        <input type="text" class="form-control" id="position" name="position">
-                    </div>
-                    <div class="form-group"> <!-- Date input -->
-                        <label class="control-label" for="start_at">Start at<span style="color: red">(*)</span></label>
-                        <input class="form-control" id="start_at" name="start_at" placeholder="DD/MM/YYY" type="text"/>
-                        @error('start_at')
-                        <div class="invalid-feedback" style="display: block">{{$message}}</div>
-                        @enderror
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="start_at">Avatar upload</label>

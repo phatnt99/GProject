@@ -4,11 +4,6 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <style>
-        .clicked {
-            background-color: #dee2e6
-        }
-    </style>
 @endsection
 
 @section("content")
@@ -17,7 +12,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>User</h1>
+                    <h1>List User</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -33,12 +28,83 @@
     <section class="content">
         <div class="container">
             <div class="row" style="margin-bottom: 1rem">
-                <div class="col-2">
+                <div class="col-6">
                     <a type="button" href="{{route("user.create")}}" class="btn btn-outline-primary">Register new
                         user</a>
                 </div>
+                <div class="col-6">
+                    <button class="btn btn-danger float-right" data-toggle="collapse"
+                            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Filter</button>
+                </div>
             </div>
             <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body collapse" id="collapseExample">
+                            <form name="filter" action="{{route("user.search")}}" method="GET">
+                                <h6 class="mb-3 text-bold">Account</h6>
+                                <div class="row form-group">
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="login_id" placeholder="Login ID" value="{{old("login_id")}}">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="email" placeholder="Email" value="{{old("email")}}">
+                                    </div>
+                                </div>
+                                <h6 class="mb-3 text-bold">Personal Information</h6>
+                                <div class="row form-group">
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="first_name" placeholder="First name" value="{{old("first_name")}}">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="last_name" placeholder="Last name" value="{{old("last_name")}}">
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" id="birthday" name="birthday" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"
+                                               placeholder="Birthday" value="{{old("birthday")}}"/>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="address" placeholder="Address" value="{{old("address")}}">
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-control" id="gender" name="gender">
+                                            <option value="0" {{old("gender") == 0 ? "selected": null}}>All</option>
+                                            <option value="1" {{old("gender") == 1 ? "selected": null}}>Male</option>
+                                            <option value="2" {{old("gender") == 2 ? "selected": null}}>Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-primary float-right">Search</button>
+                                    </div>
+                                </div>
+                                <h6 class="mb-3 text-bold">Company Information</h6>
+                                <div class="row form-group">
+                                    <div class="col">
+                                        <select class="form-control" id="company_id" name="company_id">
+                                            @foreach($companies as $company)
+                                                <option value="{{$company->id}}" {{old('company_id') == $company->id ? "selected" : null}}>{{$company->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="code" placeholder="Code" value="{{old("code")}}">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" name="position" placeholder="Position" value="{{old("position")}}">
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" id="start_at" name="start_at" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"
+                                               placeholder="Start At" value="{{old("start_at")}}"/>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control" id="end_at" name="end_at" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"
+                                               placeholder="End At" value="{{old("end_at")}}"/>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
@@ -118,35 +184,4 @@
     <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
     <script src="js/gproject_user.js"></script>
-    <script>
-        $(document).ready(function () {
-
-            $("[name='detail']").click(function () {
-                //get selected id from tr
-                var selectedUser = $('tr.clicked').attr('id');
-
-                location.href = "{{url('users')}}" + "/" + selectedUser;
-            });
-
-            $("[name='delete']").click(function () {
-                //get selected id from tr
-                var selectedUser = $('tr.clicked').attr('id');
-
-                //ajax request
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: "{{url('users')}}" + "/" + selectedUser,
-                    type: "DELETE",
-                    success: function (data) {
-                        location.href = "{{route("user")}}";
-                    }
-                });
-            });
-
-        })
-    </script>
 @endsection
