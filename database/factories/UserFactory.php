@@ -18,7 +18,7 @@ use Illuminate\Support\Str;
 */
 
 $factory->define(User::class, function (Faker $faker) {
-    $avatar = factory(App\Models\File::class)->create(["path" => "user"]);
+    $avatar = factory(App\Models\File::class)->create(["additional" => "user"]);
     return [
         "login_id" => $faker->userName,
         "password" => $faker->password,
@@ -27,7 +27,7 @@ $factory->define(User::class, function (Faker $faker) {
         "email" => $faker->email,
         "gender" => $faker->biasedNumberBetween(0, 1),
         "address" => $faker->address,
-        "birthday" => $faker->dateTimeThisCentury->format("d/m/Y"),
+        "birthday" => $faker->dateTimeBetween('-50 years', 'now')->format("d/m/Y"),
         "code" => $faker->isbn10,
         "company_id" => App\Models\Company::all()->random()->id,
         "avatar" => $avatar->id,

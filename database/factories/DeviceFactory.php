@@ -6,7 +6,7 @@ use App\Models\Device;
 use Faker\Generator as Faker;
 
 $factory->define(Device::class, function (Faker $faker) {
-    $image = factory(App\Models\File::class)->create(["path" => "device"]);
+    $image = factory(App\Models\File::class)->create(["additional" => "device"]);
     return [
         //
         "code" => $faker->isbn10,
