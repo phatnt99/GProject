@@ -51,7 +51,7 @@ class AdminController extends Controller
     public function store(NewAdminRequest $request)
     {
         $admin = new Admin;
-        $admin->createAdminWithAvatar($request);
+        $admin->createAdmin($request);
 
         return redirect()->back()->with(["success" => $request->login_id]);
     }
@@ -66,7 +66,7 @@ class AdminController extends Controller
 
         //update
         $updateAdmin = Admin::Where('id', $request->id)->firstOrFail();
-        $updateAdmin->updateAdminWithAvatar($request);
+        $updateAdmin->updateAdmin($request);
 
         return redirect(route("admin.detail", $updateAdmin));
     }

@@ -16,7 +16,7 @@ class Admin extends Auth
     protected $guarded = [];
 
     //Business logic
-    public function createAdminWithAvatar($request)
+    public function createAdmin($request)
     {
         $newAvatar = null;
 
@@ -30,7 +30,7 @@ class Admin extends Auth
         $this->save();
     }
 
-    public function updateAdminWithAvatar($request)
+    public function updateAdmin($request)
     {
         //detect if user change avatar
         if ($request->hasFile('avatar')) {
@@ -76,7 +76,9 @@ class Admin extends Auth
         return $this->attributes['birthday'] ? Carbon::createFromFormat('Y-m-d', $this->attributes['birthday'])
                                                      ->format('d/m/Y') : null;
     }
-    public function getGenderAttribute() {
-        return $this->attributes["gender"] == 0 ?  "Male" : "Female";
+
+    public function getGenderAttribute()
+    {
+        return $this->attributes["gender"] == 0 ? "Male" : "Female";
     }
 }

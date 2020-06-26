@@ -62,7 +62,7 @@ class UserController extends Controller
     public function store(NewUserRequest $request)
     {
         $user = new User;
-        $user->createUserWithAvatar($request);
+        $user->createUser($request);
 
         return redirect()->back()->with(["success" => $request->login_id]);
     }
@@ -78,7 +78,7 @@ class UserController extends Controller
     {
         //update
         $updateUser = User::Where('id', $request->id)->firstOrFail();
-        $updateUser->updateUserWithAvatar($request);
+        $updateUser->updateUser($request);
 
         return redirect(route("user.edit", $updateUser));
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\CrudEvent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class User extends Auth
 {
-    use Notifiable, SoftDeletes;
+    use Notifiable, SoftDeletes, CrudEvent;
 
     protected $guard = 'user';
 
@@ -22,7 +23,7 @@ class User extends Auth
     ];
 
     //Business logic
-    public function createUserWithAvatar($request)
+    public function createUser($request)
     {
         $newAvatar = null;
 
@@ -36,7 +37,7 @@ class User extends Auth
         $this->save();
     }
 
-    public function updateUserWithAvatar($request)
+    public function updateUser($request)
     {
         //detect if user change avatar
         if ($request->hasFile('avatar')) {
@@ -48,27 +49,6 @@ class User extends Auth
         } else {
             $this->update($request->except('avatar'));
         }
-    }
-
-    //Event
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-
-            $model->created_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->id : null;
-            $model->updated_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->id : null;
-        });
-
-        static::updating(function ($model) {
-            $model->updated_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->id : null;
-        });
-
-        static::deleting(function ($model) {
-            $model->deleted_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->id : null;
-            $model->save(); //will not fire if not use it
-        });
     }
 
     //Relationships
@@ -128,7 +108,8 @@ class User extends Auth
         return Carbon::createFromFormat('Y-m-d', $this->attributes['start_at'])->format('d/m/Y');
     }
 
-    public function getGenderAttribute() {
-        return $this->attributes['gender'] == 0 ?  "Male" : "Female";
+    public function getGenderAttribute()
+    {
+        return $this->attributes['gender'] == 0 ? "Male" : "Female";
     }
 }
