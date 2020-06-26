@@ -29,13 +29,23 @@ Route::namespace('Auth')->group(function () {
 
 Route::middleware('check.admin')->group(function () {
     Route::get('admins', 'AdminController@index')->name('admin');
+    Route::get('admins/search', 'AdminController@search')->name('admin.search');
+    Route::get('admins/create', 'AdminController@create')->name('admin.create');
+    Route::post('admins', 'AdminController@store')->name('admin.store');
+    Route::get('admins/{admin}', 'AdminController@show')->name('admin.detail');
+    Route::get('admins/{admin}/edit', 'AdminController@edit')->name('admin.edit');
+    Route::put('admins/{admin}', 'AdminController@update')->name('admin.update');
+    Route::delete('admins/{admin}', 'AdminController@delete')->name('admin.delete');
+
     Route::get('users', 'UserController@index')->name('user');
+    Route::get('users/search', 'UserController@search')->name('user.search');
     Route::get('users/create', 'UserController@create')->name('user.create');
     Route::post('users', 'UserController@store')->name('user.store');
     Route::get('users/{user}', 'UserController@show')->name('user.detail');
     Route::get('users/{user}/edit', 'UserController@edit')->name('user.edit');
     Route::put('users/{user}', 'UserController@update')->name('user.update');
     Route::delete('users/{user}', 'UserController@delete')->name('user.delete');
+
 });
 
 
