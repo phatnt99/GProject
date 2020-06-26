@@ -28,7 +28,7 @@ Route::namespace('Auth')->group(function () {
 
 Route::middleware('check.admin')->group(function () {
     Route::get('admins', 'AdminController@index')->name('admin');
-    Route::get('admins/search', 'AdminController@search')->name('admin.search');
+    Route::get('admins/search', 'AdminController@index')->name('admin.search');
     Route::get('admins/create', 'AdminController@create')->name('admin.create');
     Route::post('admins', 'AdminController@store')->name('admin.store');
     Route::get('admins/{admin}', 'AdminController@show')->name('admin.detail');
@@ -37,7 +37,7 @@ Route::middleware('check.admin')->group(function () {
     Route::delete('admins/{admin}', 'AdminController@delete')->name('admin.delete');
 
     Route::get('users', 'UserController@index')->name('user');
-    Route::get('users/search', 'UserController@search')->name('user.search');
+    Route::get('users/search', 'UserController@index')->name('user.search');
     Route::get('users/create', 'UserController@create')->name('user.create');
     Route::post('users', 'UserController@store')->name('user.store');
     Route::get('users/{user}', 'UserController@show')->name('user.detail');

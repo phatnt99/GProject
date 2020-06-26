@@ -15,16 +15,9 @@ class AdminController extends Controller
         //$this->middleware('checkAdmin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $listAdmin = Admin::paginate(5);
-
-        return view('admin', ['admins' => $listAdmin]);
-    }
-
-    public function search(Request $request)
-    {
-        $admins = Admin::when($request->login_id, function ($query) use ($request) {
+        $listAdmin = Admin::when($request->login_id, function ($query) use ($request) {
             return $query->where('login_id', $request->login_id);
         })->when($request->email, function ($query) use ($request) {
             return $query->where('email', $request->email);
@@ -42,14 +35,11 @@ class AdminController extends Controller
             } else {
                 return $query->where('gender', $request->gender - 1);
             }
-        })->paginate(5);
+        })->orderBy('updated_at', 'desc')->paginate(5);
 
-        //dd(Admin::where('gender', $request->gender)->get());
-
-        // obtain old input
         $request->flash();
 
-        return view("admin", ["admins" => $admins]);
+        return view('admin', ['admins' => $listAdmin]);
     }
 
     public function create()

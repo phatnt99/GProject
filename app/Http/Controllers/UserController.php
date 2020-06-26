@@ -11,17 +11,10 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
         $listCompany = Company::all();
-        $listUser = User::paginate(5);
-
-        return view('user', ['users' => $listUser, 'companies' => $listCompany]);
-    }
-
-    public function search(Request $request)
-    {
-        $users = User::when($request->login_id, function ($query) use ($request) {
+        $listUser = User::when($request->login_id, function ($query) use ($request) {
             return $query->where('login_id', $request->login_id);
         })->when($request->email, function ($query) use ($request) {
             return $query->where('email', $request->email);
@@ -49,16 +42,12 @@ class UserController extends Controller
             return $query->where('start_at', $request->start_at);
         })->when($request->end_at, function ($query) use ($request) {
             return $query->where('end_at', $request->end_at);
-        })->paginate(5);
-
-        //dd(Admin::where('gender', $request->gender)->get());
+        })->orderBy('updated_at', 'desc')->paginate(5);
 
         // obtain old input
         $request->flash();
 
-        $listCompany = Company::all();
-
-        return view("user", ["users" => $users, "companies" => $listCompany]);
+        return view('user', ['users' => $listUser, 'companies' => $listCompany]);
     }
 
     public function create()

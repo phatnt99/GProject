@@ -28,7 +28,7 @@ class EditUserValidateRequest extends FormRequest
         return [
             "login_id" => [
                 "required",
-                function ($attribute, $value, $fail) {
+                function ($value, $attribute , $fail) {
                     if ($value != User::where('id', $this->user)->first()) { //if change login_id
                         if (User::where('login_id', $value)->count() > 0 || Admin::where('login_id', $value)
                                                                                  ->count() > 0) {
