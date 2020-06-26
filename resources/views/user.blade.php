@@ -117,7 +117,7 @@
                                     <th class="sorting">First Name</th>
                                     <th class="sorting">Last Name</th>
                                     <th class="sorting">Email</th>
-                                    <th class="sorting">Male</th>
+                                    <th class="sorting">Gender</th>
                                     <th class="sorting">Birthday</th>
                                     <th class="sorting">Address</th>
                                     <th>Action</th>
@@ -143,7 +143,6 @@
                                                 More
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="{{route("user.detail", $user)}}">Detail</a>
                                                 <a class="dropdown-item" href="{{route("user.edit", $user)}}">Edit</a>
                                                 <form method="POST" onSubmit="return confirmDelete();" action="{{route("user.delete", $user)}} ">
                                                     @csrf

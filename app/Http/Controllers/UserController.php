@@ -66,11 +66,6 @@ class UserController extends Controller
         return redirect()->back()->with(["success" => $request->login_id]);
     }
 
-    public function show(User $user)
-    {
-        return view('show-user', ['user' => $user]);
-    }
-
     public function edit(User $user)
     {
         $listCompany = Company::all();
@@ -84,7 +79,7 @@ class UserController extends Controller
         $updateUser = User::Where('id', $request->id)->firstOrFail();
         $updateUser->updateUserWithAvatar($request);
 
-        return redirect(route("user.detail", $updateUser));
+        return redirect(route("user.edit", $updateUser));
     }
 
     public function delete(User $user)

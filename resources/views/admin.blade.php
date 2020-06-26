@@ -121,7 +121,6 @@
                                                 More
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="{{route("admin.detail", $admin)}}">Detail</a>
                                                 <a class="dropdown-item" href="{{route("admin.edit", $admin)}}">Edit</a>
                                                 <form method="POST" onSubmit="return confirmDelete();" action="{{route("admin.delete", $admin)}} ">
                                                     @csrf

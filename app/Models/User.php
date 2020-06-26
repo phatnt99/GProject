@@ -57,8 +57,8 @@ class User extends Auth
 
         static::creating(function ($model) {
 
-            $model->created_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->getId() : null;
-            $model->updated_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->getId() : null;
+            $model->created_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->id : null;
+            $model->updated_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->id : null;
         });
     }
 

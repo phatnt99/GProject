@@ -13,7 +13,7 @@
                     <h1>Edit User</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a href="{{ url()->previous() }}" class="btn btn-primary float-right">Back</a>
+                    <a href="{{ route("user") }}" class="btn btn-primary float-right">Back</a>
                 </div>
             </div>
         </div><!-- /.container-fluid -->

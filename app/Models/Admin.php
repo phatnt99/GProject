@@ -15,11 +15,6 @@ class Admin extends Auth
 
     protected $guarded = [];
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
     //Business logic
     public function createAdminWithAvatar($request)
     {

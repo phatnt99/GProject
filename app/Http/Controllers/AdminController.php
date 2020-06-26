@@ -55,11 +55,6 @@ class AdminController extends Controller
         return redirect()->back()->with(["success" => $request->login_id]);
     }
 
-    public function show(Admin $admin)
-    {
-        return view('show-admin', ['admin' => $admin]);
-    }
-
     public function edit(Admin $admin)
     {
         return view('edit-admin', ["admin" => $admin]);
