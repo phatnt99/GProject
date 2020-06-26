@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EditUserValidateRequest;
-use App\Http\Requests\NewUserValidateRequest;
+use App\Http\Requests\EditUserRequest;
+use App\Http\Requests\NewUserRequest;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -58,7 +58,7 @@ class UserController extends Controller
         return view('new-user', ['companies' => $listCompany]);
     }
 
-    public function store(NewUserValidateRequest $request)
+    public function store(NewUserRequest $request)
     {
         $user = new User;
         $user->createUserWithAvatar($request);
@@ -78,7 +78,7 @@ class UserController extends Controller
         return view('edit-user', ["user" => $user, "companies" => $listCompany]);
     }
 
-    public function update(EditUserValidateRequest $request)
+    public function update(EditUserRequest $request)
     {
         //update
         $updateUser = User::Where('id', $request->id)->firstOrFail();

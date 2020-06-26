@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Http\Requests\AdminValidateRequest;
+use App\Http\Requests\AdminRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +20,7 @@ trait AuthenticatesUsers
         return view('auth.login');
     }
 
-    public function login(AdminValidateRequest $request)
+    public function login(AdminRequest $request)
     {
         //Check whether current login is admin or user
         if (Auth::guard('admin')->attempt(

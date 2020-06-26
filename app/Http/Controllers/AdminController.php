@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EditAdminValidateRequest;
-use App\Http\Requests\NewAdminValidateRequest;
+use App\Http\Requests\EditAdminRequest;
+use App\Http\Requests\NewAdminRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 
@@ -47,7 +47,7 @@ class AdminController extends Controller
         return view('new-admin');
     }
 
-    public function store(NewAdminValidateRequest $request)
+    public function store(NewAdminRequest $request)
     {
         $admin = new Admin;
         $admin->createAdminWithAvatar($request);
@@ -65,7 +65,7 @@ class AdminController extends Controller
         return view('edit-admin', ["admin" => $admin]);
     }
 
-    public function update(EditAdminValidateRequest $request)
+    public function update(EditAdminRequest $request)
     {
 
         //update
