@@ -31,11 +31,7 @@ class AdminController extends Controller
         })->when($request->address, function ($query) use ($request) {
             return $query->where('address', 'LIKE', '%'.$request->address.'%');
         })->when($request->gender, function ($query) use ($request) {
-            if ($request->gender == 0) {
-                return null;
-            } else {
-                return $query->where('gender', $request->gender - 1);
-            }
+            return $query->where('gender', $request->gender);
         })->orderBy('updated_at', 'desc')->paginate(5);
 
         $request->flash();

@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="col">
                                         <select class="form-control" id="gender" name="gender">
-                                            <option value="0" {{old("gender") == 0 ? "selected": null}}>All</option>
+                                            <option value="">All</option>
                                             <option value="1" {{old("gender") == 1 ? "selected": null}}>Male</option>
                                             <option value="2" {{old("gender") == 2 ? "selected": null}}>Female</option>
                                         </select>
