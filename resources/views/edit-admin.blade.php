@@ -83,6 +83,9 @@
                         <label class="control-label" for="birthday">Birthday</label>
                         <input class="form-control" id="birthday" name="birthday" placeholder="DD/MM/YYY" type="text"
                                value="{{$admin->birthday}}"/>
+                        @error('birthday')
+                        <div class="invalid-feedback" style="display: block">{{$message}}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="start_at">Avatar upload</label>

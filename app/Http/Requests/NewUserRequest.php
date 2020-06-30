@@ -38,6 +38,7 @@ class NewUserRequest extends FormRequest
             "password" => "required",
             "start_at" => "required",
             "code"     => "required",
+            "birthday" => "date_format:d/m/Y|before:today",
         ];
     }
 
@@ -50,6 +51,7 @@ class NewUserRequest extends FormRequest
             "password.required" => __("validation.required"),
             "start_at.required" => __("validation.required"),
             "code.required"     => __("validation.required"),
-        ];
+            "birthday.before"   => __("validation.before")
+            ];
     }
 }

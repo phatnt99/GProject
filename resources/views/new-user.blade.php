@@ -82,6 +82,9 @@
                     <div class="form-group"> <!-- Date input -->
                         <label class="control-label" for="birthday">Birthday</label>
                         <input class="form-control" id="birthday" name="birthday" placeholder="DD/MM/YYY" type="text"/>
+                        @error('birthday')
+                        <div class="invalid-feedback" style="display: block">{{$message}}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="code">Code<span style="color: red">(*)</span></label>

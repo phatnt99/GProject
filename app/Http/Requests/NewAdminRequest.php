@@ -36,6 +36,7 @@ class NewAdminRequest extends FormRequest
             ],
             "email"    => "required|unique:admins,email",
             "password" => "required",
+            "birthday" => "date_format:d/m/Y|before:today",
         ];
     }
 
@@ -46,6 +47,7 @@ class NewAdminRequest extends FormRequest
             "email.required"    => __("validation.required"),
             "email.unique"      => __("validation.unique"),
             "password.required" => __("validation.required"),
+            "birthday.before"   => __("validation.before")
         ];
     }
 }

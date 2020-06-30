@@ -81,6 +81,9 @@
                         <label class="control-label" for="birthday">Birthday</label>
                         <input class="form-control" id="birthday" name="birthday" placeholder="DD/MM/YYY" type="text"
                         value="{{$user->birthday}}"/>
+                        @error('birthday')
+                        <div class="invalid-feedback" style="display: block">{{$message}}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="code">Code</label>

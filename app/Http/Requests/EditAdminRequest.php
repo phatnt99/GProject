@@ -38,6 +38,7 @@ class EditAdminRequest extends FormRequest
                 },
             ],
             "email"    => "required|unique:admins,email,".$this->admin,
+            "birthday" => "date_format:d/m/Y|before:today",
         ];
     }
 
@@ -47,6 +48,7 @@ class EditAdminRequest extends FormRequest
             "login_id.required" => __("validation.required"),
             "email.required"    => __("validation.required"),
             "email.unique"      => __("validation.unique"),
+            "birthday.before"   => __("validation.before")
         ];
     }
 }
