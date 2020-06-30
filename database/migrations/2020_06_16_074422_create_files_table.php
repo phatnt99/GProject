@@ -29,7 +29,7 @@ class CreateFilesTable extends Migration
             $table->string("deleted_by")->nullable();
             $table->unsignedBigInteger("created_at")->nullable();
             $table->unsignedBigInteger("updated_at")->nullable();
-            $table->softDeletes();
+            $table->unsignedBigInteger("deleted_at")->nullable();
         });
     }
 

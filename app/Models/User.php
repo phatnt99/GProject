@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\CrudEvent;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;

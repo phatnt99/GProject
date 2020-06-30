@@ -12,8 +12,8 @@ $factory->define(File::class, function (Faker $faker, $attributes) {
     $url = "https://cdn.iconscout.com/icon/free/png-512/avatar-372-456324.png";
     $contents = file_get_contents($url);
     $name = substr($url, strrpos($url, '/') + 1);
-    $upload_name = $attributes["additional"].'/'.rand(0,9999).$name;
-    $path = Storage::disk('public')->put($upload_name, $contents);
+    $upload_name = rand(0,9999).$name;
+    $path = Storage::disk('public')->put($attributes["additional"].'/'.$upload_name, $contents);
 
     // miss understanding about what upload_name, name
     return [
@@ -25,6 +25,6 @@ $factory->define(File::class, function (Faker $faker, $attributes) {
         'is_public' => 1,
         'size' => "1000",
         'disk' => 'public',
-        'path' => 'storage/'. $upload_name
+        'path' => 'storage/'. $attributes["additional"].'/'.$upload_name
     ];
 });
