@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\CrudEvent;
 use Illuminate\Support\Facades\Auth as Author;
 use Illuminate\Support\Facades\Storage;
 
@@ -59,14 +60,4 @@ class File extends BaseModel
         return File::create($infoImage);
     }
 
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-
-            $model->created_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->id : null;
-            $model->updated_by = Author::guard('admin')->user() ? Author::guard('admin')->user()->id : null;
-        });
-    }
 }

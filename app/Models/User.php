@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use App\Traits\CrudEvent;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class User extends Auth
 {
-    use Notifiable, SoftDeletes, CrudEvent;
+    use Notifiable;
 
     protected $guard = 'user';
 
