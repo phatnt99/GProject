@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-
-use App\Traits\FreshTimestampTrait;
-use App\Traits\PrimaryKeyTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class Admin extends Auth
@@ -16,11 +13,40 @@ class Admin extends Auth
 
     protected $guard = 'admin';
 
-    protected $fillable = [
-        'login_id', 'email', 'password',
-    ];
+    protected $guarded = [];
 
-    public function file() {
+    //Business logic
+    public function createAdmin($request)
+    {
+        $newAvatar = null;
+
+        if ($request->hasFile('avatar')) {
+            $newAvatar = File::createNewImage($request, 'admin');
+        }
+
+        $this->fill($request->all());
+        $this->avatar = $newAvatar ? $newAvatar->id : null;
+
+        $this->save();
+    }
+
+    public function updateAdmin($request)
+    {
+        //detect if user change avatar
+        if ($request->hasFile('avatar')) {
+            $newAvatar = File::updateImage($request, $this, "admin");
+
+            $this->fill($request->all());
+            $this->avatar = $newAvatar->id;
+            $this->save();
+        } else {
+            $this->update($request->except('avatar'));
+        }
+    }
+
+    //Relationship
+    public function file()
+    {
         return $this->belongsTo(File::class, "avatar", "id");
     }
 
@@ -30,8 +56,29 @@ class Admin extends Auth
         $this->attributes['password'] = Hash::make($value);
     }
 
+    public function setBirthdayAttribute($value)
+    {
+        if ($value != null) {
+            $this->attributes['birthday'] = \Carbon\Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        } else {
+            $this->attributes['birthday'] = null;
+        }
+    }
+
     //Accessors
-    public function getNameAttribute() {
+    public function getNameAttribute()
+    {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function getBirthdayAttribute()
+    {
+        return $this->attributes['birthday'] ? Carbon::createFromFormat('Y-m-d', $this->attributes['birthday'])
+                                                     ->format('d/m/Y') : null;
+    }
+
+    public function getGenderAttribute()
+    {
+        return $this->attributes["gender"] == 0 ? "Male" : "Female";
     }
 }

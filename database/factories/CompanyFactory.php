@@ -6,7 +6,7 @@ use App\Models\Company;
 use Faker\Generator as Faker;
 
 $factory->define(Company::class, function (Faker $faker) {
-    $logo = factory(App\Models\File::class)->create(["path" => "company"]);
+    $logo = factory(App\Models\File::class)->create(["additional" => "company"]);
     return [
         //
         "name" => $faker->company,
