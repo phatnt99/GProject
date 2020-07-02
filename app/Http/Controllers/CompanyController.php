@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EditCompanyRequest;
+use App\Http\Requests\NewCompanyRequest;
 use App\Models\Admin;
 use App\Models\Company;
 use Carbon\Carbon;
@@ -33,7 +35,7 @@ class CompanyController extends Controller
         return view('new-company');
     }
 
-    public function store(Request $request)
+    public function store(NewCompanyRequest $request)
     {
         $company = new Company;
         $company->createCompany($request);
@@ -46,7 +48,7 @@ class CompanyController extends Controller
         return view('edit-company', ["company" => $company]);
     }
 
-    public function update(Request $request)
+    public function update(EditCompanyRequest $request)
     {
         //update
         $updateCompany = Company::Where('id', $request->id)->firstOrFail();
