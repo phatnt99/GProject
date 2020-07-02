@@ -39,8 +39,6 @@ class UserObserver
     {
         // get avatar information
         $avatar = $user->file;
-        // delete avatar in storage
-        Storage::disk('public')->delete("user/".$avatar->upload_name);
         // delete avatar in DB
         $user->file()->delete();
     }

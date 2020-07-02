@@ -39,8 +39,6 @@ class AdminObserver
     {
         // get avatar information
         $avatar = $admin->file;
-        // delete avatar in storage
-        Storage::disk('public')->delete("admin/".$avatar->upload_name);
         // delete avatar in DB
         $admin->file()->delete();
     }
