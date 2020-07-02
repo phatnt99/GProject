@@ -123,8 +123,8 @@
                         <label class="control-label" for="start_at">Avatar upload</label>
                         <div class="custom-file">
                             <input type="file" class="custom-file-input"
-                                   id="avatar" name="avatar">
-                            <label class="custom-file-label" for="avatar" id="nameAvatar">Choose image</label>
+                                   id="img" name="img">
+                            <label class="custom-file-label" for="img" id="nameAvatar">Choose image</label>
                         </div>
                         <img src="{{$user->file ?url($user->file->path) : null}}" id="imgPrev" width="200" height="200"/>
                     </div>
@@ -182,7 +182,7 @@
             });
 
             //
-            $('#avatar').change(function () {
+            $('#img').change(function () {
                 var img = this.files[0];
                 $('#nameAvatar').text(img.name);
                 var reader = new FileReader();

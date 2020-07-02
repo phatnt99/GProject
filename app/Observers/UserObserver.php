@@ -37,8 +37,6 @@ class UserObserver
      */
     public function deleted(User $user)
     {
-        // get avatar information
-        $avatar = $user->file;
         // delete avatar in DB
         $user->file()->delete();
     }

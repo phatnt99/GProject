@@ -42,6 +42,14 @@ Route::middleware('check.admin')->group(function () {
     Route::get('users/{user}/edit', 'UserController@edit')->name('user.edit');
     Route::put('users/{user}', 'UserController@update')->name('user.update');
     Route::delete('users/{user}', 'UserController@delete')->name('user.delete');
+
+    Route::get('companies', 'CompanyController@index')->name('company');
+    Route::get('companies/search', 'CompanyController@index')->name('company.search');
+    Route::get('companies/create', 'CompanyController@create')->name('company.create');
+    Route::post('companies', 'CompanyController@store')->name('company.store');
+    Route::get('companies/{company}/edit', 'CompanyController@edit')->name('company.edit');
+    Route::put('companies/{company}', 'CompanyController@update')->name('company.update');
+    Route::delete('companies/{company}', 'CompanyController@delete')->name('company.delete');
 });
 
 Route::get('/home', function () {

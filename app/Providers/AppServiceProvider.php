@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Admin;
+use App\Models\Company;
 use App\Models\User;
 use App\Observers\AdminObserver;
+use App\Observers\CompanyObserver;
 use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,5 +32,6 @@ class AppServiceProvider extends ServiceProvider
         //
         User::observe(UserObserver::class);
         Admin::observe(AdminObserver::class);
+        Company::observe(CompanyObserver::class);
     }
 }

@@ -26,11 +26,11 @@ class User extends Auth
     {
         $newAvatar = null;
 
-        if ($request->hasFile('avatar')) {
+        if ($request->hasFile('img')) {
             $newAvatar = File::createNewImage($request, 'user');
         }
 
-        $this->fill($request->all());
+        $this->fill($request->except('img'));
         $this->avatar = $newAvatar ? $newAvatar->id : null;
 
         $this->save();
@@ -39,10 +39,10 @@ class User extends Auth
     public function updateUser($request)
     {
         //detect if user change avatar
-        if ($request->hasFile('avatar')) {
+        if ($request->hasFile('img')) {
             $newAvatar = File::updateImage($request, $this, "user");
 
-            $this->fill($request->all());
+            $this->fill($request->except('img'));
             $this->avatar = $newAvatar->id;
             $this->save();
         } else {

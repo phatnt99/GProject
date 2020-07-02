@@ -21,16 +21,16 @@ class File extends BaseModel
         'additional',
     ];
 
-    public static function createNewImage($request, $guard)
+    public static function createNewImage($request, $auth)
     {
-        $path = $request->file('avatar')->store($guard, 'public');
+        $path = $request->file('img')->store($auth, 'public');
 
         //get information and save to array
         $infoImage = [
-            'name'        => $request->file('avatar')->getClientOriginalName(),
-            'upload_name' => $request->file('avatar')->hashName(),
-            'mime_type'   => $request->file('avatar')->getMimeType(),
-            'size'        => $request->file('avatar')->getSize(),
+            'name'        => $request->file('img')->getClientOriginalName(),
+            'upload_name' => $request->file('img')->hashName(),
+            'mime_type'   => $request->file('img')->getMimeType(),
+            'size'        => $request->file('img')->getSize(),
             'disk'        => 'public',
             'path'        => 'storage/'.$path,
         ];
@@ -38,21 +38,22 @@ class File extends BaseModel
         return File::create($infoImage);
     }
 
-    public static function updateImage($request, $user, $guard)
+    public static function updateImage($request, $user, $auth)
     {
         //delete old avatar
         if ($user->file) {
-            Storage::disk("public")->delete($guard."/".$user->file->upload_name);
+            Storage::disk("public")->delete($auth."/".$user->file->upload_name);
         }
 
         //create new file
-        $path = $request->file('avatar')->store($guard, 'public');
+        $path = $request->file('img')->store($auth, 'public');
         //get information and save to array
         $infoImage = [
-            'name'        => $request->file('avatar')->getClientOriginalName(),
-            'upload_name' => $request->file('avatar')->hashName(),
-            'mime_type'   => $request->file('avatar')->getMimeType(),
-            'size'        => $request->file('avatar')->getSize(),
+            'name'        => $request->file('img')->getClientOriginalName(),
+            'upload_name' => $request->file('img')->hashName(),
+            'mime_type'   => $request->file('img')->getMimeType(),
+            'size'        => $request->file('img')->getSize(),
+            'model_type'  => $request->file('img')->getClientOriginalExtension(),
             'disk'        => 'public',
             'path'        => 'storage/'.$path,
         ];
