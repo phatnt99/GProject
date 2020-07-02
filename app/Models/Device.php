@@ -5,15 +5,47 @@ namespace App\Models;
 class Device extends BaseModel
 {
     //
+    protected $table = 'devices';
+
+    protected $guarded = [];
+
+    //Business logic
+    public function createDevice($request)
+    {
+        $newImage = null;
+
+        if ($request->hasFile('img')) {
+            $newImage = File::createNewImage($request, 'device');
+        }
+
+        $this->fill($request->except('img'));
+        $this->image = $newImage ? $newImage->id : null;
+
+        $this->save();
+    }
+
+    public function updateDevice($request)
+    {
+        //detect if user change image device
+        if ($request->hasFile('img')) {
+            $newImage = File::updateImage($request, $this, 'device');
+
+            $this->fill($request->except('img'));
+            $this->image = $newImage->id;
+            $this->save();
+        } else {
+            $this->update($request->except('img'));
+        }
+    }
 
     public function file()
     {
-        $this->belongsTo(File::class, "image");
+        return $this->belongsTo(File::class, "image");
     }
 
     public function company()
     {
-        $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class, "company_id");
     }
 
     /*

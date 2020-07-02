@@ -50,6 +50,14 @@ Route::middleware('check.admin')->group(function () {
     Route::get('companies/{company}/edit', 'CompanyController@edit')->name('company.edit');
     Route::put('companies/{company}', 'CompanyController@update')->name('company.update');
     Route::delete('companies/{company}', 'CompanyController@delete')->name('company.delete');
+
+    Route::get('devices', 'DeviceController@index')->name('device');
+    Route::get('devices/search', 'DeviceController@index')->name('device.search');
+    Route::get('devices/create', 'DeviceController@create')->name('device.create');
+    Route::post('devices', 'DeviceController@store')->name('device.store');
+    Route::get('devices/{device}/edit', 'DeviceController@edit')->name('device.edit');
+    Route::put('devices/{device}', 'DeviceController@update')->name('device.update');
+    Route::delete('devices/{device}', 'DeviceController@delete')->name('device.delete');
 });
 
 Route::get('/home', function () {

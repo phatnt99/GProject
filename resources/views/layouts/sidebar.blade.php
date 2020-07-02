@@ -51,11 +51,26 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Device Management
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href={{route('device')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List Device</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href={{route('user')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Loan Device</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>

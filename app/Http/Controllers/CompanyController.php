@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EditCompanyRequest;
 use App\Http\Requests\NewCompanyRequest;
-use App\Models\Admin;
 use App\Models\Company;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -23,7 +21,7 @@ class CompanyController extends Controller
         })->when($request->url, function ($query) use ($request) {
             return $query->where('url', 'LIKE', "%".$request->url."%");
         })
-          ->orderBy('updated_at', 'desc')->paginate(5);
+                              ->orderBy('updated_at', 'desc')->paginate(5);
 
         $request->flash();
 
