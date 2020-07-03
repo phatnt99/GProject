@@ -34,7 +34,8 @@
                 </div>
                 <div class="col-6">
                     <button class="btn btn-danger float-right" data-toggle="collapse"
-                            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Filter</button>
+                            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Filter
+                    </button>
                 </div>
             </div>
             <div class="row">
@@ -45,26 +46,31 @@
                                 <h6 class="mb-3 text-bold">User Information</h6>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="text" class="form-control" name="user_code" placeholder="Code" value="{{old("user_code")}}">
+                                        <input type="text" class="form-control" name="user_code" placeholder="Code"
+                                               value="{{old("user_code")}}">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" name="user_name" placeholder="Name" value="{{old("user_name")}}">
+                                        <input type="text" class="form-control" name="user_name" placeholder="Name"
+                                               value="{{old("user_name")}}">
                                     </div>
                                 </div>
                                 <h6 class="mb-3 text-bold">Device Information</h6>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="text" class="form-control" name="device_code" placeholder="Code" value="{{old("device_code")}}">
+                                        <input type="text" class="form-control" name="device_code" placeholder="Code"
+                                               value="{{old("device_code")}}">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" name="device_name" placeholder="Name" value="{{old("device_name")}}">
+                                        <input type="text" class="form-control" name="device_name" placeholder="Name"
+                                               value="{{old("device_name")}}">
                                     </div>
                                 </div>
                                 <h6 class="mb-3 text-bold">Company Information</h6>
                                 <div class="row form-group">
                                     <div class="col">
                                         <select class="form-control" id="company_id" name="company_id">
-                                            <option value="" {{old("company_id") == null ? "selected": null}}>All</option>
+                                            <option value="" {{old("company_id") == null ? "selected": null}}>All
+                                            </option>
                                             @foreach($companies as $company)
                                                 <option value="{{$company->id}}" {{old('company_id') == $company->id ? "selected" : null}}>{{$company->name}}</option>
                                             @endforeach
@@ -88,6 +94,7 @@
                                     <th class="sorting">User</th>
                                     <th class="sorting">Device</th>
                                     <th class="sorting">Company</th>
+                                    <th class="sorting">Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -99,14 +106,31 @@
                                         <td>{{$loanDevice->device->name}}</td>
                                         <td>{{$loanDevice->user->company->name}}</td>
                                         <td>
-                                            <form method="POST" onSubmit="return confirmDelete();" action="{{route("loan-device.delete", $loanDevice)}}">
+                                            @if($loanDevice->is_using)
+                                                <div class="alert alert-info text-center" role="alert">Current</div>
+                                            @else
+                                                <div class="alert alert-dark text-center" role="alert">History</div>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($loanDevice->is_using)
+                                                <form method="POST"
+                                                      action="{{route("loan-device.release", $loanDevice)}}">
+                                                    @csrf
+                                                    @method("PUT")
+                                                    <button type="submit" class="btn btn-success float-right">Release
+                                                    </button>
+                                                </form>
+                                            @endif
+                                            <form method="POST" onSubmit="return confirmDelete();"
+                                                  action="{{route("loan-device.delete", $loanDevice)}}">
                                                 @csrf
                                                 @method("DELETE")
                                                 <button type="submit" class="btn btn-danger">Delete</button>
                                                 <script>
-                                                  function confirmDelete() {
-                                                    return confirm("Xác nhận xóa?");
-                                                  };
+                                                  function confirmDelete () {
+                                                    return confirm('Xác nhận xóa?')
+                                                  }
                                                 </script>
                                             </form>
                                         </td>

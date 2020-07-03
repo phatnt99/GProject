@@ -35,10 +35,10 @@ class DeviceController extends Controller
             return $query->where('price','<=', $request->max_price);
         })->when($request->status != null, function ($query) use ($request) {
             if($request->status == 1) {
-                $query->whereIn('id', UserDevice::all()->pluck('device_id'));
+                $query->whereIn('id', UserDevice::where('is_using', 1)->get()->pluck('device_id'));
             }
             else {
-                $query->whereNotIn('id', UserDevice::all()->pluck('device_id'));
+                $query->whereNotIn('id', UserDevice::where('is_using', 1)->get()->pluck('device_id'));
             }
 
         })

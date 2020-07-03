@@ -61,7 +61,8 @@ class User extends Auth
 
     public function devices()
     {
-        return $this->belongsToMany(Device::class, 'user_device')->using(UserDevice::class);
+        return $this->belongsToMany(Device::class, 'user_device')
+                    ->using(UserDevice::class)->withPivot('is_using');
     }
 
     //Mutators

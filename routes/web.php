@@ -64,6 +64,7 @@ Route::middleware('check.admin')->group(function () {
     Route::get('loan-devices/create', 'LoanDeviceController@create')->name('loan-device.create');
     Route::post('loan-devices', 'LoanDeviceController@store')->name('loan-device.store');
     Route::delete('loan-devices/{loanDevice}', 'LoanDeviceController@delete')->name('loan-device.delete');
+    Route::put('loan-devices/{loanDevice}/release', 'LoanDeviceController@release')->name('loan-device.release');
 });
 
 Route::get('/home', function () {

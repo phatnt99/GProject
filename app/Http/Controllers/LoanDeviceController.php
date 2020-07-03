@@ -22,15 +22,20 @@ class LoanDeviceController extends Controller
         $listCompany = Company::all();
 
         $loanDevices = UserDevice::when($request->user_code, function ($query) use ($request) {
-            return $query->join('users', 'users.id', '=', 'user_device.user_id')->where('users.code', $request->user_code);
+            return $query->join('users', 'users.id', '=', 'user_device.user_id')
+                         ->where('users.code', $request->user_code);
         })->when($request->user_name, function ($query) use ($request) {
-            return $query->join('users', 'users.id', '=', 'user_device.user_id')->where('users.first_name','LIKE',"%".$request->user_name."%");
+            return $query->join('users', 'users.id', '=', 'user_device.user_id')
+                         ->where('users.first_name', 'LIKE', "%".$request->user_name."%");
         })->when($request->device_code, function ($query) use ($request) {
-            return $query->join('devices', 'devices.id', '=', 'user_device.device_id')->where('devices.code', $request->device_code);
+            return $query->join('devices', 'devices.id', '=', 'user_device.device_id')
+                         ->where('devices.code', $request->device_code);
         })->when($request->device_name, function ($query) use ($request) {
-            return $query->join('devices', 'devices.id', '=', 'user_device.device_id')->where('devices.name','LIKE',"%".$request->device_name."%");
+            return $query->join('devices', 'devices.id', '=', 'user_device.device_id')
+                         ->where('devices.name', 'LIKE', "%".$request->device_name."%");
         })->when($request->company_id, function ($query) use ($request) {
-            return $query->join('users', 'users.id', '=', 'user_device.user_id')->where('users.company_id',$request->company_id);
+            return $query->join('users', 'users.id', '=', 'user_device.user_id')
+                         ->where('users.company_id', $request->company_id);
         })->orderBy('user_device.updated_at', 'desc')->paginate(5);
 
         $request->flash();
@@ -62,9 +67,15 @@ class LoanDeviceController extends Controller
     {
         //
         $user = User::where('id', $request->user_id)->first();
-        $user->devices()->attach($request->device_id);
+        $user->devices()->attach($request->device_id, ["is_using" => 1]);
 
-        return redirect()->back()->with(["success" => ["user" => $user->name, "device" => Device::where('id', $request->device_id)->first()->name]]);
+        return redirect()->back()->with([
+            "success" => [
+                "user" => $user->name,
+                "device" => Device::where('id', $request->device_id)
+                                  ->first()->name,
+            ],
+        ]);
     }
 
     /**
@@ -79,6 +90,13 @@ class LoanDeviceController extends Controller
         $user = $loanDevice->user;
         $user->devices()->detach($loanDevice->device->id);
 
+        return redirect()->back();
+    }
+
+    public function release(UserDevice $loanDevice)
+    {
+        $user = $loanDevice->user;
+        $user->devices()->updateExistingPivot($loanDevice->device->id, ['is_using' => 0]);
         return redirect()->back();
     }
 }
