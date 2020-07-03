@@ -38,7 +38,7 @@ class NewUserRequest extends FormRequest
             "password" => "required",
             "start_at" => "required",
             "code"     => "required",
-            "birthday" => "date_format:d/m/Y|before:today",
+            "birthday" => "nullable|before:today",
         ];
     }
 

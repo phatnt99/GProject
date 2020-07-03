@@ -38,7 +38,7 @@ class EditAdminRequest extends FormRequest
                 },
             ],
             "email"    => "required|unique:admins,email,".$this->admin,
-            "birthday" => "date_format:d/m/Y|before:today",
+            "birthday" => "nullable|date_format:d/m/Y|before:today",
         ];
     }
 

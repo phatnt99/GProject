@@ -48,12 +48,21 @@ class Device extends BaseModel
         return $this->belongsTo(Company::class, "company_id");
     }
 
-    /*
- * For soft-delete, we cant use pivot, so treat UserDevice as actual Eloquent and using
- * one-to-many in Device.
- */
-    public function userDevices()
+    public function users()
     {
-        return $this->hasMany(UserDevice::class);
+        return $this->belongsToMany(User::class, 'user_device')->using(UserDevice::class);
+    }
+
+    //Accessors
+    public function getStatusAttribute()
+    {
+        //get all related user with this device
+        $allRelatedUser = $this->users;
+        foreach ($allRelatedUser as $user) {
+            if($user->pivot != null)
+                return 1; //this user is using this device, so it now has status 1
+        }
+
+        return 0; //not find any user use this device at time so it has status 0
     }
 }

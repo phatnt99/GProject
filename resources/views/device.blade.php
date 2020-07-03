@@ -34,7 +34,8 @@
                 </div>
                 <div class="col-6">
                     <button class="btn btn-danger float-right" data-toggle="collapse"
-                            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Filter</button>
+                            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Filter
+                    </button>
                 </div>
             </div>
             <div class="row">
@@ -45,16 +46,19 @@
                                 <h6 class="mb-3 text-bold">Device Information</h6>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="text" class="form-control" name="code" placeholder="Code" value="{{old("code")}}">
+                                        <input type="text" class="form-control" name="code" placeholder="Code"
+                                               value="{{old("code")}}">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" name="name" placeholder="Name" value="{{old("name")}}">
+                                        <input type="text" class="form-control" name="name" placeholder="Name"
+                                               value="{{old("name")}}">
                                     </div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col">
                                         <select class="form-control" id="company_id" name="company_id">
-                                            <option value="" {{old("company_id") == null ? "selected": null}}>All</option>
+                                            <option value="" {{old("company_id") == null ? "selected": null}}>All
+                                            </option>
                                             @foreach($companies as $company)
                                                 <option value="{{$company->id}}" {{old('company_id') == $company->id ? "selected" : null}}>{{$company->name}}</option>
                                             @endforeach
@@ -63,10 +67,12 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="number" class="form-control" name="min_price" placeholder="Min price" value="{{old("min_price")}}">
+                                        <input type="number" class="form-control" name="min_price"
+                                               placeholder="Min price" value="{{old("min_price")}}">
                                     </div>
                                     <div class="col">
-                                        <input type="number" class="form-control" name="max_price" placeholder="Max price" value="{{old("max_price")}}">
+                                        <input type="number" class="form-control" name="max_price"
+                                               placeholder="Max price" value="{{old("max_price")}}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -88,6 +94,7 @@
                                     <th class="sorting">Price</th>
                                     <th class="sorting">Company</th>
                                     <th class="sorting">Image</th>
+                                    <th class="sorting">Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -99,27 +106,37 @@
                                         <td>{{$device->code}}</td>
                                         <td>{{$device->price}}</td>
                                         <td>{{$device->company ? $device->company->name : null}}</td>
-                                        <td><img width="70px" height="70px" src="{{$device->file ?url($device->file->path) : null}}"/></td>
-                                        <th>
+                                        <td><img width="70px" height="70px"
+                                                 src="{{$device->file ?url($device->file->path) : null}}"/></td>
+                                        <td>
+                                            @if($device->status)
+                                                <div class="alert alert-danger text-center" role="alert">using</div>
+                                            @else
+                                                <div class="alert alert-success text-center" role="alert">available</div>
+                                            @endif
+                                        </td>
+                                        <td>
                                             <button class="btn btn-secondary dropdown-toggle" type="button"
                                                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                                     aria-expanded="false">
                                                 More
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="{{route("device.edit", $device)}}">Edit</a>
-                                                <form method="POST" onSubmit="return confirmDelete();" action="{{route("device.delete", $device)}}">
+                                                <a class="dropdown-item"
+                                                   href="{{route("device.edit", $device)}}">Edit</a>
+                                                <form method="POST" onSubmit="return confirmDelete();"
+                                                      action="{{route("device.delete", $device)}}">
                                                     @csrf
                                                     @method("DELETE")
                                                     <button type="submit" class="dropdown-item">Delete</button>
                                                     <script>
-                                                      function confirmDelete() {
-                                                        return confirm("Xác nhận xóa?");
-                                                      };
+                                                      function confirmDelete () {
+                                                        return confirm('Xác nhận xóa?')
+                                                      }
                                                     </script>
                                                 </form>
                                             </div>
-                                        </th>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

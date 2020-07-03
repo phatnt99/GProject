@@ -25,7 +25,7 @@ class EditDeviceRequest extends FormRequest
     {
         return [
             //
-            "code" => "required|unique:devices,code",
+            "code" => "required|unique:devices,code," .$this->device,
         ];
     }
 

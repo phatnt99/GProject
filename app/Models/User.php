@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\CrudEvent;
-use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -61,13 +59,9 @@ class User extends Auth
         return $this->belongsTo(Company::class, "company_id", "id");
     }
 
-    /*
-     * For soft-delete, we cant use pivot, so treat UserDevice as actual Eloquent and using
-     * one-to-many in User.
-     */
-    public function userDevices()
+    public function devices()
     {
-        return $this->hasMany(UserDevice::class);
+        return $this->belongsToMany(Device::class, 'user_device')->using(UserDevice::class);
     }
 
     //Mutators

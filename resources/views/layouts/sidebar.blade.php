@@ -65,7 +65,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href={{route('user')}} class="nav-link">
+                            <a href={{route('loan-device')}} class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Loan Device</p>
                             </a>

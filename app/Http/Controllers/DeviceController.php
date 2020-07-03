@@ -67,23 +67,12 @@ class DeviceController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Device $device
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Device $device)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param \App\Models\Device $device
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(EditDeviceRequest $device)
+    public function edit(Device $device)
     {
         //
         $listCompany = Company::all();
@@ -98,7 +87,7 @@ class DeviceController extends Controller
      * @param \App\Models\Device $device
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request)
+    public function update(EditDeviceRequest $request)
     {
         //update
         $updateDevice = Device::Where('id', $request->id)->firstOrFail();

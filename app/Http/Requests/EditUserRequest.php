@@ -28,7 +28,7 @@ class EditUserRequest extends FormRequest
         return [
             "login_id" => [
                 "required",
-                function ($value, $attribute, $fail) {
+                function ($value, $attribute , $fail) {
                     if ($value != User::where('id', $this->user)->first()) { //if change login_id
                         if (User::where('login_id', $value)->count() > 0 || Admin::where('login_id', $value)
                                                                                  ->count() > 0) {
@@ -38,7 +38,7 @@ class EditUserRequest extends FormRequest
                 },
             ],
             "email"    => "required|unique:users,email,".$this->user,
-            "birthday" => "date_format:d/m/Y|before:today",
+            "birthday" => "nullable|date_format:d/m/Y|before:today",
             "start_at" => "required",
             "end_at"   => "nullable|after:start_at",
             "code"     => "required",

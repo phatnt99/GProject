@@ -19,13 +19,12 @@ class CreateUserDeviceTable extends Migration
             $table->foreign("user_id")->references("id")->on("users");
             $table->uuid("device_id");
             $table->foreign("device_id")->references("id")->on("devices");
-            $table->boolean("is_using")->default(false);
             $table->string("created_by")->nullable();
             $table->string("updated_by")->nullable();
             $table->string("deleted_by")->nullable();
             $table->unsignedBigInteger("created_at")->nullable();
             $table->unsignedBigInteger("updated_at")->nullable();
-            $table->unsignedBigInteger("deleted_at")->nullable(); // deleted_at
+            $table->unsignedBigInteger("deleted_at")->nullable();
         });
     }
 

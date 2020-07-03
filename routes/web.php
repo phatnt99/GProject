@@ -58,9 +58,22 @@ Route::middleware('check.admin')->group(function () {
     Route::get('devices/{device}/edit', 'DeviceController@edit')->name('device.edit');
     Route::put('devices/{device}', 'DeviceController@update')->name('device.update');
     Route::delete('devices/{device}', 'DeviceController@delete')->name('device.delete');
+
+    Route::get('loan-devices','LoanDeviceController@index')->name('loan-device');
+    Route::get('loan-devices/search', 'LoanDeviceController@index')->name('loan-device.search');
+    Route::get('loan-devices/create', 'LoanDeviceController@create')->name('loan-device.create');
+    Route::post('loan-devices', 'LoanDeviceController@store')->name('loan-device.store');
+    Route::delete('loan-devices/{loanDevice}', 'LoanDeviceController@delete')->name('loan-device.delete');
 });
 
 Route::get('/home', function () {
     //dd(\Carbon\Carbon::parse(1593021725));
     //dd(\App\Models\User::whereYear('birthday', '==', ''))
+    //$test = \App\Models\Device::all()->first();
+    //return $test->users->map(function($val) {
+    //    dd($val->pivot);
+    //});
+
+    $test = \App\Models\Device::where('id', '92e28603-2ba1-4fad-91e4-e6233d84b77c')->first();
+    return $test->users;
 });

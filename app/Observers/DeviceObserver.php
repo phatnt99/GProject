@@ -38,6 +38,8 @@ class DeviceObserver
     {
         // delete image in DB
         $device->file()->delete();
+        //delete all user_device related
+        $device->users()->detach();
     }
 
     /**

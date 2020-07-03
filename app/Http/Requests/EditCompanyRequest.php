@@ -26,7 +26,7 @@ class EditCompanyRequest extends FormRequest
         return [
             //
             'name' => 'required',
-            'email' =>'required|unique:companies,email'
+            'email' =>'required|unique:companies,email,' . $this->company
         ];
     }
 
