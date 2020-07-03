@@ -6,6 +6,7 @@ use App\Http\Requests\EditDeviceRequest;
 use App\Http\Requests\NewDeviceRequest;
 use App\Models\Company;
 use App\Models\Device;
+use App\Models\UserDevice;
 use Illuminate\Http\Request;
 
 class DeviceController extends Controller
@@ -32,8 +33,16 @@ class DeviceController extends Controller
             return $query->where('price','>=', $request->min_price);
         })->when($request->max_price, function ($query) use ($request) {
             return $query->where('price','<=', $request->max_price);
+        })->when($request->status != null, function ($query) use ($request) {
+            if($request->status == 1) {
+                $query->whereIn('id', UserDevice::all()->pluck('device_id'));
+            }
+            else {
+                $query->whereNotIn('id', UserDevice::all()->pluck('device_id'));
+            }
+
         })
-                            ->orderBy('updated_at', 'desc')->paginate(5);
+                            ->orderBy('devices.updated_at', 'desc')->paginate(5);
 
         $request->flash();
 
