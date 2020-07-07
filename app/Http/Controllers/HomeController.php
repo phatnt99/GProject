@@ -32,9 +32,9 @@ class HomeController extends Controller
     public function profile()
     {
         if (Auth::guard('admin')->check()) {
-            return view('profile', ["auth" => Auth::guard('admin')->user()]);
+            return view('profile', ["auth" => Auth::guard('admin')->user(), "isAdmin" => true]);
         } else {
-            return view('profile', ["auth" => Auth::guard('user')->user()]);
+            return view('profile', ["auth" => Auth::guard('user')->user(),  "isAdmin" => false]);
         }
     }
 

@@ -57,7 +57,7 @@
                 <div class="col-lg-9">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="m-0">Information</h5>
+                            <h5 class="m-0">Personal Information</h5>
                         </div>
                         <div class="card-body">
                             <form style="padding-bottom: 1rem" method="POST" action="{{route('profile.update')}}"
@@ -130,6 +130,31 @@
                         </div>
 
                     </div>
+                    @if($isAdmin == false)
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="m-0">Company Information</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="code">Code</label>
+                                    <input type="text" class="form-control" id="code" name="code"
+                                           value="{{$auth->code}}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="position">Position</label>
+                                    <input type="text" class="form-control" id="position" name="position"
+                                           value="{{$auth->position}}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="start_at">Start at</label>
+                                    <input type="text" class="form-control" id="start_at" name="start_at"
+                                           value="{{$auth->start_at}}" readonly>
+                                </div>
+                            </div>
+                            <div class="card-footer">These fields can't be changed</div>
+                        </div>
+                    @endif
                 </div>
                 <!-- /.col-md-6 -->
             </div>
