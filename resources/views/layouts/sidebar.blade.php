@@ -82,17 +82,32 @@
                      with font-awesome or any other icon font library -->
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Company Mangement
+                            Company
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href={{route('company.show')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Information</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href={{route('company.employees')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List of employee</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Device Management
+                            Loan device
                         </p>
                     </a>
                 </li>

@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth:user,admin');
+
+//Home Routes
 Route::middleware('auth:user,admin')->group(function() {
     Route::get('/profile','HomeController@profile');
     Route::put('/profile', 'HomeController@updateProfile')->name('profile.update');
@@ -30,6 +32,7 @@ Route::namespace('Auth')->group(function () {
     Route::post('password/reset', 'ResetPasswordController@reset')->name('password.update');
 });
 
+//Admin dashboard Routes
 Route::middleware('check.admin')->group(function () {
     Route::get('admins', 'AdminController@index')->name('admin');
     Route::get('admins/search', 'AdminController@index')->name('admin.search');
@@ -69,6 +72,13 @@ Route::middleware('check.admin')->group(function () {
     Route::post('loan-devices', 'LoanDeviceController@store')->name('loan-device.store');
     Route::delete('loan-devices/{loanDevice}', 'LoanDeviceController@delete')->name('loan-device.delete');
     Route::put('loan-devices/{loanDevice}/release', 'LoanDeviceController@release')->name('loan-device.release');
+});
+
+//User dashboard Routes
+Route::middleware('auth:user')->group(function () {
+    Route::get('/company','CompanyController@show')->name('company.show');
+    Route::get('/company/employees','CompanyController@showListEmployee')->name('company.employees');
+    Route::get('/company/employees/search','CompanyController@showListEmployee')->name('company.employees.search');
 });
 
 Route::get('/home', function () {

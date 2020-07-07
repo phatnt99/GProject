@@ -32,9 +32,9 @@ class HomeController extends Controller
     public function profile()
     {
         if (Auth::guard('admin')->check()) {
-            return view('profile', ["admin" => Auth::guard('admin')->user()]);
+            return view('profile', ["auth" => Auth::guard('admin')->user()]);
         } else {
-            return view('profile', ["user" => Auth::guard('user')->user()]);
+            return view('profile', ["auth" => Auth::guard('user')->user()]);
         }
     }
 
@@ -43,7 +43,8 @@ class HomeController extends Controller
             Auth::guard('admin')->user()->updateAdmin($request);
             return back()->with(['success' => 'Update profile successfully!']);
         } else {
-
+            Auth::guard('user')->user()->updateUser($request);
+            return back()->with(['success' => 'Update profile successfully!']);
         }
     }
 }
