@@ -113,26 +113,28 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if($loanDevice->is_using)
-                                                <form method="POST"
-                                                      action="{{route("loan-device.release", $loanDevice)}}">
+                                            <div class="row">
+                                                <form method="POST" onSubmit="return confirmDelete();"
+                                                      action="{{route("loan-device.delete", $loanDevice)}}">
                                                     @csrf
-                                                    @method("PUT")
-                                                    <button type="submit" class="btn btn-success float-right">Release
-                                                    </button>
+                                                    @method("DELETE")
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                    <script>
+                                                      function confirmDelete () {
+                                                        return confirm('Xác nhận xóa?')
+                                                      }
+                                                    </script>
                                                 </form>
-                                            @endif
-                                            <form method="POST" onSubmit="return confirmDelete();"
-                                                  action="{{route("loan-device.delete", $loanDevice)}}">
-                                                @csrf
-                                                @method("DELETE")
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                                <script>
-                                                  function confirmDelete () {
-                                                    return confirm('Xác nhận xóa?')
-                                                  }
-                                                </script>
-                                            </form>
+                                                @if($loanDevice->is_using)
+                                                    <form method="POST"
+                                                          action="{{route("loan-device.release", $loanDevice)}}">
+                                                        @csrf
+                                                        @method("PUT")
+                                                        <button type="submit" class="btn btn-success">Return
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

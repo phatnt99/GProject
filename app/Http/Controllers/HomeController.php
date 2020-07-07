@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,7 @@ class HomeController extends Controller
         }
     }
 
-    public function updateProfile(Request $request) {
+    public function updateProfile(ProfileRequest $request) {
         if (Auth::guard('admin')->check()) {
             Auth::guard('admin')->user()->updateAdmin($request);
             return back()->with(['success' => 'Update profile successfully!']);
