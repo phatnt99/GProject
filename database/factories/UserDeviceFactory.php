@@ -10,6 +10,5 @@ $factory->define(UserDevice::class, function (Faker $faker) {
         //
         "user_id" => App\Models\User::all()->random()->id,
         "device_id" => App\Models\Device::all()->random()->id,
-        "is_using" => $faker->boolean()
     ];
 });

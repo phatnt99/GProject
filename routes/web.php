@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth:user,admin');
+Route::middleware('auth:user,admin')->group(function() {
+    Route::get('/profile','HomeController@profile');
+    Route::put('/profile', 'HomeController@updateProfile')->name('profile.update');
+});
 
 //Authentication Routes
 Route::namespace('Auth')->group(function () {
@@ -42,9 +46,39 @@ Route::middleware('check.admin')->group(function () {
     Route::get('users/{user}/edit', 'UserController@edit')->name('user.edit');
     Route::put('users/{user}', 'UserController@update')->name('user.update');
     Route::delete('users/{user}', 'UserController@delete')->name('user.delete');
+
+    Route::get('companies', 'CompanyController@index')->name('company');
+    Route::get('companies/search', 'CompanyController@index')->name('company.search');
+    Route::get('companies/create', 'CompanyController@create')->name('company.create');
+    Route::post('companies', 'CompanyController@store')->name('company.store');
+    Route::get('companies/{company}/edit', 'CompanyController@edit')->name('company.edit');
+    Route::put('companies/{company}', 'CompanyController@update')->name('company.update');
+    Route::delete('companies/{company}', 'CompanyController@delete')->name('company.delete');
+
+    Route::get('devices', 'DeviceController@index')->name('device');
+    Route::get('devices/search', 'DeviceController@index')->name('device.search');
+    Route::get('devices/create', 'DeviceController@create')->name('device.create');
+    Route::post('devices', 'DeviceController@store')->name('device.store');
+    Route::get('devices/{device}/edit', 'DeviceController@edit')->name('device.edit');
+    Route::put('devices/{device}', 'DeviceController@update')->name('device.update');
+    Route::delete('devices/{device}', 'DeviceController@delete')->name('device.delete');
+
+    Route::get('loan-devices','LoanDeviceController@index')->name('loan-device');
+    Route::get('loan-devices/search', 'LoanDeviceController@index')->name('loan-device.search');
+    Route::get('loan-devices/create', 'LoanDeviceController@create')->name('loan-device.create');
+    Route::post('loan-devices', 'LoanDeviceController@store')->name('loan-device.store');
+    Route::delete('loan-devices/{loanDevice}', 'LoanDeviceController@delete')->name('loan-device.delete');
+    Route::put('loan-devices/{loanDevice}/release', 'LoanDeviceController@release')->name('loan-device.release');
 });
 
 Route::get('/home', function () {
     //dd(\Carbon\Carbon::parse(1593021725));
     //dd(\App\Models\User::whereYear('birthday', '==', ''))
+    //$test = \App\Models\Device::all()->first();
+    //return $test->users->map(function($val) {
+    //    dd($val->pivot);
+    //});
+
+    $test = \App\Models\Device::where('id', '92e28603-2ba1-4fad-91e4-e6233d84b77c')->first();
+    return $test->users;
 });

@@ -3,11 +3,12 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-            <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            <img src="{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->file->path : Auth::guard('user')->user()->file->path }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-            <a href="#"
-               class="d-block">{{ Auth::guard('admin')->user()->name ?? Auth::guard('user')->user()->name }}</a>
+            <a href="{{url('/profile')}}"
+               class="d-block">{{ Auth::guard('admin')->user()->name ?? Auth::guard('user')->user()->name }}
+            </a>
         </div>
     </div>
     <!-- Sidebar Menu -->
@@ -42,7 +43,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{route('company')}}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
                             Company Mangement
@@ -51,11 +52,26 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Device Management
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href={{route('device')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List Device</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href={{route('loan-device')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Loan Device</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
@@ -82,7 +98,7 @@
                 </li>
             </ul>
         </nav>
-    @endif
+@endif
 <!-- /.sidebar-menu -->
 </div>
 <!-- /.sidebar -->

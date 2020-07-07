@@ -37,8 +37,6 @@ class AdminObserver
      */
     public function deleted(Admin $admin)
     {
-        // get avatar information
-        $avatar = $admin->file;
         // delete avatar in DB
         $admin->file()->delete();
     }

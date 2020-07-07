@@ -37,10 +37,10 @@ class UserObserver
      */
     public function deleted(User $user)
     {
-        // get avatar information
-        $avatar = $user->file;
         // delete avatar in DB
         $user->file()->delete();
+        //delete all user_device related
+        $user->devices()->detach();
     }
 
     /**

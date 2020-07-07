@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileRequest;
+use App\Models\Admin;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 class HomeController extends Controller
 {
     /**
@@ -22,5 +27,23 @@ class HomeController extends Controller
     public function index()
     {
         return view('content');
+    }
+
+    public function profile()
+    {
+        if (Auth::guard('admin')->check()) {
+            return view('profile', ["admin" => Auth::guard('admin')->user()]);
+        } else {
+            return view('profile', ["user" => Auth::guard('user')->user()]);
+        }
+    }
+
+    public function updateProfile(ProfileRequest $request) {
+        if (Auth::guard('admin')->check()) {
+            Auth::guard('admin')->user()->updateAdmin($request);
+            return back()->with(['success' => 'Update profile successfully!']);
+        } else {
+
+        }
     }
 }

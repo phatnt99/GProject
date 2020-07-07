@@ -20,11 +20,11 @@ class Admin extends Auth
     {
         $newAvatar = null;
 
-        if ($request->hasFile('avatar')) {
+        if ($request->hasFile('img')) {
             $newAvatar = File::createNewImage($request, 'admin');
         }
 
-        $this->fill($request->all());
+        $this->fill($request->except('img'));
         $this->avatar = $newAvatar ? $newAvatar->id : null;
 
         $this->save();
@@ -33,10 +33,10 @@ class Admin extends Auth
     public function updateAdmin($request)
     {
         //detect if user change avatar
-        if ($request->hasFile('avatar')) {
+        if ($request->hasFile('img')) {
             $newAvatar = File::updateImage($request, $this, "admin");
 
-            $this->fill($request->all());
+            $this->fill($request->except('img'));
             $this->avatar = $newAvatar->id;
             $this->save();
         } else {
