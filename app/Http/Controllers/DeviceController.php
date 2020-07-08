@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Device;
 use App\Models\UserDevice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DeviceController extends Controller
 {
@@ -30,17 +31,15 @@ class DeviceController extends Controller
         })->when($request->code, function ($query) use ($request) {
             return $query->where('company_id', $request->code);
         })->when($request->min_price, function ($query) use ($request) {
-            return $query->where('price','>=', $request->min_price);
+            return $query->where('price', '>=', $request->min_price);
         })->when($request->max_price, function ($query) use ($request) {
-            return $query->where('price','<=', $request->max_price);
+            return $query->where('price', '<=', $request->max_price);
         })->when($request->status != null, function ($query) use ($request) {
-            if($request->status == 1) {
+            if ($request->status == 1) {
                 $query->whereIn('id', UserDevice::where('is_using', 1)->get()->pluck('device_id'));
-            }
-            else {
+            } else {
                 $query->whereNotIn('id', UserDevice::where('is_using', 1)->get()->pluck('device_id'));
             }
-
         })
                             ->orderBy('devices.updated_at', 'desc')->paginate(5);
 
@@ -116,5 +115,10 @@ class DeviceController extends Controller
         $device->delete();
 
         return redirect()->back();
+    }
+
+    public function releaseLoanForUSer(Request $request)
+    {
+
     }
 }

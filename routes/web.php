@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -76,9 +77,12 @@ Route::middleware('check.admin')->group(function () {
 
 //User dashboard Routes
 Route::middleware('auth:user')->group(function () {
-    Route::get('/company','CompanyController@show')->name('company.show');
-    Route::get('/company/employees','CompanyController@showListEmployee')->name('company.employees');
-    Route::get('/company/employees/search','CompanyController@showListEmployee')->name('company.employees.search');
+    Route::get('/company','UserDashboardController@showCompanyInformation')->name('user-dashboard.company');
+    Route::get('/company/employees','UserDashboardController@showListEmployee')->name('user-dashboard.company.employees');
+    Route::get('/company/employees/search','UserDashboardController@showListEmployee')->name('user-dashboard.company.employees.search');
+    Route::get('/loan-device','UserDashboardController@showDeviceForUserLoan')->name('user-dashboard.loan-device');
+    Route::post('/loan-device','UserDashboardController@createLoanForUser')->name('user-dashboard.loan-device.create');
+    Route::get('/loan-device/history','UserDashboardController@showLoanDeviceHistory')->name('user-dashboard.loan-device.history');
 });
 
 Route::get('/home', function () {
@@ -89,6 +93,6 @@ Route::get('/home', function () {
     //    dd($val->pivot);
     //});
 
-    $test = \App\Models\Device::where('id', '92e28603-2ba1-4fad-91e4-e6233d84b77c')->first();
-    return $test->users;
+    //$test = \App\Models\Device::where('id', '92e28603-2ba1-4fad-91e4-e6233d84b77c')->first();
+    return Auth::guard('user')->user();
 });

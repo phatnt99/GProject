@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NewLoanRequest;
+use App\Models\Auth;
 use App\Models\Company;
 use App\Models\Device;
 use App\Models\User;
@@ -98,5 +99,10 @@ class LoanDeviceController extends Controller
         $user = $loanDevice->user;
         $user->devices()->updateExistingPivot($loanDevice->device->id, ['is_using' => 0]);
         return redirect()->back();
+    }
+
+    public function loanDeviceForUser() {
+        $listDevice = Auth::guard('user')->user()->company()->devices()->paginate(5);
+        return $listDevice;
     }
 }

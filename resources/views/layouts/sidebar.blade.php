@@ -90,13 +90,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href={{route('company.show')}} class="nav-link">
+                            <a href={{route('user-dashboard.company')}} class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Information</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href={{route('company.employees')}} class="nav-link">
+                            <a href={{route('user-dashboard.company.employees')}} class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>List of employee</p>
                             </a>
@@ -105,11 +105,26 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Loan device
+                            Device
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href={{route('user-dashboard.loan-device')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Loan Device</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href={{route('user-dashboard.loan-device.history')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Loan History</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>

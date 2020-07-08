@@ -48,4 +48,9 @@ class Company extends BaseModel
     {
         return $this->hasMany(User::class);
     }
+
+    public function devices()
+    {
+        return $this->hasMany(Device::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Auth;
 use App\Models\Device;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
@@ -31,8 +32,8 @@ class NewLoanRequest extends FormRequest
             "device_id" => [
                 "required",
                 function ($attribute, $value, $fail) {
-
-                    $userId = $this->user_id;
+                    //reuse in case user is actor who borrow
+                    $userId = $this->user_id ?? Auth::guard('user')->user()->id;
                     $userCompany = User::where('id', $userId)->first()->company_id;
                     $deviceCompany = Device::where('id', $value)->first()->company_id;
                     if ($userCompany != $deviceCompany) {

@@ -12,12 +12,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>List Employee</h1>
+                    <h1>Loan History</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">List employee</li>
+                        <li class="breadcrumb-item active">Loan History</li>
                     </ol>
                 </div>
             </div>
@@ -27,47 +27,55 @@
     <!-- Main content -->
     <section class="content">
         <div class="container">
+            @if(Session::has('success'))
+                <div class="col-6">
+                    <div class="alert alert-success" role="alert">
+                        <span>Borrow device <b>#{{Session::get('success')}}</b> successfully!</span>
+                    </div>
+                </div>
+            @endif
             <div class="row" style="margin-bottom: 1rem">
                 <div class="col-6"></div>
                 <div class="col-6">
                     <button class="btn btn-danger float-right" data-toggle="collapse"
-                            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Filter</button>
+                            data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Filter
+                    </button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body collapse" id="collapseExample">
-                            <form name="filter" action="{{route("user-dashboard.company.employees.search")}}" method="GET">
-                                <h6 class="mb-3 text-bold">Account</h6>
+                            <form name="filter" action="{{route("device.search")}}" method="GET">
+                                <h6 class="mb-3 text-bold">Device Information</h6>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="text" class="form-control" name="login_id" placeholder="Login ID" value="{{old("login_id")}}">
+                                        <input type="text" class="form-control" name="code" placeholder="Code"
+                                               value="{{old("code")}}">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" name="email" placeholder="Email" value="{{old("email")}}">
+                                        <input type="text" class="form-control" name="name" placeholder="Name"
+                                               value="{{old("name")}}">
                                     </div>
                                 </div>
-                                <h6 class="mb-3 text-bold">Personal Information</h6>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="text" class="form-control" name="first_name" placeholder="First name" value="{{old("first_name")}}">
+                                        <input type="number" class="form-control" name="min_price"
+                                               placeholder="Min price" value="{{old("min_price")}}">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" name="last_name" placeholder="Last name" value="{{old("last_name")}}">
+                                        <input type="number" class="form-control" name="max_price"
+                                               placeholder="Max price" value="{{old("max_price")}}">
                                     </div>
+                                </div>
+                                <div class="row form-group">
                                     <div class="col">
-                                        <input class="form-control" id="age" name="age" type="text"
-                                               placeholder="Age" value="{{old("age")}}"/>
-                                    </div>
-                                    <div class="col">
-                                        <input type="text" class="form-control" name="address" placeholder="Address" value="{{old("address")}}">
-                                    </div>
-                                    <div class="col">
-                                        <select class="form-control" id="gender" name="gender">
-                                            <option value="" {{old("gender") === null ? "selected": null}}>All</option>
-                                            <option value=0 {{old("gender") === "0" ? "selected": null}}>Male</option>
-                                            <option value=1 {{old("gender") === "1" ? "selected": null}}>Female</option>
+                                        <select class="form-control" id="status" name="status">
+                                            <option value="" {{old('status') === null ? "selected": null}}>All</option>
+                                            <option value="1" {{old('status') === "1" ? "selected" : null}}>using
+                                            </option>
+                                            <option value="0" {{old('status') === "0" ? "selected" : null}}>available
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="col">
@@ -85,30 +93,25 @@
                                 <thead>
                                 <tr>
                                     <th class="sorting">STT</th>
-                                    <th class="sorting">Login ID</th>
-                                    <th class="sorting">Avatar</th>
-                                    <th class="sorting">First Name</th>
-                                    <th class="sorting">Last Name</th>
-                                    <th class="sorting">Email</th>
-                                    <th class="sorting">Gender</th>
-                                    <th class="sorting">Birthday</th>
-                                    <th class="sorting">Address</th>
-                                    <th class="sorting">Position</th>
+                                    <th class="sorting">Name</th>
+                                    <th class="sorting">Code</th>
+                                    <th class="sorting">Price</th>
+                                    <th class="sorting">Image</th>
+                                    <th class="sorting">Loan date</th>
+                                    <th class="sorting">Return date</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($users as $user)
-                                    <tr id="{{$user->id}}">
+                                @foreach($devices as $device)
+                                    <tr id="{{$device->id}}">
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$user->login_id}}</td>
-                                        <td><img width="70px" height="70px" src="{{$user->file ?url($user->file->path) : null}}"/></td>
-                                        <td>{{$user->first_name}}</td>
-                                        <td>{{$user->last_name}}</td>
-                                        <td>{{$user->email}}</td>
-                                        <td>{{$user->gender}}</td>
-                                        <td>{{$user->birthday}}</td>
-                                        <td>{{$user->address}}</td>
-                                        <td>{{$user->position}}</td>
+                                        <td>{{$device->name}}</td>
+                                        <td>{{$device->code}}</td>
+                                        <td>{{$device->price}}</td>
+                                        <td><img width="70px" height="70px"
+                                                 src="{{$device->file ?url($device->file->path) : null}}"/></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -117,7 +120,7 @@
                             </table>
                         </div>
                     </div>
-                    {{$users->links()}}
+                    {{$devices->appends(request()->input())->links()}}
                 </div>
                 <!-- /.col -->
             </div>
