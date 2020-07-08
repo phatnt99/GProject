@@ -54,17 +54,18 @@ class Device extends BaseModel
                     ->using(UserDevice::class)->withPivot('is_using');;
     }
 
+    public function userDevices()
+    {
+        return $this->hasMany(UserDevice::class);
+    }
+
     //Accessors
     public function getStatusAttribute()
     {
-        //get all related user with this device
-        $allRelatedUser = $this->users;
-        foreach ($allRelatedUser as $user) {
-            if ($user->pivot->is_using) {
-                return 1;
-            } //this user is using this device, so it now has status 1
+        if (UserDevice::where('device_id', $this->id)->where('is_using', 1)->first() != null) {
+            return 1;
         }
 
-        return 0; //not find any user use this device at time so it has status 0
+        return 0;
     }
 }

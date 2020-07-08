@@ -66,19 +66,26 @@
                                     </div>
                                 </div>
                                 <h6 class="mb-3 text-bold">Company Information</h6>
-                                <div class="row form-group">
-                                    <div class="col">
-                                        <select class="form-control" id="company_id" name="company_id">
-                                            <option value="" {{old("company_id") == null ? "selected": null}}>All
-                                            </option>
-                                            @foreach($companies as $company)
-                                                <option value="{{$company->id}}" {{old('company_id') == $company->id ? "selected" : null}}>{{$company->name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col">
-                                        <button type="submit" class="btn btn-primary float-right">Search</button>
-                                    </div>
+                                <div class="form-group">
+                                    <select class="form-control" id="company_id" name="company_id">
+                                        <option value="" {{old("company_id") == null ? "selected": null}}>All
+                                        </option>
+                                        @foreach($companies as $company)
+                                            <option value="{{$company->id}}" {{old('company_id') == $company->id ? "selected" : null}}>{{$company->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <h6 class="mb-3 text-bold">Status</h6>
+                                <div class="form-group">
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="" {{old("status") == null ? "selected": null}}>All
+                                        </option>
+                                        <option value="1" {{old('status') == '1' ? "selected" : null}}>Using</option>
+                                        <option value="0" {{old('status') == '0' ? "selected" : null}}>Returned</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary float-right">Search</button>
                                 </div>
                             </form>
                         </div>
@@ -95,6 +102,8 @@
                                     <th class="sorting">Device</th>
                                     <th class="sorting">Company</th>
                                     <th class="sorting">Status</th>
+                                    <th class="sorting">Loan date</th>
+                                    <th class="sorting">Return date</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -107,11 +116,13 @@
                                         <td>{{$loanDevice->user->company->name}}</td>
                                         <td>
                                             @if($loanDevice->is_using)
-                                                <div class="alert alert-info text-center" role="alert">Current</div>
+                                                <div class="alert alert-info text-center" role="alert">Using</div>
                                             @else
-                                                <div class="alert alert-dark text-center" role="alert">History</div>
+                                                <div class="alert alert-dark text-center" role="alert">Returned</div>
                                             @endif
                                         </td>
+                                        <td>{{$loanDevice->loan_date}}</td>
+                                        <td>{{$loanDevice->return_date}}</td>
                                         <td>
                                             <div class="row">
                                                 <form method="POST" onSubmit="return confirmDelete();"

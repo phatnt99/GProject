@@ -59,10 +59,9 @@ class User extends Auth
         return $this->belongsTo(Company::class, "company_id", "id");
     }
 
-    public function devices()
+    public function userDevices()
     {
-        return $this->belongsToMany(Device::class, 'user_device')
-                    ->using(UserDevice::class)->withPivot('is_using');
+        return $this->hasMany(UserDevice::class);
     }
 
     //Mutators
