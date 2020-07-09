@@ -9,6 +9,8 @@ class Device extends BaseModel
 
     protected $guarded = [];
 
+    protected $appends = ['image_link'];
+
     //Business logic
     public function createDevice($request)
     {
@@ -67,5 +69,10 @@ class Device extends BaseModel
         }
 
         return 0;
+    }
+
+    public function getImageLinkAttribute()
+    {
+        return $this->file->path;
     }
 }

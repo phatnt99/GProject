@@ -9,6 +9,8 @@ class UserDevice extends BaseModel
 
     protected $guarded = [];
 
+    protected $appends = ['loan_date', 'return_date'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

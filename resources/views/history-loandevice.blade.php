@@ -12,12 +12,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Loan History</h1>
+                    <h1>Loan Device History</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Loan History</li>
+                        <li class="breadcrumb-item active">Loan Device History</li>
                     </ol>
                 </div>
             </div>
@@ -27,13 +27,6 @@
     <!-- Main content -->
     <section class="content">
         <div class="container">
-            @if(Session::has('success'))
-                <div class="col-6">
-                    <div class="alert alert-success" role="alert">
-                        <span>Borrow device <b>#{{Session::get('success')}}</b> successfully!</span>
-                    </div>
-                </div>
-            @endif
             <div class="row" style="margin-bottom: 1rem">
                 <div class="col-6"></div>
                 <div class="col-6">
@@ -46,41 +39,29 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body collapse" id="collapseExample">
-                            <form name="filter" action="{{route("device.search")}}" method="GET">
+                            <form name="filter" action="{{route("loan-device.search")}}" method="GET">
                                 <h6 class="mb-3 text-bold">Device Information</h6>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="text" class="form-control" name="code" placeholder="Code"
-                                               value="{{old("code")}}">
+                                        <input type="text" class="form-control" name="device_code" placeholder="Code"
+                                               value="{{old("device_code")}}">
                                     </div>
                                     <div class="col">
-                                        <input type="text" class="form-control" name="name" placeholder="Name"
-                                               value="{{old("name")}}">
+                                        <input type="text" class="form-control" name="device_name" placeholder="Name"
+                                               value="{{old("device_name")}}">
                                     </div>
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col">
-                                        <input type="number" class="form-control" name="min_price"
-                                               placeholder="Min price" value="{{old("min_price")}}">
-                                    </div>
-                                    <div class="col">
-                                        <input type="number" class="form-control" name="max_price"
-                                               placeholder="Max price" value="{{old("max_price")}}">
-                                    </div>
+                                <h6 class="mb-3 text-bold">Status</h6>
+                                <div class="form-group">
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="" {{old("status") == null ? "selected": null}}>All
+                                        </option>
+                                        <option value="1" {{old('status') == '1' ? "selected" : null}}>Using</option>
+                                        <option value="0" {{old('status') == '0' ? "selected" : null}}>Returned</option>
+                                    </select>
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col">
-                                        <select class="form-control" id="status" name="status">
-                                            <option value="" {{old('status') === null ? "selected": null}}>All</option>
-                                            <option value="1" {{old('status') === "1" ? "selected" : null}}>using
-                                            </option>
-                                            <option value="0" {{old('status') === "0" ? "selected" : null}}>available
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="col">
-                                        <button type="submit" class="btn btn-primary float-right">Search</button>
-                                    </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary float-right">Search</button>
                                 </div>
                             </form>
                         </div>
@@ -99,19 +80,27 @@
                                     <th class="sorting">Image</th>
                                     <th class="sorting">Loan date</th>
                                     <th class="sorting">Return date</th>
+                                    <th class="sorting">Status</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($devices as $device)
-                                    <tr id="{{$device->id}}">
+                                @foreach($userDevices as $userDevice)
+                                    <tr id="{{$userDevice->id}}">
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$device->name}}</td>
-                                        <td>{{$device->code}}</td>
-                                        <td>{{$device->price}}</td>
+                                        <td>{{$userDevice->device->name}}</td>
+                                        <td>{{$userDevice->device->code}}</td>
+                                        <td>{{$userDevice->device->price}}</td>
                                         <td><img width="70px" height="70px"
-                                                 src="{{$device->file ?url($device->file->path) : null}}"/></td>
-                                        <td></td>
-                                        <td></td>
+                                                 src="{{$userDevice->device->image_link ?url($userDevice->device->image_link) : null}}"/></td>
+                                        <td>{{$userDevice->loan_date}}</td>
+                                        <td>{{$userDevice->return_date}}</td>
+                                        <td>
+                                            @if($userDevice->is_using)
+                                                <div class="alert alert-info text-center" role="alert">Using</div>
+                                            @else
+                                                <div class="alert alert-dark text-center" role="alert">Returned</div>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -120,7 +109,7 @@
                             </table>
                         </div>
                     </div>
-                    {{$devices->appends(request()->input())->links()}}
+                    {{$userDevices->appends(request()->input())->links()}}
                 </div>
                 <!-- /.col -->
             </div>

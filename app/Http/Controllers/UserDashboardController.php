@@ -63,15 +63,19 @@ class UserDashboardController extends Controller
     public function createLoanForUser(Request $request)
     {
         $user = Auth::guard('user')->user();
-        $user->devices()->attach($request->device_id, ['is_using' => 1]);
+        $user->userDevices()->create([
+            'user_id' => $user->id,
+            'device_id' => $request->device_id,
+            'is_using' => 1
+        ]);
 
-        return redirect()->back()->with(['success' => $request->device_id]);
+        return redirect()->back()->with(['success' => Device::where('id', $request->device_id)]);
     }
 
     public function showLoanDeviceHistory()
     {
-        dd(Auth::guard('user')->user()->devices());
-        $listBorrowedDevice = Auth::guard('user')->user()->devices()->paginate(5);
-        return view('history-loandevice',['devices' => $listBorrowedDevice]);
+
+        $listHistoryDevice = UserDevice::with(['device'])->where('user_id', Auth::guard('user')->user()->id)->paginate(5);
+        return view('history-loandevice',['userDevices' => $listHistoryDevice]);
     }
 }

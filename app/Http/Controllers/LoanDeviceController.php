@@ -51,13 +51,20 @@ class LoanDeviceController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
         //
-        $users = User::all();
-        $devices = Device::all();
+        $users = User::when($request->company_id, function ($query) use ($request) {
+            return $query->where('company_id', $request->company_id);
+        })->get();
+        $devices = Device::when($request->company_id, function ($query) use ($request) {
+            return $query->where('company_id', $request->company_id);
+        })->get();
+        $companies = Company::all();
 
-        return view('new-loandevice', ['users' => $users, 'devices' => $devices]);
+        $request->flash();
+        
+        return view('new-loandevice', ['users' => $users, 'devices' => $devices, 'companies' => $companies]);
     }
 
     /**
