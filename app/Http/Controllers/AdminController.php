@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EditAdminRequest;
 use App\Http\Requests\NewAdminRequest;
 use App\Models\Admin;
+use App\Models\File;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -47,7 +48,17 @@ class AdminController extends Controller
     public function store(NewAdminRequest $request)
     {
         $admin = new Admin;
-        $admin->createAdmin($request);
+
+        $newAvatar = null;
+
+        if ($request->hasFile('img')) {
+            $newAvatar = File::createNewImage($request, 'admin');
+        }
+
+        $admin->fill($request->except('img'));
+        $admin->avatar = $newAvatar ? $newAvatar->id : null;
+
+        $admin->save();
 
         return redirect()->back()->with(["success" => $request->login_id]);
     }
@@ -61,7 +72,16 @@ class AdminController extends Controller
     {
         //update
         $updateAdmin = Admin::Where('id', $request->id)->firstOrFail();
-        $updateAdmin->updateAdmin($request);
+
+        if ($request->hasFile('img')) {
+            $newAvatar = File::updateImage($request, $this, "admin");
+
+            $updateAdmin->fill($request->except('img'));
+            $updateAdmin->avatar = $newAvatar->id;
+            $updateAdmin->save();
+        } else {
+            $updateAdmin->update($request->except('avatar'));
+        }
 
         return redirect(route("admin.edit", $updateAdmin))->with('success', $updateAdmin->name);
     }

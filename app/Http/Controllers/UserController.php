@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\NewUserRequest;
 use App\Models\Company;
+use App\Models\File;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -59,7 +60,17 @@ class UserController extends Controller
     public function store(NewUserRequest $request)
     {
         $user = new User;
-        $user->createUser($request);
+
+        $newAvatar = null;
+
+        if ($request->hasFile('img')) {
+            $newAvatar = File::createNewImage($request, 'user');
+        }
+
+        $user->fill($request->except('img'));
+        $user->avatar = $newAvatar ? $newAvatar->id : null;
+
+        $user->save();
 
         return redirect()->back()->with(["success" => $request->login_id]);
     }
@@ -75,7 +86,16 @@ class UserController extends Controller
     {
         //update
         $updateUser = User::Where('id', $request->id)->firstOrFail();
-        $updateUser->updateUser($request);
+
+        if ($request->hasFile('img')) {
+            $newAvatar = File::updateImage($request, $this, "user");
+
+            $updateUser->fill($request->except('img'));
+            $updateUser->avatar = $newAvatar->id;
+            $updateUser->save();
+        } else {
+            $updateUser->update($request->except('avatar'));
+        }
 
         return redirect(route("user.edit", $updateUser))->with('success', $updateUser->name);;
     }

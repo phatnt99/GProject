@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewLoanRequest;
 use App\Models\Company;
 use App\Models\Device;
 use App\Models\UserDevice;
@@ -59,22 +60,22 @@ class UserDashboardController extends Controller
                                 return $query->where('name', 'LIKE', "%".$request->name."%");
                             })->when($request->code, function ($query) use ($request) {
                 return $query->where('code', $request->code);
-            })->paginate(5);
+            })->orderBy('updated_at', 'desc')->paginate(5);
         $request->flash();
 
         return view('show-loandevice', ['devices' => $listDevice]);
     }
 
-    public function createLoanForUser(Request $request)
+    public function createLoanForUser(NewLoanRequest $request)
     {
         $user = Auth::guard('user')->user();
-        $user->userDevices()->create([
+        $userDevice = $user->userDevices()->create([
             'user_id'   => $user->id,
             'device_id' => $request->device_id,
             'is_using'  => 1,
         ]);
 
-        return redirect()->back()->with(['success' => Device::where('id', $request->device_id)]);
+        return redirect()->back()->with('success', $userDevice->device->name);
     }
 
     public function showLoanDeviceHistory(Request $request)
@@ -92,7 +93,7 @@ class UserDashboardController extends Controller
                                        })
                                        ->when($request->status != null, function ($query) use ($request) {
                                            return $query->where('is_using', $request->status);
-                                       })->paginate(5);
+                                       })->orderBy('updated_at', 'desc')->paginate(5);
 
         $request->flash();
 

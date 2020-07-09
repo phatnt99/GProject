@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EditCompanyRequest;
 use App\Http\Requests\NewCompanyRequest;
 use App\Models\Company;
+use App\Models\File;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,17 @@ class CompanyController extends Controller
     public function store(NewCompanyRequest $request)
     {
         $company = new Company;
-        $company->createCompany($request);
+
+        $newLogo = null;
+
+        if ($request->hasFile('img')) {
+            $newLogo = File::createNewImage($request, 'company');
+        }
+
+        $company->fill($request->except('img'));
+        $company->logo = $newLogo ? $newLogo->id : null;
+
+        $company->save();
 
         return redirect()->back()->with(["success" => $request->name]);
     }
@@ -52,7 +63,16 @@ class CompanyController extends Controller
     {
         //update
         $updateCompany = Company::Where('id', $request->id)->firstOrFail();
-        $updateCompany->updateCompany($request);
+
+        if ($request->hasFile('img')) {
+            $newLogo = File::updateImage($request, $this, "company");
+
+            $updateCompany->fill($request->except('img'));
+            $updateCompany->logo = $newLogo->id;
+            $updateCompany->save();
+        } else {
+            $updateCompany->update($request->except('img'));
+        }
 
         return redirect(route("company.edit", $updateCompany))->with('success', $updateCompany->name);
     }

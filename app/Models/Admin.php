@@ -15,35 +15,6 @@ class Admin extends Auth
 
     protected $guarded = [];
 
-    //Business logic
-    public function createAdmin($request)
-    {
-        $newAvatar = null;
-
-        if ($request->hasFile('img')) {
-            $newAvatar = File::createNewImage($request, 'admin');
-        }
-
-        $this->fill($request->except('img'));
-        $this->avatar = $newAvatar ? $newAvatar->id : null;
-
-        $this->save();
-    }
-
-    public function updateAdmin($request)
-    {
-        //detect if user change avatar
-        if ($request->hasFile('img')) {
-            $newAvatar = File::updateImage($request, $this, "admin");
-
-            $this->fill($request->except('img'));
-            $this->avatar = $newAvatar->id;
-            $this->save();
-        } else {
-            $this->update($request->except('avatar'));
-        }
-    }
-
     //Relationship
     public function file()
     {

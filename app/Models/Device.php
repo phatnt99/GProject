@@ -11,35 +11,6 @@ class Device extends BaseModel
 
     protected $appends = ['image_link'];
 
-    //Business logic
-    public function createDevice($request)
-    {
-        $newImage = null;
-
-        if ($request->hasFile('img')) {
-            $newImage = File::createNewImage($request, 'device');
-        }
-
-        $this->fill($request->except('img'));
-        $this->image = $newImage ? $newImage->id : null;
-
-        $this->save();
-    }
-
-    public function updateDevice($request)
-    {
-        //detect if user change image device
-        if ($request->hasFile('img')) {
-            $newImage = File::updateImage($request, $this, 'device');
-
-            $this->fill($request->except('img'));
-            $this->image = $newImage->id;
-            $this->save();
-        } else {
-            $this->update($request->except('img'));
-        }
-    }
-
     public function file()
     {
         return $this->belongsTo(File::class, "image");

@@ -6,6 +6,7 @@ use App\Http\Requests\EditDeviceRequest;
 use App\Http\Requests\NewDeviceRequest;
 use App\Models\Company;
 use App\Models\Device;
+use App\Models\File;
 use App\Models\UserDevice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,7 +70,17 @@ class DeviceController extends Controller
     public function store(NewDeviceRequest $request)
     {
         $device = new Device;
-        $device->createDevice($request);
+
+        $newImage = null;
+
+        if ($request->hasFile('img')) {
+            $newImage = File::createNewImage($request, 'device');
+        }
+
+        $device->fill($request->except('img'));
+        $device->image = $newImage ? $newImage->id : null;
+
+        $device->save();
 
         return redirect()->back()->with(["success" => $request->name]);
     }
@@ -99,7 +110,16 @@ class DeviceController extends Controller
     {
         //update
         $updateDevice = Device::Where('id', $request->id)->firstOrFail();
-        $updateDevice->updateDevice($request);
+
+        if ($request->hasFile('img')) {
+            $newImage = File::updateImage($request, $this, 'device');
+
+            $updateDevice->fill($request->except('img'));
+            $updateDevice->image = $newImage->id;
+            $updateDevice->save();
+        } else {
+            $updateDevice->update($request->except('img'));
+        }
 
         return redirect(route("device.edit", $updateDevice))->with('success', $updateDevice->name);
     }

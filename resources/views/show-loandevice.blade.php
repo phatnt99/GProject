@@ -34,6 +34,13 @@
                     </div>
                 </div>
             @endif
+            @error('device_id')
+            <div class="col-6">
+                <div class="alert alert-success" role="alert">
+                    <span>{{$message}}</span>
+                </div>
+            </div>
+            @enderror
             <div class="row" style="margin-bottom: 1rem">
                 <div class="col-6"></div>
                 <div class="col-6">
@@ -98,6 +105,8 @@
                                                 @csrf
                                                 @method("POST")
                                                 <input type="hidden" name="device_id" value="{{$device->id}}">
+                                                <input type="hidden" name="user_id"
+                                                       value="{{Auth::guard('user')->user()->id}}">
                                                 <button type="submit" class="btn btn-info">Borrow</button>
                                             </form>
                                         </td>

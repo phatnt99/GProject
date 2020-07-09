@@ -19,35 +19,6 @@ class User extends Auth
         'remember_token',
     ];
 
-    //Business logic
-    public function createUser($request)
-    {
-        $newAvatar = null;
-
-        if ($request->hasFile('img')) {
-            $newAvatar = File::createNewImage($request, 'user');
-        }
-
-        $this->fill($request->except('img'));
-        $this->avatar = $newAvatar ? $newAvatar->id : null;
-
-        $this->save();
-    }
-
-    public function updateUser($request)
-    {
-        //detect if user change avatar
-        if ($request->hasFile('img')) {
-            $newAvatar = File::updateImage($request, $this, "user");
-
-            $this->fill($request->except('img'));
-            $this->avatar = $newAvatar->id;
-            $this->save();
-        } else {
-            $this->update($request->except('avatar'));
-        }
-    }
-
     //Relationships
     public function file()
     {
