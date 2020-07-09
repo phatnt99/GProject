@@ -112,8 +112,4 @@ class LoanDeviceController extends Controller
         return redirect()->back();
     }
 
-    public function loanDeviceForUser() {
-        $listDevice = Auth::guard('user')->user()->company()->devices()->paginate(5);
-        return $listDevice;
-    }
 }

@@ -15,7 +15,8 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
-        "mohammad-fouladgar/eloquent-builder": "^2.2"
+        "mohammad-fouladgar/eloquent-builder": "^2.2",
+        "rap2hpoutre/fast-excel": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

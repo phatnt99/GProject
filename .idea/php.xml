@@ -102,6 +102,8 @@
       <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
       <path value="$PROJECT_DIR$/vendor/mohammad-fouladgar/eloquent-builder" />
+      <path value="$PROJECT_DIR$/vendor/box/spout" />
+      <path value="$PROJECT_DIR$/vendor/rap2hpoutre/fast-excel" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

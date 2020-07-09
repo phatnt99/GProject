@@ -73,6 +73,7 @@ Route::middleware('check.admin')->group(function () {
     Route::post('loan-devices', 'LoanDeviceController@store')->name('loan-device.store');
     Route::delete('loan-devices/{loanDevice}', 'LoanDeviceController@delete')->name('loan-device.delete');
     Route::put('loan-devices/{loanDevice}/release', 'LoanDeviceController@release')->name('loan-device.release');
+    Route::get('loan-devices/export','ExportController@exportUserLoan')->name('loan-device.export');
 });
 
 //User dashboard Routes
@@ -84,6 +85,7 @@ Route::middleware('auth:user')->group(function () {
     Route::post('/loan-device','UserDashboardController@createLoanForUser')->name('user-dashboard.loan-device.create');
     Route::get('/loan-device/history','UserDashboardController@showLoanDeviceHistory')->name('user-dashboard.loan-device.history');
 });
+
 
 Route::get('/home', function () {
     //dd(\Carbon\Carbon::parse(1593021725));

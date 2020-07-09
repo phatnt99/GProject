@@ -36,6 +36,7 @@
                     <button class="btn btn-danger float-right" data-toggle="collapse"
                             data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Filter
                     </button>
+                    <a href="{{route('loan-device.export')}}" class="btn btn-success">Export</a>
                 </div>
             </div>
             <div class="row">

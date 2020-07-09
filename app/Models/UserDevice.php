@@ -24,12 +24,14 @@ class UserDevice extends BaseModel
     //Accessors
     public function getLoanDateAttribute()
     {
-        return date("d/m/Y", $this->attributes['created_at']);
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        return date("H:i:s d/m/Y", $this->attributes['created_at']);
     }
 
     public function getReturnDateAttribute()
     {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         return $this->attributes['updated_at'] != $this->attributes['created_at'] ?
-            date("d/m/Y", $this->attributes['updated_at']) : null;
+            date("H:i:s d/m/Y", $this->attributes['updated_at']) : null;
     }
 }
