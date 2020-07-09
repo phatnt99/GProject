@@ -85,10 +85,10 @@ class UserController extends Controller
     public function update(EditUserRequest $request)
     {
         //update
-        $updateUser = User::Where('id', $request->id)->firstOrFail();
+        $updateUser = User::findOrFail($request->id);
 
         if ($request->hasFile('img')) {
-            $newAvatar = File::updateImage($request, $this, "user");
+            $newAvatar = File::updateImage($request, $updateUser, "user");
 
             $updateUser->fill($request->except('img'));
             $updateUser->avatar = $newAvatar->id;

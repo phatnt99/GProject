@@ -71,10 +71,10 @@ class AdminController extends Controller
     public function update(EditAdminRequest $request)
     {
         //update
-        $updateAdmin = Admin::Where('id', $request->id)->firstOrFail();
+        $updateAdmin = Admin::findOrFail($request->id);
 
         if ($request->hasFile('img')) {
-            $newAvatar = File::updateImage($request, $this, "admin");
+            $newAvatar = File::updateImage($request, $updateAdmin, "admin");
 
             $updateAdmin->fill($request->except('img'));
             $updateAdmin->avatar = $newAvatar->id;

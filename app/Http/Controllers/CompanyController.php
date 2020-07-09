@@ -62,10 +62,10 @@ class CompanyController extends Controller
     public function update(EditCompanyRequest $request)
     {
         //update
-        $updateCompany = Company::Where('id', $request->id)->firstOrFail();
+        $updateCompany = Company::findOrFail($request->id);
 
         if ($request->hasFile('img')) {
-            $newLogo = File::updateImage($request, $this, "company");
+            $newLogo = File::updateImage($request, $updateCompany, "company");
 
             $updateCompany->fill($request->except('img'));
             $updateCompany->logo = $newLogo->id;

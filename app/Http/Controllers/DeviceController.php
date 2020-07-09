@@ -109,10 +109,10 @@ class DeviceController extends Controller
     public function update(EditDeviceRequest $request)
     {
         //update
-        $updateDevice = Device::Where('id', $request->id)->firstOrFail();
+        $updateDevice = Device::findOrFail($request->id);
 
         if ($request->hasFile('img')) {
-            $newImage = File::updateImage($request, $this, 'device');
+            $newImage = File::updateImage($request, $updateDevice, 'device');
 
             $updateDevice->fill($request->except('img'));
             $updateDevice->image = $newImage->id;
