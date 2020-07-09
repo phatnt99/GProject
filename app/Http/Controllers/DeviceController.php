@@ -101,7 +101,7 @@ class DeviceController extends Controller
         $updateDevice = Device::Where('id', $request->id)->firstOrFail();
         $updateDevice->updateDevice($request);
 
-        return redirect(route("device.edit", $updateDevice));
+        return redirect(route("device.edit", $updateDevice))->with('success', $updateDevice->name);
     }
 
     /**
@@ -114,6 +114,6 @@ class DeviceController extends Controller
     {
         $device->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', $device->name);
     }
 }

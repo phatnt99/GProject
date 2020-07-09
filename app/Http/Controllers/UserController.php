@@ -77,13 +77,13 @@ class UserController extends Controller
         $updateUser = User::Where('id', $request->id)->firstOrFail();
         $updateUser->updateUser($request);
 
-        return redirect(route("user.edit", $updateUser));
+        return redirect(route("user.edit", $updateUser))->with('success', $updateUser->name);;
     }
 
     public function delete(User $user)
     {
         $user->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', $user->name);
     }
 }

@@ -23,7 +23,7 @@
     <section class="content">
         <div class="container">
             @if(Session::has('success'))
-            <div class="col-12">
+            <div class="col-6">
                 <div class="alert alert-success" role="alert">
                     <span>New user <b>#{{Session::get('success')}}</b> has been added!</span>
                 </div>

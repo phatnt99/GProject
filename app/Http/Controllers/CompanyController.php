@@ -54,14 +54,14 @@ class CompanyController extends Controller
         $updateCompany = Company::Where('id', $request->id)->firstOrFail();
         $updateCompany->updateCompany($request);
 
-        return redirect(route("company.edit", $updateCompany));
+        return redirect(route("company.edit", $updateCompany))->with('success', $updateCompany->name);
     }
 
     public function delete(Company $company)
     {
         $company->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', $company->name);
     }
 
 }

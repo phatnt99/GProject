@@ -63,13 +63,13 @@ class AdminController extends Controller
         $updateAdmin = Admin::Where('id', $request->id)->firstOrFail();
         $updateAdmin->updateAdmin($request);
 
-        return redirect(route("admin.edit", $updateAdmin));
+        return redirect(route("admin.edit", $updateAdmin))->with('success', $updateAdmin->name);
     }
 
     public function delete(Admin $admin)
     {
         $admin->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', $admin->name);
     }
 }
