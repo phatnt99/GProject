@@ -49,13 +49,18 @@ class UserDashboardController extends Controller
         return view('employees-company', ['users' => $listUser, 'companies' => $listCompany]);
     }
 
-    public function showDeviceForUserLoan()
+    public function showDeviceForUserLoan(Request $request)
     {
         //get list all available device in current company of user
         $listUsingDeviceId = UserDevice::where('is_using', 1)->pluck('device_id');
         $listDevice = Device::where('company_id', Auth::guard('user')->user()->company_id)
                             ->whereNotIn('id', $listUsingDeviceId)
-                            ->paginate(5);
+                            ->when($request->name, function ($query) use ($request) {
+                                return $query->where('name', 'LIKE', "%".$request->name."%");
+                            })->when($request->code, function ($query) use ($request) {
+                return $query->where('code', $request->code);
+            })->paginate(5);
+        $request->flash();
 
         return view('show-loandevice', ['devices' => $listDevice]);
     }
@@ -64,18 +69,33 @@ class UserDashboardController extends Controller
     {
         $user = Auth::guard('user')->user();
         $user->userDevices()->create([
-            'user_id' => $user->id,
+            'user_id'   => $user->id,
             'device_id' => $request->device_id,
-            'is_using' => 1
+            'is_using'  => 1,
         ]);
 
         return redirect()->back()->with(['success' => Device::where('id', $request->device_id)]);
     }
 
-    public function showLoanDeviceHistory()
+    public function showLoanDeviceHistory(Request $request)
     {
 
-        $listHistoryDevice = UserDevice::with(['device'])->where('user_id', Auth::guard('user')->user()->id)->paginate(5);
-        return view('history-loandevice',['userDevices' => $listHistoryDevice]);
+        $listHistoryDevice = UserDevice::with(['device'])
+                                       ->where('user_id', Auth::guard('user')->user()->id)
+                                       ->when($request->device_code, function ($query) use ($request) {
+                                           return $query->join('devices', 'devices.id', '=', 'user_device.device_id')
+                                                        ->where('devices.code', $request->device_code);
+                                       })
+                                       ->when($request->device_name, function ($query) use ($request) {
+                                           return $query->join('devices', 'devices.id', '=', 'user_device.device_id')
+                                                        ->where('devices.name', 'LIKE', "%".$request->device_name."%");
+                                       })
+                                       ->when($request->status != null, function ($query) use ($request) {
+                                           return $query->where('is_using', $request->status);
+                                       })->paginate(5);
+
+        $request->flash();
+
+        return view('history-loandevice', ['userDevices' => $listHistoryDevice]);
     }
 }

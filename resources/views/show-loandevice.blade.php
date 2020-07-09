@@ -46,7 +46,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body collapse" id="collapseExample">
-                            <form name="filter" action="{{route("device.search")}}" method="GET">
+                            <form name="filter" action="{{route("user-dashboard.loan-device")}}" method="GET">
                                 <h6 class="mb-3 text-bold">Device Information</h6>
                                 <div class="row form-group">
                                     <div class="col">
@@ -60,23 +60,6 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <input type="number" class="form-control" name="min_price"
-                                               placeholder="Min price" value="{{old("min_price")}}">
-                                    </div>
-                                    <div class="col">
-                                        <input type="number" class="form-control" name="max_price"
-                                               placeholder="Max price" value="{{old("max_price")}}">
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col">
-                                        <select class="form-control" id="status" name="status">
-                                            <option value="" {{old('status') === null ? "selected": null}}>All</option>
-                                            <option value="1" {{old('status') === "1" ? "selected" : null}}>using
-                                            </option>
-                                            <option value="0" {{old('status') === "0" ? "selected" : null}}>available
-                                            </option>
-                                        </select>
                                     </div>
                                     <div class="col">
                                         <button type="submit" class="btn btn-primary float-right">Search</button>

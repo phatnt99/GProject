@@ -39,7 +39,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body collapse" id="collapseExample">
-                            <form name="filter" action="{{route("loan-device.search")}}" method="GET">
+                            <form name="filter" action="{{route("user-dashboard.loan-device.history")}}" method="GET">
                                 <h6 class="mb-3 text-bold">Device Information</h6>
                                 <div class="row form-group">
                                     <div class="col">

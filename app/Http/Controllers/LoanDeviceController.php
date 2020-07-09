@@ -63,7 +63,7 @@ class LoanDeviceController extends Controller
         $companies = Company::all();
 
         $request->flash();
-        
+
         return view('new-loandevice', ['users' => $users, 'devices' => $devices, 'companies' => $companies]);
     }
 

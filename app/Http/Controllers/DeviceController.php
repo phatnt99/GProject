@@ -29,7 +29,7 @@ class DeviceController extends Controller
         })->when($request->company_id, function ($query) use ($request) {
             return $query->where('company_id', $request->company_id);
         })->when($request->code, function ($query) use ($request) {
-            return $query->where('company_id', $request->code);
+            return $query->where('code', $request->code);
         })->when($request->min_price, function ($query) use ($request) {
             return $query->where('price', '>=', $request->min_price);
         })->when($request->max_price, function ($query) use ($request) {
@@ -115,10 +115,5 @@ class DeviceController extends Controller
         $device->delete();
 
         return redirect()->back();
-    }
-
-    public function releaseLoanForUSer(Request $request)
-    {
-
     }
 }
