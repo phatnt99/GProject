@@ -31,7 +31,7 @@ $factory->define(User::class, function (Faker $faker) {
         "code" => $faker->isbn10,
         "company_id" => App\Models\Company::all()->random()->id,
         "avatar" => $avatar->id,
-        "position" => $faker->biasedNumberBetween(0, 3),
+        "position" => App\Models\Tag::where('type', 'position')->inRandomOrder()->first()->value,
         "start_at" => $faker->dateTimeThisCentury->format("d/m/Y"),
     ];
 });
