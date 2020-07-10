@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Setting extends Model
+class Setting extends BaseModel
 {
     //
+    public $table = "settings";
+
+    protected $guarded = [];
+
 }

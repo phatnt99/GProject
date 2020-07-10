@@ -120,7 +120,7 @@
                                         <td>{{$admin->gender}}</td>
                                         <td>{{$admin->birthday}}</td>
                                         <td>{{$admin->address}}</td>
-                                        <th>
+                                        <td>
                                             <button class="btn btn-secondary dropdown-toggle" type="button"
                                                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                                     aria-expanded="false">
@@ -139,7 +139,7 @@
                                                     </script>
                                                 </form>
                                             </div>
-                                        </th>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

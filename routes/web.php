@@ -74,6 +74,14 @@ Route::middleware('check.admin')->group(function () {
     Route::delete('loan-devices/{loanDevice}', 'LoanDeviceController@delete')->name('loan-device.delete');
     Route::put('loan-devices/{loanDevice}/release', 'LoanDeviceController@release')->name('loan-device.release');
     Route::get('loan-devices/export','ExportController@exportUserLoan')->name('loan-device.export');
+
+    Route::get('tags','TagController@index')->name('tag');
+    Route::get('tags/search','TagController@index')->name('tag.search');
+    Route::get('tags/create','TagController@create')->name('tag.create');
+    Route::post('tags','TagController@store')->name('tag.store');
+    Route::get('tags/{tag}','TagController@edit')->name('tag.edit');
+    Route::put('tags/{tag}','TagController@update')->name('tag.update');
+    Route::delete('tags/{tag}', 'TagController@delete')->name('tag.delete');
 });
 
 //User dashboard Routes
