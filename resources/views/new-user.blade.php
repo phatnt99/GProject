@@ -103,7 +103,14 @@
                     </div>
                     <div class="form-group">
                         <label for="position">Position</label>
-                        <input type="text" class="form-control" id="position" name="position">
+                        <select class="form-control" id="position" name="position">
+                            @foreach($positions as $position)
+                                <option value="{{$position->value}}">{{$position->value}}</option>
+                            @endforeach
+                        </select>
+                        @error('position')
+                        <div class="invalid-feedback" style="display: block">{{$message}}</div>
+                        @enderror
                     </div>
                     <div class="form-group"> <!-- Date input -->
                         <label class="control-label" for="start_at">Start at<span style="color: red">(*)</span></label>

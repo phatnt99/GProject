@@ -38,6 +38,7 @@ class NewUserRequest extends FormRequest
             "password" => "required",
             "start_at" => "required",
             "code"     => "required",
+            "position" => "required|exists:tags,value",
             "birthday" => "nullable|before:today",
         ];
     }
@@ -51,7 +52,9 @@ class NewUserRequest extends FormRequest
             "password.required" => __("validation.required"),
             "start_at.required" => __("validation.required"),
             "code.required"     => __("validation.required"),
-            "birthday.before"   => __("validation.before")
-            ];
+            "position.required" => __("validation.required"),
+            "position.exists"   => __("validation.exists"),
+            "birthday.before"   => __("validation.before"),
+        ];
     }
 }

@@ -113,8 +113,18 @@
                     </div>
                     <div class="form-group">
                         <label for="position">Position</label>
-                        <input type="text" class="form-control" id="position" name="position"
-                               value="{{$user->position}}">
+                        <select class="form-control" id="position" name="position">
+                            @foreach($positions as $position)
+                                @if($position->value == $user->position)
+                                    <option value="{{$position->value}}" selected>{{$position->value}}</option>
+                                @else
+                                    <option value="{{$position->value}}">{{$position->value}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('position')
+                        <div class="invalid-feedback" style="display: block">{{$message}}</div>
+                        @enderror
                     </div>
                     <div class="form-group"> <!-- Date input -->
                         <label class="control-label" for="start_at">Start at</label>

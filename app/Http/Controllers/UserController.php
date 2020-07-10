@@ -6,6 +6,7 @@ use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\NewUserRequest;
 use App\Models\Company;
 use App\Models\File;
+use App\Models\Tag;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -17,6 +18,9 @@ class UserController extends Controller
     {
         //dd($request);
         $listCompany = Company::all();
+
+        $listPosition = Tag::where('type', 'position')->get();
+
         $listUser = User::when($request->login_id, function ($query) use ($request) {
             return $query->where('login_id', $request->login_id);
         })->when($request->email, function ($query) use ($request) {
@@ -46,7 +50,7 @@ class UserController extends Controller
         // obtain old input
         $request->flash();
 
-        return view('user', ['users' => $listUser, 'companies' => $listCompany]);
+        return view('user', ['users' => $listUser, 'companies' => $listCompany, 'positions' => $listPosition]);
     }
 
     public function create()
@@ -54,7 +58,9 @@ class UserController extends Controller
         //get list company
         $listCompany = Company::all();
 
-        return view('new-user', ['companies' => $listCompany]);
+        $listPosition = Tag::where('type', 'position')->get();
+
+        return view('new-user', ['companies' => $listCompany, 'positions' => $listPosition]);
     }
 
     public function store(NewUserRequest $request)
@@ -79,7 +85,9 @@ class UserController extends Controller
     {
         $listCompany = Company::all();
 
-        return view('edit-user', ["user" => $user, "companies" => $listCompany]);
+        $listPosition = Tag::where('type', 'position')->get();
+
+        return view('edit-user', ["user" => $user, "companies" => $listCompany, 'positions' => $listPosition]);
     }
 
     public function update(EditUserRequest $request)
