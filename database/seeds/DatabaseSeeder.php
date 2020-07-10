@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TagSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(DeviceSeeder::class);
-        //$this->call(UserDeviceSeeder::class);
+        $this->call(SettingSeedder::class);
     }
 }

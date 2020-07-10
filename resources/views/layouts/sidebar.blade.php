@@ -89,9 +89,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href={{route('loan-device')}} class="nav-link">
+                            <a href={{route('setting')}} class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Config Website</p>
+                                <p>General</p>
                             </a>
                         </li>
                     </ul>

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\CrudEvent;
-use Illuminate\Support\Facades\Auth as Author;
 use Illuminate\Support\Facades\Storage;
 
 class File extends BaseModel
@@ -41,7 +39,7 @@ class File extends BaseModel
     public static function updateImage($request, $user, $auth)
     {
         //delete old avatar
-        if ($user->file) {
+        if ($user != null && $user->file) {
             Storage::disk("public")->delete($auth."/".$user->file->upload_name);
         }
 
@@ -60,5 +58,4 @@ class File extends BaseModel
 
         return File::create($infoImage);
     }
-
 }

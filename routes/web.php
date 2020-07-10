@@ -82,6 +82,9 @@ Route::middleware('check.admin')->group(function () {
     Route::get('tags/{tag}','TagController@edit')->name('tag.edit');
     Route::put('tags/{tag}','TagController@update')->name('tag.update');
     Route::delete('tags/{tag}', 'TagController@delete')->name('tag.delete');
+
+    Route::get('settings-general', 'SettingController@index')->name('setting');
+    Route::put('settings-general', 'SettingController@update')->name('setting.update');
 });
 
 //User dashboard Routes
