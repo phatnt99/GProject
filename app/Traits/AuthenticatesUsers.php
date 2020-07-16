@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Events\OnlineUserNotification;
 use App\Http\Requests\AdminRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,9 @@ trait AuthenticatesUsers
             )) {
             // Attempt success
             $request->session()->regenerate();
+
+            //Broadcast
+            event(new OnlineUserNotification(Auth::guard('admin')->user() ?? Auth::guard('user')->user()));
 
             return redirect($this->redirectPath());
         }

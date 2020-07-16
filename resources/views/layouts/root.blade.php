@@ -149,7 +149,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content-wrapper">
     @yield("content")
     <!-- Position it -->
-        <div style="position: fixed; bottom: 10px; right: 10px;">
+        <div style="position: fixed; bottom: 10px; right: 10px;" class="notifications">
 
             <!-- Then put toasts within -->
             <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="30000">

@@ -15,6 +15,8 @@ class Admin extends Auth
 
     protected $guarded = [];
 
+    protected $appends = ['name'];
+
     //Relationship
     public function file()
     {

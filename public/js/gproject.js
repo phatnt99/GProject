@@ -10,4 +10,10 @@ $(document).ready(function() {
     $('.toast').toast('show');
   });
 
+  channel.bind('user-online', function(data) {
+    console.log(data);
+    $('.notify-content').text('User ' + data.notify + ' is online!');
+    $('.toast').toast('show');
+  });
+
 });

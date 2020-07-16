@@ -3,7 +3,7 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-            <img src="{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->file->path : Auth::guard('user')->user()->file->path }}" class="img-circle elevation-2" alt="User Image">
+            <img src="{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->file->path ?? null : Auth::guard('user')->user()->file->path ?? null }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
             <a href="{{url('/profile')}}"
