@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\NewUserNotificaton;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -107,5 +108,7 @@ Route::get('/home', function () {
     //});
 
     //$test = \App\Models\Device::where('id', '92e28603-2ba1-4fad-91e4-e6233d84b77c')->first();
-    return Auth::guard('user')->user();
+    //return Auth::guard('user')->user();
+    event(new NewUserNotificaton("hihii"));
+    //return "OK";
 });

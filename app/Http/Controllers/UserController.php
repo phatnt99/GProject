@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewUserNotificaton;
 use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\NewUserRequest;
 use App\Models\Company;
@@ -77,6 +78,9 @@ class UserController extends Controller
         $user->avatar = $newAvatar ? $newAvatar->id : null;
 
         $user->save();
+
+        //broadcast
+        event(new NewUserNotificaton($user));
 
         return redirect()->back()->with(["success" => $request->login_id]);
     }

@@ -19,6 +19,8 @@ class User extends Auth
         'remember_token',
     ];
 
+    protected $appends = ['name'];
+
     //Relationships
     public function file()
     {
