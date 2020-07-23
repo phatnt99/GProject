@@ -190,6 +190,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="dist/js/adminlte.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript.util/0.12.12/javascript.util.min.js"></script>
 <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+<script src="plugins/chart.js/Chart.min.js"></script>
 <script src="js/gproject.js"></script>
 @yield('script')
 </body>

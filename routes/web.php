@@ -1,7 +1,9 @@
 <?php
 
 use App\Events\NewUserNotificaton;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +23,7 @@ Route::get('/', 'HomeController@index')->name('home')->middleware('auth:user,adm
 Route::middleware('auth:user,admin')->group(function() {
     Route::get('/profile','HomeController@profile');
     Route::put('/profile', 'HomeController@updateProfile')->name('profile.update');
+    Route::get('/filter-chart', 'HomeController@filterChart');
 });
 
 //Authentication Routes
