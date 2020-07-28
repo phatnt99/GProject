@@ -5,15 +5,18 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Auth
 {
     //
-    use Notifiable;
+    use Notifiable, HasRoles;
 
     protected $guard = 'admin';
 
     protected $guarded = [];
+
+    public $guard_name = 'admin';
 
     protected $appends = ['name'];
 

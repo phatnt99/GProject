@@ -121,24 +121,26 @@
                                         <td>{{$admin->birthday}}</td>
                                         <td>{{$admin->address}}</td>
                                         <td>
-                                            <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                More
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="{{route("admin.edit", $admin)}}">Edit</a>
-                                                <form method="POST" onSubmit="return confirmDelete();" action="{{route("admin.delete", $admin)}} ">
-                                                    @csrf
-                                                    @method("DELETE")
-                                                    <button type="submit" class="dropdown-item">Delete</button>
-                                                    <script>
-                                                        function confirmDelete() {
+                                            @if(auth()->guard('admin')->user()->can('update') || auth()->guard('admin')->user()->can('delete')) <!--via Policy -->
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                    More
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{{route("admin.edit", $admin)}}">Edit</a>
+                                                    <form method="POST" onSubmit="return confirmDelete();" action="{{route("admin.delete", $admin)}} ">
+                                                        @csrf
+                                                        @method("DELETE")
+                                                        <button type="submit" class="dropdown-item">Delete</button>
+                                                        <script>
+                                                          function confirmDelete() {
                                                             return confirm("Xác nhận xóa?");
-                                                        };
-                                                    </script>
-                                                </form>
-                                            </div>
+                                                          };
+                                                        </script>
+                                                    </form>
+                                                </div>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

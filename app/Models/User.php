@@ -5,14 +5,17 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Auth
 {
-    use Notifiable;
+    use Notifiable, HasRoles;
 
     protected $guard = 'user';
 
     protected $guarded = [];
+
+    public $guard_name = 'user';
 
     protected $hidden = [
         'password',

@@ -46,9 +46,9 @@ class AppServiceProvider extends ServiceProvider
             return $carry;
         });
         view()->share('general', [
-            "logo"   => $structuredListSetting['logo'],
-            "footer" => $structuredListSetting['footer'],
-            "name"  => $structuredListSetting['name'],
+            "logo"   => $structuredListSetting['logo'] ?? null,
+            "footer" => $structuredListSetting['footer'] ?? null,
+            "name"  => $structuredListSetting['name'] ?? null,
         ]);
     }
 }
