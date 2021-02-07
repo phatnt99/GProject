@@ -15,7 +15,6 @@ $factory->define(File::class, function (Faker $faker, $attributes) {
     $upload_name = rand(0,9999).$name;
     $path = Storage::disk('public')->put($attributes["additional"].'/'.$upload_name, $contents);
 
-    // miss understanding about what upload_name, name
     return [
         //
         'name' => $name,

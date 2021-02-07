@@ -19,6 +19,7 @@ class CreateDevicesTable extends Migration
             $table->string("name");
             $table->double("price")->nullable();
             $table->uuid("company_id");
+            $table->foreign("company_id")->references("id")->on("companies");
             $table->uuid("image")->nullable();
             $table->foreign("image")->references("id")->on("files");
             $table->string("created_by")->nullable();

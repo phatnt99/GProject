@@ -5,44 +5,20 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Auth
 {
     //
-    use Notifiable;
+    use Notifiable, HasRoles;
 
     protected $guard = 'admin';
 
     protected $guarded = [];
 
-    //Business logic
-    public function createAdmin($request)
-    {
-        $newAvatar = null;
+    public $guard_name = 'admin';
 
-        if ($request->hasFile('img')) {
-            $newAvatar = File::createNewImage($request, 'admin');
-        }
-
-        $this->fill($request->except('img'));
-        $this->avatar = $newAvatar ? $newAvatar->id : null;
-
-        $this->save();
-    }
-
-    public function updateAdmin($request)
-    {
-        //detect if user change avatar
-        if ($request->hasFile('img')) {
-            $newAvatar = File::updateImage($request, $this, "admin");
-
-            $this->fill($request->except('img'));
-            $this->avatar = $newAvatar->id;
-            $this->save();
-        } else {
-            $this->update($request->except('avatar'));
-        }
-    }
+    protected $appends = ['name'];
 
     //Relationship
     public function file()

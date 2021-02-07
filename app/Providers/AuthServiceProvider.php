@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Enums\UserType;
+use App\Models\Admin;
+use App\Policies\AdminPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
+        Admin::class => AdminPolicy::class
     ];
 
     /**
@@ -25,6 +29,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::before(function ($admin, $ability) {
+            return $admin->hasRole(UserType::SUPER_ADMIN) ? true : null;
+        });
     }
 }

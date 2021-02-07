@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->foreign("company_id")->references("id")->on("companies");
             $table->uuid("avatar")->nullable();     //ref to files table
             $table->foreign("avatar")->references("id")->on("files");
-            $table->integer("position");
+            $table->string("position");
             $table->date("start_at");
             $table->date("end_at")->nullable();
             $table->string("created_by")->nullable();

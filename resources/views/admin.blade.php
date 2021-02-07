@@ -27,6 +27,13 @@
     <!-- Main content -->
     <section class="content">
         <div class="container">
+            @if(Session::has('success'))
+                <div class="col-6">
+                    <div class="alert alert-success" role="alert">
+                        <span>Delete admin <b>#{{Session::get('success')}}</b> successfully!</span>
+                    </div>
+                </div>
+            @endif
             <div class="row" style="margin-bottom: 1rem">
                 <div class="col-6">
                     <a type="button" href="{{route("admin.create")}}" class="btn btn-outline-primary">Register new
@@ -113,26 +120,28 @@
                                         <td>{{$admin->gender}}</td>
                                         <td>{{$admin->birthday}}</td>
                                         <td>{{$admin->address}}</td>
-                                        <th>
-                                            <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                More
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="{{route("admin.edit", $admin)}}">Edit</a>
-                                                <form method="POST" onSubmit="return confirmDelete();" action="{{route("admin.delete", $admin)}} ">
-                                                    @csrf
-                                                    @method("DELETE")
-                                                    <button type="submit" class="dropdown-item">Delete</button>
-                                                    <script>
-                                                        function confirmDelete() {
+                                        <td>
+                                            @if(auth()->guard('admin')->user()->can('update') || auth()->guard('admin')->user()->can('delete')) <!--via Policy -->
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                    More
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{{route("admin.edit", $admin)}}">Edit</a>
+                                                    <form method="POST" onSubmit="return confirmDelete();" action="{{route("admin.delete", $admin)}} ">
+                                                        @csrf
+                                                        @method("DELETE")
+                                                        <button type="submit" class="dropdown-item">Delete</button>
+                                                        <script>
+                                                          function confirmDelete() {
                                                             return confirm("Xác nhận xóa?");
-                                                        };
-                                                    </script>
-                                                </form>
-                                            </div>
-                                        </th>
+                                                          };
+                                                        </script>
+                                                    </form>
+                                                </div>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -158,6 +167,4 @@
     <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-
-    <script src="js/gproject_user.js"></script>
 @endsection

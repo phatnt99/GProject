@@ -6,8 +6,10 @@ use App\Http\Requests\EditDeviceRequest;
 use App\Http\Requests\NewDeviceRequest;
 use App\Models\Company;
 use App\Models\Device;
+use App\Models\File;
 use App\Models\UserDevice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DeviceController extends Controller
 {
@@ -28,19 +30,17 @@ class DeviceController extends Controller
         })->when($request->company_id, function ($query) use ($request) {
             return $query->where('company_id', $request->company_id);
         })->when($request->code, function ($query) use ($request) {
-            return $query->where('company_id', $request->code);
+            return $query->where('code', $request->code);
         })->when($request->min_price, function ($query) use ($request) {
-            return $query->where('price','>=', $request->min_price);
+            return $query->where('price', '>=', $request->min_price);
         })->when($request->max_price, function ($query) use ($request) {
-            return $query->where('price','<=', $request->max_price);
+            return $query->where('price', '<=', $request->max_price);
         })->when($request->status != null, function ($query) use ($request) {
-            if($request->status == 1) {
+            if ($request->status == 1) {
                 $query->whereIn('id', UserDevice::where('is_using', 1)->get()->pluck('device_id'));
-            }
-            else {
+            } else {
                 $query->whereNotIn('id', UserDevice::where('is_using', 1)->get()->pluck('device_id'));
             }
-
         })
                             ->orderBy('devices.updated_at', 'desc')->paginate(5);
 
@@ -70,7 +70,17 @@ class DeviceController extends Controller
     public function store(NewDeviceRequest $request)
     {
         $device = new Device;
-        $device->createDevice($request);
+
+        $newImage = null;
+
+        if ($request->hasFile('img')) {
+            $newImage = File::createNewImage($request, 'device');
+        }
+
+        $device->fill($request->except('img'));
+        $device->image = $newImage ? $newImage->id : null;
+
+        $device->save();
 
         return redirect()->back()->with(["success" => $request->name]);
     }
@@ -99,10 +109,19 @@ class DeviceController extends Controller
     public function update(EditDeviceRequest $request)
     {
         //update
-        $updateDevice = Device::Where('id', $request->id)->firstOrFail();
-        $updateDevice->updateDevice($request);
+        $updateDevice = Device::findOrFail($request->id);
 
-        return redirect(route("device.edit", $updateDevice));
+        if ($request->hasFile('img')) {
+            $newImage = File::updateImage($request, $updateDevice, 'device');
+
+            $updateDevice->fill($request->except('img'));
+            $updateDevice->image = $newImage->id;
+            $updateDevice->save();
+        } else {
+            $updateDevice->update($request->except('img'));
+        }
+
+        return redirect(route("device.edit", $updateDevice))->with('success', $updateDevice->name);
     }
 
     /**
@@ -115,6 +134,6 @@ class DeviceController extends Controller
     {
         $device->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', $device->name);
     }
 }

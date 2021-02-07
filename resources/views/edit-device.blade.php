@@ -23,6 +23,13 @@
     <!-- Main content -->
     <section class="content">
         <div class="container">
+            @if(Session::has('success'))
+                <div class="col-6">
+                    <div class="alert alert-success" role="alert">
+                        <span>Update device <b>#{{Session::get('success')}}</b> successfully!</span>
+                    </div>
+                </div>
+            @endif
             <div class="col-6">
                 <form style="padding-bottom: 1rem" method="POST" action="{{route("device.update", $device)}}"
                       id="form" enctype="multipart/form-data">

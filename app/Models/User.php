@@ -5,48 +5,24 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Auth
 {
-    use Notifiable;
+    use Notifiable, HasRoles;
 
     protected $guard = 'user';
 
     protected $guarded = [];
+
+    public $guard_name = 'user';
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    //Business logic
-    public function createUser($request)
-    {
-        $newAvatar = null;
-
-        if ($request->hasFile('img')) {
-            $newAvatar = File::createNewImage($request, 'user');
-        }
-
-        $this->fill($request->except('img'));
-        $this->avatar = $newAvatar ? $newAvatar->id : null;
-
-        $this->save();
-    }
-
-    public function updateUser($request)
-    {
-        //detect if user change avatar
-        if ($request->hasFile('img')) {
-            $newAvatar = File::updateImage($request, $this, "user");
-
-            $this->fill($request->except('img'));
-            $this->avatar = $newAvatar->id;
-            $this->save();
-        } else {
-            $this->update($request->except('avatar'));
-        }
-    }
+    protected $appends = ['name'];
 
     //Relationships
     public function file()
@@ -59,10 +35,9 @@ class User extends Auth
         return $this->belongsTo(Company::class, "company_id", "id");
     }
 
-    public function devices()
+    public function userDevices()
     {
-        return $this->belongsToMany(Device::class, 'user_device')
-                    ->using(UserDevice::class)->withPivot('is_using');
+        return $this->hasMany(UserDevice::class);
     }
 
     //Mutators

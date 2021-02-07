@@ -1,5 +1,9 @@
 <?php
 
+use App\Events\NewUserNotificaton;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +18,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth:user,admin');
+
+//Home Routes
 Route::middleware('auth:user,admin')->group(function() {
     Route::get('/profile','HomeController@profile');
     Route::put('/profile', 'HomeController@updateProfile')->name('profile.update');
+    Route::get('/filter-chart', 'HomeController@filterChart');
 });
 
 //Authentication Routes
@@ -30,6 +37,7 @@ Route::namespace('Auth')->group(function () {
     Route::post('password/reset', 'ResetPasswordController@reset')->name('password.update');
 });
 
+//Admin dashboard Routes
 Route::middleware('check.admin')->group(function () {
     Route::get('admins', 'AdminController@index')->name('admin');
     Route::get('admins/search', 'AdminController@index')->name('admin.search');
@@ -69,7 +77,30 @@ Route::middleware('check.admin')->group(function () {
     Route::post('loan-devices', 'LoanDeviceController@store')->name('loan-device.store');
     Route::delete('loan-devices/{loanDevice}', 'LoanDeviceController@delete')->name('loan-device.delete');
     Route::put('loan-devices/{loanDevice}/release', 'LoanDeviceController@release')->name('loan-device.release');
+    Route::get('loan-devices/export','ExportController@exportUserLoan')->name('loan-device.export');
+
+    Route::get('tags','TagController@index')->name('tag');
+    Route::get('tags/search','TagController@index')->name('tag.search');
+    Route::get('tags/create','TagController@create')->name('tag.create');
+    Route::post('tags','TagController@store')->name('tag.store');
+    Route::get('tags/{tag}','TagController@edit')->name('tag.edit');
+    Route::put('tags/{tag}','TagController@update')->name('tag.update');
+    Route::delete('tags/{tag}', 'TagController@delete')->name('tag.delete');
+
+    Route::get('settings-general', 'SettingController@index')->name('setting');
+    Route::put('settings-general', 'SettingController@update')->name('setting.update');
 });
+
+//User dashboard Routes
+Route::middleware('auth:user')->group(function () {
+    Route::get('/company','UserDashboardController@showCompanyInformation')->name('user-dashboard.company');
+    Route::get('/company/employees','UserDashboardController@showListEmployee')->name('user-dashboard.company.employees');
+    Route::get('/company/employees/search','UserDashboardController@showListEmployee')->name('user-dashboard.company.employees.search');
+    Route::get('/loan-device','UserDashboardController@showDeviceForUserLoan')->name('user-dashboard.loan-device');
+    Route::post('/loan-device','UserDashboardController@createLoanForUser')->name('user-dashboard.loan-device.create');
+    Route::get('/loan-device/history','UserDashboardController@showLoanDeviceHistory')->name('user-dashboard.loan-device.history');
+});
+
 
 Route::get('/home', function () {
     //dd(\Carbon\Carbon::parse(1593021725));
@@ -79,6 +110,9 @@ Route::get('/home', function () {
     //    dd($val->pivot);
     //});
 
-    $test = \App\Models\Device::where('id', '92e28603-2ba1-4fad-91e4-e6233d84b77c')->first();
-    return $test->users;
+    //$test = \App\Models\Device::where('id', '92e28603-2ba1-4fad-91e4-e6233d84b77c')->first();
+    //return Auth::guard('user')->user();
+    //event(new NewUserNotificaton("hihii"));
+    return Auth::guard('admin')->user()->getAllPermissions();
+    //return "OK";
 });

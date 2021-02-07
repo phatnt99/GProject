@@ -8,8 +8,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <base href="{{ asset('/') }}" />
-    <title>AdminLTE 3 | Starter</title>
+    <base href="{{ asset('/') }}"/>
+    <title>GProject | The Best Resource Management</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -138,9 +138,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="{{url('/')}}" class="brand-link">
-            <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+            <img src="{{$general['logo']}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                  style="opacity: .8">
-            <span class="brand-text font-weight-light">G-Project</span>
+            <span class="brand-text font-weight-light">{{$general['name']}}</span>
         </a>
         @include("layouts.sidebar")
     </aside>
@@ -148,6 +148,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
     @yield("content")
+    <!-- Position it -->
+        <div style="position: fixed; bottom: 10px; right: 10px;" class="notifications">
+
+            <!-- Then put toasts within -->
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="30000">
+                <div class="toast-header">
+                    <i class="fas fa-bell"></i>
+                    <strong class="mr-auto">New Notification</strong>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body notify-content">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /.content-wrapper -->
 
@@ -155,7 +172,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <footer class="main-footer">
         <!-- To the right -->
         <div class="float-right d-none d-sm-inline">
-            Anything you want
+            {{$general['footer']}}
         </div>
         <!-- Default to the left -->
         <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
@@ -171,7 +188,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/javascript.util/0.12.12/javascript.util.min.js"></script>
+<script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+<script src="plugins/chart.js/Chart.min.js"></script>
+<script src="js/gproject.js"></script>
 @yield('script')
 </body>
 </html>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,8 +14,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AdminSeeder::class);
         $this->call(CompanySeeder::class);
+        $this->call(TagSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(DeviceSeeder::class);
-        //$this->call(UserDeviceSeeder::class);
+        $this->call(SettingSeedder::class);
+        $this->call(RolesAndPermissionsSeeder::class);
     }
 }

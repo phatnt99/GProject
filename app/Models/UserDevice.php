@@ -1,23 +1,37 @@
 <?php
 
 namespace App\Models;
-use App\Traits\PrimaryKeyTrait;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class UserDevice extends Pivot
+class UserDevice extends BaseModel
 
 {
-    use PrimaryKeyTrait;
     public $table = "user_device";
-    protected $dateFormat = 'U';
 
+    protected $guarded = [];
 
-    public function user() {
+    protected $appends = ['loan_date', 'return_date'];
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function device() {
+    public function device()
+    {
         return $this->belongsTo(Device::class);
+    }
+
+    //Accessors
+    public function getLoanDateAttribute()
+    {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        return date("H:i:s d/m/Y", $this->attributes['created_at']);
+    }
+
+    public function getReturnDateAttribute()
+    {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        return $this->attributes['updated_at'] != $this->attributes['created_at'] ?
+            date("H:i:s d/m/Y", $this->attributes['updated_at']) : null;
     }
 }

@@ -40,7 +40,8 @@ class UserObserver
         // delete avatar in DB
         $user->file()->delete();
         //delete all user_device related
-        $user->devices()->detach();
+        //$user->devices()->detach();
+        $user->userDevices()->delete();
     }
 
     /**

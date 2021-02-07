@@ -3,7 +3,7 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-            <img src="{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->file->path : Auth::guard('user')->user()->file->path }}" class="img-circle elevation-2" alt="User Image">
+            <img src="{{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->file->path ?? null : Auth::guard('user')->user()->file->path ?? null }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
             <a href="{{url('/profile')}}"
@@ -73,6 +73,29 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Setting
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href={{route('tag')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tag</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href={{route('setting')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>General</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     @else
@@ -82,19 +105,49 @@
                      with font-awesome or any other icon font library -->
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Company Mangement
+                            Company
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href={{route('user-dashboard.company')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Information</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href={{route('user-dashboard.company.employees')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List of employee</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Device Management
+                            Device
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href={{route('user-dashboard.loan-device')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Loan Device</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href={{route('user-dashboard.loan-device.history')}} class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Loan History</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>

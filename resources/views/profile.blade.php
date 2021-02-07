@@ -41,7 +41,8 @@
                             <h5 class="m-0">Avatar</h5>
                         </div>
                         <div class="card-body text-center">
-                            <img src="{{$admin->file->path ?? $user->file->path}}" id="imgPrev" width="200" height="200"/>
+                            <img src="{{$auth->file->path}}" id="imgPrev" width="200"
+                                 height="200"/>
                         </div>
                         <div class="card-footer">
                             <div class="custom-file">
@@ -56,143 +57,104 @@
                 <div class="col-lg-9">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="m-0">Information</h5>
+                            <h5 class="m-0">Personal Information</h5>
                         </div>
-                        @if(isset($admin))
-                            <div class="card-body">
-                                <form style="padding-bottom: 1rem" method="POST" action="{{route('profile.update')}}" id="form"
-                                      enctype="multipart/form-data">
-                                    @csrf
-                                    @method('PUT')
-                                    <input type="hidden" name="id" value="{{$admin->id}}">
-                                    <div class="form-group">
-                                        <label for="login_id">Login ID</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">@</div>
-                                            </div>
-                                            <input type="text" class="form-control" id="login_id" name="login_id"
-                                                   value="{{$admin->login_id}}">
-                                            @error('login_id')
-                                            <div class="invalid-feedback" style="display: block">{{$message}}</div>
-                                            @enderror
+                        <div class="card-body">
+                            <form style="padding-bottom: 1rem" method="POST" action="{{route('profile.update')}}"
+                                  id="form"
+                                  enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="id" value="{{$auth->id}}">
+                                <div class="form-group">
+                                    <label for="login_id">Login ID</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">@</div>
                                         </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col">
-                                            <label for="first_name">First Name</label>
-                                            <input type="text" class="form-control" id="first_name" name="first_name"
-                                                   value="{{$admin->first_name}}">
-                                        </div>
-                                        <div class="col">
-                                            <label for="last_name">Last Name</label>
-                                            <input type="text" class="form-control" id="last_name" name="last_name"
-                                                   value="{{$admin->last_name}}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email"
-                                               value="{{$admin->email}}">
-                                        @error('email')
+                                        <input type="text" class="form-control" id="login_id" name="login_id"
+                                               value="{{$auth->login_id}}">
+                                        @error('login_id')
                                         <div class="invalid-feedback" style="display: block">{{$message}}</div>
                                         @enderror
                                     </div>
-                                    <div class="form-group">
-                                        <label for="gender">Gender</label>
-                                        <select class="form-control" id="gender" name="gender">
-                                            @if($admin->gender == "Male")
-                                                <option value="0" selected>Male</option>
-                                                <option value="1">Female</option>
-                                            @else
-                                                <option value="0">Male</option>
-                                                <option value="1" selected>Female</option>
-                                            @endif
-                                        </select>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col">
+                                        <label for="first_name">First Name</label>
+                                        <input type="text" class="form-control" id="first_name" name="first_name"
+                                               value="{{$auth->first_name}}">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="address">Address</label>
-                                        <input type="text" class="form-control" id="address" name="address"
-                                               value="{{$admin->address}}">
+                                    <div class="col">
+                                        <label for="last_name">Last Name</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name"
+                                               value="{{$auth->last_name}}">
                                     </div>
-                                    <div class="form-group"> <!-- Date input -->
-                                        <label class="control-label" for="birthday">Birthday</label>
-                                        <input class="form-control" id="birthday" name="birthday" placeholder="DD/MM/YYY" type="text"
-                                               value="{{$admin->birthday}}"/>
-                                        @error('birthday')
-                                        <div class="invalid-feedback" style="display: block">{{$message}}</div>
-                                        @enderror
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Update</button>
-                                </form>
-                            </div>
-                        @else
-                            <div class="card-body">
-                                <form style="padding-bottom: 1rem" method="POST" action="{{route("user.store")}}"
-                                      id="form"
-                                      enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="login_id">Login ID</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">@</div>
-                                            </div>
-                                            <input type="text" class="form-control" id="login_id" name="login_id"
-                                                   placeholder="user..." value="{{$admin->login_id}}">
-                                            @error('login_id')
-                                            <div class="invalid-feedback" style="display: block">{{$message}}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col">
-                                            <label for="first_name">First Name</label>
-                                            <input type="text" class="form-control" id="first_name"
-                                                   name="first_name" placeholder="user..."
-                                                   value="{{$admin->first_name}}">
-                                        </div>
-                                        <div class="col">
-                                            <label for="last_name">Last Name</label>
-                                            <input type="text" class="form-control" id="last_name"
-                                                   name="last_name" placeholder="user..." value="{{$admin->last_name}}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" id="email"
-                                               name="email" placeholder="user..." value="{{$admin->email}}">
-                                        @error('email')
-                                        <div class="invalid-feedback" style="display: block">{{$message}}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="gender">Gender</label>
-                                        <select class="form-control" id="gender">
-                                            @if($admin->gender == 0)
-                                                <option value="0" selected>Male</option>
-                                                <option value="1">Female</option>
-                                            @else
-                                                <option value="0">Male</option>
-                                                <option value="1" selected>Female</option>
-                                            @endif
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="address">Address</label>
-                                        <input type="text" class="form-control" id="address" name="address"
-                                               placeholder="address..." value="{{$admin->address}}">
-                                    </div>
-                                    <div class="form-group"> <!-- Date input -->
-                                        <label class="control-label" for="birthday">Birthday</label>
-                                        <input class="form-control" id="birthday" name="birthday"
-                                               placeholder="DD/MM/YYY" type="text" value="{{$admin->birthday}}">
-                                    </div>
-                                </form>
-                                <a href="{{route('user.edit',$admin)}}" class="btn btn-outline-primary">Edit</a>
-                            </div>
-                        @endif
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                           value="{{$auth->email}}">
+                                    @error('email')
+                                    <div class="invalid-feedback" style="display: block">{{$message}}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <select class="form-control" id="gender" name="gender">
+                                        @if($auth->gender == "Male")
+                                            <option value="0" selected>Male</option>
+                                            <option value="1">Female</option>
+                                        @else
+                                            <option value="0">Male</option>
+                                            <option value="1" selected>Female</option>
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" class="form-control" id="address" name="address"
+                                           value="{{$auth->address}}">
+                                </div>
+                                <div class="form-group"> <!-- Date input -->
+                                    <label class="control-label" for="birthday">Birthday</label>
+                                    <input class="form-control" id="birthday" name="birthday" placeholder="DD/MM/YYY"
+                                           type="text"
+                                           value="{{$auth->birthday}}"/>
+                                    @error('birthday')
+                                    <div class="invalid-feedback" style="display: block">{{$message}}</div>
+                                    @enderror
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+                        </div>
+
                     </div>
+                    @if($isAdmin == false)
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="m-0">Company Information</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="code">Code</label>
+                                    <input type="text" class="form-control" id="code" name="code"
+                                           value="{{$auth->code}}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="position">Position</label>
+                                    <input type="text" class="form-control" id="position" name="position"
+                                           value="{{$auth->position}}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="start_at">Start at</label>
+                                    <input type="text" class="form-control" id="start_at" name="start_at"
+                                           value="{{$auth->start_at}}" readonly>
+                                </div>
+                            </div>
+                            <div class="card-footer">These fields can't be changed</div>
+                        </div>
+                    @endif
                 </div>
                 <!-- /.col-md-6 -->
             </div>

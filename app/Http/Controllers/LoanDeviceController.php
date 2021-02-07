@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NewLoanRequest;
+use App\Models\Auth;
 use App\Models\Company;
 use App\Models\Device;
 use App\Models\User;
@@ -36,6 +37,8 @@ class LoanDeviceController extends Controller
         })->when($request->company_id, function ($query) use ($request) {
             return $query->join('users', 'users.id', '=', 'user_device.user_id')
                          ->where('users.company_id', $request->company_id);
+        })->when($request->status != null, function ($query) use ($request) {
+            return $query->where('is_using', $request->status);
         })->orderBy('user_device.updated_at', 'desc')->paginate(5);
 
         $request->flash();
@@ -48,13 +51,20 @@ class LoanDeviceController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
         //
-        $users = User::all();
-        $devices = Device::all();
+        $users = User::when($request->company_id, function ($query) use ($request) {
+            return $query->where('company_id', $request->company_id);
+        })->get();
+        $devices = Device::when($request->company_id, function ($query) use ($request) {
+            return $query->where('company_id', $request->company_id);
+        })->get();
+        $companies = Company::all();
 
-        return view('new-loandevice', ['users' => $users, 'devices' => $devices]);
+        $request->flash();
+
+        return view('new-loandevice', ['users' => $users, 'devices' => $devices, 'companies' => $companies]);
     }
 
     /**
@@ -67,7 +77,11 @@ class LoanDeviceController extends Controller
     {
         //
         $user = User::where('id', $request->user_id)->first();
-        $user->devices()->attach($request->device_id, ["is_using" => 1]);
+        $user->userDevices()->create([
+            'user_id' => $request->user_id,
+            'device_id' => $request->device_id,
+            'is_using' => 1
+        ]);
 
         return redirect()->back()->with([
             "success" => [
@@ -87,16 +101,15 @@ class LoanDeviceController extends Controller
     public function delete(UserDevice $loanDevice)
     {
         //
-        $user = $loanDevice->user;
-        $user->devices()->detach($loanDevice->device->id);
+        $loanDevice->delete();
 
         return redirect()->back();
     }
 
     public function release(UserDevice $loanDevice)
     {
-        $user = $loanDevice->user;
-        $user->devices()->updateExistingPivot($loanDevice->device->id, ['is_using' => 0]);
+        $loanDevice->update(['is_using' => 0]);
         return redirect()->back();
     }
+
 }

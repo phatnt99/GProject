@@ -27,6 +27,13 @@
     <!-- Main content -->
     <section class="content">
         <div class="container">
+            @if(Session::has('success'))
+                <div class="col-6">
+                    <div class="alert alert-success" role="alert">
+                        <span>Delete user <b>#{{Session::get('success')}}</b> successfully!</span>
+                    </div>
+                </div>
+            @endif
             <div class="row" style="margin-bottom: 1rem">
                 <div class="col-6">
                     <a type="button" href="{{route("user.create")}}" class="btn btn-outline-primary">Register new
@@ -181,6 +188,4 @@
     <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-
-    <script src="js/gproject_user.js"></script>
 @endsection

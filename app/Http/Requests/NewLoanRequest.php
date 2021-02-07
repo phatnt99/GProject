@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Device;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class NewLoanRequest extends FormRequest
 {
@@ -31,7 +32,6 @@ class NewLoanRequest extends FormRequest
             "device_id" => [
                 "required",
                 function ($attribute, $value, $fail) {
-
                     $userId = $this->user_id;
                     $userCompany = User::where('id', $userId)->first()->company_id;
                     $deviceCompany = Device::where('id', $value)->first()->company_id;
@@ -46,4 +46,5 @@ class NewLoanRequest extends FormRequest
             ],
         ];
     }
+
 }

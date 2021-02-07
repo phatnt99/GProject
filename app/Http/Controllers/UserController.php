@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewUserNotificaton;
 use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\NewUserRequest;
 use App\Models\Company;
+use App\Models\File;
+use App\Models\Tag;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,6 +19,9 @@ class UserController extends Controller
     {
         //dd($request);
         $listCompany = Company::all();
+
+        $listPosition = Tag::where('type', 'position')->get();
+
         $listUser = User::when($request->login_id, function ($query) use ($request) {
             return $query->where('login_id', $request->login_id);
         })->when($request->email, function ($query) use ($request) {
@@ -45,7 +51,7 @@ class UserController extends Controller
         // obtain old input
         $request->flash();
 
-        return view('user', ['users' => $listUser, 'companies' => $listCompany]);
+        return view('user', ['users' => $listUser, 'companies' => $listCompany, 'positions' => $listPosition]);
     }
 
     public function create()
@@ -53,13 +59,28 @@ class UserController extends Controller
         //get list company
         $listCompany = Company::all();
 
-        return view('new-user', ['companies' => $listCompany]);
+        $listPosition = Tag::where('type', 'position')->get();
+
+        return view('new-user', ['companies' => $listCompany, 'positions' => $listPosition]);
     }
 
     public function store(NewUserRequest $request)
     {
         $user = new User;
-        $user->createUser($request);
+
+        $newAvatar = null;
+
+        if ($request->hasFile('img')) {
+            $newAvatar = File::createNewImage($request, 'user');
+        }
+
+        $user->fill($request->except('img'));
+        $user->avatar = $newAvatar ? $newAvatar->id : null;
+
+        $user->save();
+
+        //broadcast
+        event(new NewUserNotificaton($user));
 
         return redirect()->back()->with(["success" => $request->login_id]);
     }
@@ -68,22 +89,33 @@ class UserController extends Controller
     {
         $listCompany = Company::all();
 
-        return view('edit-user', ["user" => $user, "companies" => $listCompany]);
+        $listPosition = Tag::where('type', 'position')->get();
+
+        return view('edit-user', ["user" => $user, "companies" => $listCompany, 'positions' => $listPosition]);
     }
 
     public function update(EditUserRequest $request)
     {
         //update
-        $updateUser = User::Where('id', $request->id)->firstOrFail();
-        $updateUser->updateUser($request);
+        $updateUser = User::findOrFail($request->id);
 
-        return redirect(route("user.edit", $updateUser));
+        if ($request->hasFile('img')) {
+            $newAvatar = File::updateImage($request, $updateUser, "user");
+
+            $updateUser->fill($request->except('img'));
+            $updateUser->avatar = $newAvatar->id;
+            $updateUser->save();
+        } else {
+            $updateUser->update($request->except('avatar'));
+        }
+
+        return redirect(route("user.edit", $updateUser))->with('success', $updateUser->name);;
     }
 
     public function delete(User $user)
     {
         $user->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', $user->name);
     }
 }

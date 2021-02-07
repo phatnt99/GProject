@@ -9,34 +9,7 @@ class Device extends BaseModel
 
     protected $guarded = [];
 
-    //Business logic
-    public function createDevice($request)
-    {
-        $newImage = null;
-
-        if ($request->hasFile('img')) {
-            $newImage = File::createNewImage($request, 'device');
-        }
-
-        $this->fill($request->except('img'));
-        $this->image = $newImage ? $newImage->id : null;
-
-        $this->save();
-    }
-
-    public function updateDevice($request)
-    {
-        //detect if user change image device
-        if ($request->hasFile('img')) {
-            $newImage = File::updateImage($request, $this, 'device');
-
-            $this->fill($request->except('img'));
-            $this->image = $newImage->id;
-            $this->save();
-        } else {
-            $this->update($request->except('img'));
-        }
-    }
+    protected $appends = ['image_link'];
 
     public function file()
     {
@@ -54,17 +27,23 @@ class Device extends BaseModel
                     ->using(UserDevice::class)->withPivot('is_using');;
     }
 
+    public function userDevices()
+    {
+        return $this->hasMany(UserDevice::class);
+    }
+
     //Accessors
     public function getStatusAttribute()
     {
-        //get all related user with this device
-        $allRelatedUser = $this->users;
-        foreach ($allRelatedUser as $user) {
-            if ($user->pivot->is_using) {
-                return 1;
-            } //this user is using this device, so it now has status 1
+        if (UserDevice::where('device_id', $this->id)->where('is_using', 1)->first() != null) {
+            return 1;
         }
 
-        return 0; //not find any user use this device at time so it has status 0
+        return 0;
+    }
+
+    public function getImageLinkAttribute()
+    {
+        return $this->file->path;
     }
 }
